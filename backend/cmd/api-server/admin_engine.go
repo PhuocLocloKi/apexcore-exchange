@@ -103,21 +103,19 @@ func HandleAdminPriceControl(w http.ResponseWriter, r *http.Request) {
 	case "DUMP":
 		Engine.Prices[cmd.Symbol] = curPrice * (1 - cmd.Value/100)
 	case "WICK_DOWN":
-		// Quét râu sâu xuống rồi hồi lại
-		Engine.Prices[cmd.Symbol] = curPrice * 0.94 // Giảm sốc 6%
+		Engine.Prices[cmd.Symbol] = curPrice * 0.94 
 		go func(sym string, oldP float64) {
 			time.Sleep(2500 * time.Millisecond)
 			Engine.Lock()
-			Engine.Prices[sym] = oldP * 1.002 // Rút chân nến xanh
+			Engine.Prices[sym] = oldP * 1.002 
 			Engine.Unlock()
 		}(cmd.Symbol, curPrice)
 	case "WICK_UP":
-		// Quét râu giật lên cao rồi ép nến xuống
-		Engine.Prices[cmd.Symbol] = curPrice * 1.06 // Tăng vọt 6%
+		Engine.Prices[cmd.Symbol] = curPrice * 1.06 
 		go func(sym string, oldP float64) {
 			time.Sleep(2500 * time.Millisecond)
 			Engine.Lock()
-			Engine.Prices[sym] = oldP * 0.998 // Rút râu nến về
+			Engine.Prices[sym] = oldP * 0.998 
 			Engine.Unlock()
 		}(cmd.Symbol, curPrice)
 	case "TOGGLE_BOT":
