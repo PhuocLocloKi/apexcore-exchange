@@ -1,0 +1,95 @@
+/* ========================================================
+   APEXCORE PRO — SOLID MINIMALIST THEME (css/theme.css)
+   MASTER v5.0 — Chuẩn Hóa Màu Đặc & Bố Cục Sắc Nét
+   Founder & CEO: NGUYỄN PHƯỚC LỘC (nguyenphuocloc010306@gmail.com)
+   ======================================================== */
+
+:root, [data-theme="dark"] {
+  /* 1. CHẾ ĐỘ TỐI ĐẲNG CẤP (SOLID DARK PRO - MẶC ĐỊNH) */
+  --bg-main: #0b0e14;          /* Nền đen sâu thẳm toàn trang */
+  --bg-card: #181a20;          /* Nền hộp nội dung ĐEN ĐẶC 100% (Chống đè chữ) */
+  --bg-card-hover: #1e232a;    /* Nền hover */
+  --bg-input: #2b313a;         /* Nền ô nhập liệu xám đậm */
+  --border-color: #2b313a;     /* Đường viền phân cách siêu mảnh 1px */
+  --border-focus: #fcd535;     /* Viền khi focus ô nhập */
+  
+  --text-primary: #eaecef;     /* Chữ chính trắng sáng */
+  --text-secondary: #848e9c;   /* Chữ phụ xám bạc */
+  --text-muted: #5e6673;       /* Chữ mờ ghi chú */
+
+  --color-green: #0ecb81;      /* Xanh tăng giá / Nút Mua */
+  --color-green-bg: rgba(14, 203, 129, 0.12);
+  --color-red: #f6465d;        /* Đỏ giảm giá / Nút Bán */
+  --color-red-bg: rgba(246, 70, 93, 0.12);
+  --color-yellow: #fcd535;     /* Vàng Binance cho các nút hành động chính */
+  --color-yellow-hover: #f0b90b;
+
+  /* Aliases for compatibility */
+  --bg-base: var(--bg-main);
+  --panel: var(--bg-card);
+  --panel-sub: #1e232a;
+  --border: var(--border-color);
+  --input-bg: var(--bg-input);
+  --hover-bg: #22272e;
+  --up: var(--color-green);
+  --up-bg: var(--color-green-bg);
+  --down: var(--color-red);
+  --down-bg: var(--color-red-bg);
+  --accent: var(--color-yellow);
+  --gold: var(--color-yellow);
+  --text: var(--text-primary);
+  --text-sub: var(--text-secondary);
+
+  /* Typography */
+  --font-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SF Mono", "Roboto Mono", "JetBrains Mono", Consolas, monospace;
+
+  /* Crisp Shadows for Solid Cards & Mega Menus */
+  --shadow-menu: 0 12px 40px rgba(0, 0, 0, 0.85);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.50);
+  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.90);
+  --radius-card: 12px;
+  --radius-sm: 6px;
+  --header-height: 64px;
+}
+
+[data-theme="light"] {
+  /* 2. CHẾ ĐỘ SÁNG TINH KHÔI (SOLID LIGHT CLEAN) */
+  --bg-main: #fafafa;          /* Nền trắng xám sạch sẽ */
+  --bg-card: #ffffff;          /* Nền hộp TRẮNG ĐẶC 100% */
+  --bg-card-hover: #f5f5f5;
+  --bg-input: #f4f5f7;         /* Nền ô nhập liệu xám sáng */
+  --border-color: #eaecef;     /* Đường viền xám nhạt */
+  --border-focus: #f0b90b;
+  
+  --text-primary: #1e2329;     /* Chữ đen than dễ đọc */
+  --text-secondary: #707a8a;   /* Chữ xám */
+  --text-muted: #929aa5;
+
+  --color-green: #03a66d;
+  --color-green-bg: rgba(3, 166, 109, 0.10);
+  --color-red: #cf304a;
+  --color-red-bg: rgba(207, 48, 74, 0.10);
+  --color-yellow: #f0b90b;
+  --color-yellow-hover: #d9a300;
+
+  /* Aliases */
+  --bg-base: var(--bg-main);
+  --panel: var(--bg-card);
+  --panel-sub: #f8f9fa;
+  --border: var(--border-color);
+  --input-bg: var(--bg-input);
+  --hover-bg: #f0f2f5;
+  --up: var(--color-green);
+  --up-bg: var(--color-green-bg);
+  --down: var(--color-red);
+  --down-bg: var(--color-red-bg);
+  --accent: #f0b90b;
+  --gold: #f0b90b;
+  --text: var(--text-primary);
+  --text-sub: var(--text-secondary);
+
+  --shadow-menu: 0 12px 35px rgba(0, 0, 0, 0.15);
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-modal: 0 20px 50px rgba(0, 0, 0, 0.20);
+}

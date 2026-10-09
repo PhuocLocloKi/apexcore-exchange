@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: apexcore-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: apexcore_db
+      POSTGRES_USER: apex_admin
+      POSTGRES_PASSWORD: apex_secret_password_2026
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./configs/postgres.conf:/etc/postgresql/postgresql.conf
+      - ./migrations:/docker-entrypoint-initdb.d
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+
+  redis:
+    image: redis:7-alpine
+    container_name: apexcore-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./configs/redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:24-alpine
+    container_name: apexcore-clickhouse
+    restart: always
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+
+volumes:
+  postgres_data:
+  redis_data:
+  clickhouse_data:

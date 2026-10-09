@@ -1,0 +1,141 @@
+<!-- ========================================================
+     APEXCORE COMPONENT: Admin God-Mode Panel (Quyền Năng Quản Trị)
+     Chủ Sở Hữu: NGUYỄN PHƯỚC LỘC
+     Can thiệp giá tức thì · Bơm nến kỹ thuật · Bot Market Maker
+     ======================================================== -->
+<div class="modal-backdrop" id="admin-godmode-overlay" style="display: none;">
+  <div class="modal-card glass-card godmode-modal-card animate-modal-in" role="dialog" aria-modal="true">
+    <button class="modal-close-btn" id="godmode-modal-close" aria-label="Đóng">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+
+    <!-- God-Mode Header -->
+    <div class="modal-header">
+      <div class="godmode-badge-row">
+        <span class="badge-godmode">⚡ ADMIN GOD-MODE</span>
+        <span class="badge-owner">NGUYỄN PHƯỚC LỘC</span>
+      </div>
+      <h3 class="modal-title text-contrast-safe">Bảng Điều Khiển Tối Cao</h3>
+      <p class="modal-subtitle text-contrast-sub">Kiểm soát giá cả, bơm nến kỹ thuật và điều phối bot thị trường</p>
+    </div>
+
+    <div class="godmode-tabs-row">
+      <button class="gtab-btn active" data-tab="price">Can Thiệp Giá</button>
+      <button class="gtab-btn" data-tab="candles">Bơm Nến</button>
+      <button class="gtab-btn" data-tab="bot">Bot MM</button>
+      <button class="gtab-btn" data-tab="telegram">Telegram Alert</button>
+    </div>
+
+    <!-- TAB 1: DIRECT PRICE MANIPULATION -->
+    <div class="godmode-tab-content" id="gtab-price">
+      <div class="form-group">
+        <label class="form-label">Chọn mã can thiệp</label>
+        <select class="form-input god-select" id="god-symbol-select">
+          <option value="BTC">BTC (Bitcoin)</option>
+          <option value="ETH">ETH (Ethereum)</option>
+          <option value="FPT">FPT (FPT Corp)</option>
+          <option value="VFS">VFS (VinFast)</option>
+          <option value="XAU/USD">XAU/USD (Vàng)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Giá thị trường mục tiêu (Target Price)</label>
+        <div class="input-wrapper">
+          <input type="number" step="any" class="form-input num-tabular" id="god-price-input" value="68432.12">
+          <span class="input-currency-badge" id="god-currency-badge">USDT</span>
+        </div>
+      </div>
+
+      <!-- Quick +/- Buttons -->
+      <div class="quick-nudge-row">
+        <button class="btn-nudge down" id="god-nudge-down-5">-5%</button>
+        <button class="btn-nudge down" id="god-nudge-down-1">-1%</button>
+        <button class="btn-nudge up" id="god-nudge-up-1">+1%</button>
+        <button class="btn-nudge up" id="god-nudge-up-5">+5%</button>
+      </div>
+
+      <!-- Auto calculated Ceiling & Floor -->
+      <div class="bounds-preview-row">
+        <div class="bound-col floor-col">
+          <span class="bound-label">Giá Sàn (-7%)</span>
+          <span class="bound-val num-tabular" id="god-floor-val">63,641.87</span>
+        </div>
+        <div class="bound-col ref-col">
+          <span class="bound-label">Tham Chiếu</span>
+          <span class="bound-val num-tabular" id="god-ref-val">68,432.12</span>
+        </div>
+        <div class="bound-col ceiling-col">
+          <span class="bound-label">Giá Trần (+7%)</span>
+          <span class="bound-val num-tabular" id="god-ceiling-val">73,222.37</span>
+        </div>
+      </div>
+
+      <button class="btn-god-execute" id="btn-god-set-price">
+        ⚡ Cập Nhật Giá Tức Thì
+      </button>
+    </div>
+
+    <!-- TAB 2: CANDLE SYNTHESIZER / PUMP -->
+    <div class="godmode-tab-content" id="gtab-candles" style="display: none;">
+      <p class="god-info-text">Tạo sóng nến kỹ thuật trên biểu đồ để kích hoạt tâm lý thị trường.</p>
+      <div class="candle-buttons-grid">
+        <button class="btn-candle-action pump" id="btn-pump-marubozu">
+          <span class="candle-icon">🟢</span>
+          <div>
+            <strong>Bơm Bullish Marubozu (+4%)</strong>
+            <small>Nến xanh đặc thân dài tạo sóng FOMO</small>
+          </div>
+        </button>
+        <button class="btn-candle-action dump" id="btn-dump-marubozu">
+          <span class="candle-icon">🔴</span>
+          <div>
+            <strong>Bơm Bearish Marubozu (-4%)</strong>
+            <small>Nến đỏ áp đảo kích hoạt panic sell</small>
+          </div>
+        </button>
+        <button class="btn-candle-action sweep" id="btn-wick-sweep">
+          <span class="candle-icon">⚡</span>
+          <div>
+            <strong>Quét Râu Thanh Lý (Wick Sweep)</strong>
+            <small>Rút chân dài quét sạch lệnh Stop-Loss</small>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- TAB 3: MARKET MAKER BOT -->
+    <div class="godmode-tab-content" id="gtab-bot" style="display: none;">
+      <div class="bot-switch-row">
+        <div>
+          <strong>Bot Market Maker Khớp Chéo</strong>
+          <p class="text-contrast-sub" style="font-size: 0.78rem; margin: 2px 0 0;">Tự động rải lệnh và khớp tạo Volume hàng triệu USD/ngày</p>
+        </div>
+        <label class="switch-toggle">
+          <input type="checkbox" id="bot-toggle-input" checked>
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+
+      <div class="form-group" style="margin-top: 1rem;">
+        <label class="form-label">Tốc độ sinh lệnh (Lệnh / Giây): <strong id="bot-speed-label">15 lệnh/s</strong></label>
+        <input type="range" class="pct-slider" id="bot-speed-slider" min="1" max="50" value="15">
+      </div>
+    </div>
+
+    <!-- TAB 4: TELEGRAM NOTIFICATION -->
+    <div class="godmode-tab-content" id="gtab-telegram" style="display: none;">
+      <div class="telegram-status-box">
+        <div class="tg-status-header">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#00f2ad"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .36z"/></svg>
+          <div>
+            <strong>Telegram Bot Cảnh Báo Riêng Tư</strong>
+            <span class="tg-badge">Đang kết nối</span>
+          </div>
+        </div>
+        <p class="tg-desc">Tự động gửi thông báo tức thì khi có Nạp tiền VietQR, Rút tiền hoặc kích hoạt Circuit Breaker.</p>
+        <button class="btn-tg-test" id="btn-tg-test-alert">Gửi Thông Báo Test Đến Telegram</button>
+      </div>
+    </div>
+  </div>
+</div>

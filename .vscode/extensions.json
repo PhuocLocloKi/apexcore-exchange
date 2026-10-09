@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "golang.go",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "Dart-Code.flutter",
+    "Dart-Code.dart-code",
+    "ms-azuretools.vscode-docker",
+    "mtxr.sqltools"
+  ]
+}

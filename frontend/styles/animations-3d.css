@@ -1,0 +1,245 @@
+/* ========================================================
+   APEXCORE 3D & MOTION SYSTEM — animations-3d.css
+   Hardware-accelerated Cybernetic 3D Parallax & Micro-interactions
+   ======================================================== */
+
+/* Perspective container */
+.perspective-container {
+  perspective: var(--perspective-3d, 1000px);
+  perspective-origin: center center;
+  transform-style: preserve-3d;
+}
+
+/* 3D Tilt Target with GPU acceleration */
+.tilt-3d {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.15s ease-out;
+}
+
+/* Levitating float animation */
+@keyframes float-levitate {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.animate-float {
+  animation: float-levitate 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Phone tilted 15deg floating */
+@keyframes phone-tilt-float {
+  0% {
+    transform: perspective(1000px) rotateY(-15deg) rotateX(8deg) translateY(0px);
+  }
+  50% {
+    transform: perspective(1000px) rotateY(-18deg) rotateX(11deg) translateY(-14px);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(-15deg) rotateX(8deg) translateY(0px);
+  }
+}
+
+.animate-phone-tilt {
+  animation: phone-tilt-float 7s ease-in-out infinite;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* Luminous Energy Disc & Orbit Pulse */
+@keyframes orbit-spin {
+  from {
+    transform: rotateX(65deg) rotateZ(0deg);
+  }
+  to {
+    transform: rotateX(65deg) rotateZ(360deg);
+  }
+}
+
+.animate-energy-disc {
+  animation: orbit-spin 20s linear infinite;
+  will-change: transform;
+}
+
+@keyframes orbit-spin-reverse {
+  from {
+    transform: rotateX(65deg) rotateZ(360deg);
+  }
+  to {
+    transform: rotateX(65deg) rotateZ(0deg);
+  }
+}
+
+.animate-energy-disc-reverse {
+  animation: orbit-spin-reverse 14s linear infinite;
+  will-change: transform;
+}
+
+/* Pulsing aura */
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+    box-shadow: 0 0 35px var(--color-primary-glow);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.04);
+    box-shadow: 0 0 65px var(--color-primary-glow-heavy);
+  }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3.5s ease-in-out infinite;
+}
+
+/* Neon border breathe */
+@keyframes border-breathe {
+  0%, 100% {
+    border-color: rgba(0, 242, 173, 0.25);
+  }
+  50% {
+    border-color: rgba(0, 242, 173, 0.7);
+  }
+}
+
+.border-breathe {
+  animation: border-breathe 4s ease-in-out infinite;
+}
+
+/* Number ticker green / red flash */
+@keyframes flash-green {
+  0% { background-color: rgba(0, 242, 173, 0.25); color: #00f2ad; }
+  100% { background-color: transparent; }
+}
+
+@keyframes flash-red {
+  0% { background-color: rgba(255, 59, 105, 0.25); color: #ff3b69; }
+  100% { background-color: transparent; }
+}
+
+.price-up-flash {
+  animation: flash-green 0.75s ease-out;
+}
+
+.price-down-flash {
+  animation: flash-red 0.75s ease-out;
+}
+
+/* Modal Fade-in & Scale */
+@keyframes modal-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-modal-in {
+  animation: modal-appear 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Loading button spinner */
+@keyframes spin-loader {
+  to { transform: rotate(360deg); }
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin-loader 0.7s linear infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* ========================================================
+   v2.0: HOLOGRAM GLASS SPHERE & AMBIENT BREATHING GLOW
+   ======================================================== */
+@keyframes breathing-glow-4s {
+  0%, 100% {
+    opacity: 0.65;
+    filter: drop-shadow(0 0 30px rgba(0, 242, 173, 0.35)) drop-shadow(0 0 60px rgba(0, 180, 216, 0.2));
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 55px rgba(0, 242, 173, 0.65)) drop-shadow(0 0 95px rgba(0, 242, 173, 0.45));
+    transform: scale(1.02);
+  }
+}
+
+.animate-breathing-glow {
+  animation: breathing-glow-4s 4s ease-in-out infinite;
+}
+
+/* Hologram Glass Sphere Container */
+.hologram-glass-sphere {
+  position: relative;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 40%, rgba(0, 242, 173, 0.08) 0%, rgba(13, 18, 28, 0.6) 70%, transparent 100%);
+  border: 1.5px solid rgba(0, 242, 173, 0.3);
+  box-shadow: 
+    inset 0 0 60px rgba(0, 242, 173, 0.25),
+    inset 0 0 120px rgba(0, 180, 216, 0.15),
+    0 0 70px rgba(0, 242, 173, 0.3);
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  mask-image: radial-gradient(circle, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+}
+
+/* Hologram energy sweep beam */
+@keyframes hologram-sweep {
+  0% { transform: translateY(-100%); opacity: 0; }
+  50% { opacity: 0.35; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
+.hologram-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 242, 173, 0.15) 50%, transparent 100%);
+  animation: hologram-sweep 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* SPA Tab Switch Transitions */
+@keyframes tab-view-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.spa-tab-active {
+  animation: tab-view-enter 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

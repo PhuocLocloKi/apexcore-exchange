@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - FOUNDER_UID=1107519625
+      - FOUNDER_EMAIL=nguyenphuocloc010306@gmail.com
+    restart: always
+
+  postgres-ledger:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: apexcore_ledger
+      POSTGRES_USER: apexadmin
+      POSTGRES_PASSWORD: LocNguyen@ApexGod2026##
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./backend/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql

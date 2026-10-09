@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APEXCORE PRO — ADMIN GOD-MODE ENGINE</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 95'><path d='M24 35C14 26 6 12 12 3C19 12 28 22 36 29L24 35Z' fill='%23fcd535'/><path d='M76 35C86 26 94 12 88 3C81 12 72 22 64 29L76 35Z' fill='%23fcd535'/><path d='M30 28L50 18L70 28L65 48L50 56L35 48L30 28Z' fill='%23181a20' stroke='%23fcd535' stroke-width='2'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-base: #06080d;
+      --bg-surface: #0e121a;
+      --bg-card: #131822;
+      --bg-card-hover: #19202e;
+      --border-color: #232b38;
+      --border-gold: rgba(252, 213, 53, 0.4);
+      --gold: #fcd535;
+      --gold-hover: #f0b90b;
+      --green: #0ecb81;
+      --green-glow: rgba(14, 203, 129, 0.25);
+      --red: #f6465d;
+      --red-glow: rgba(246, 70, 93, 0.25);
+      --text-main: #ffffff;
+      --text-sub: #848e9c;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
+    body { background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
+
+    /* ========================================================
+       1. MÀN HÌNH KHÓA BẢO MẬT MASTER (LOCK SCREEN)
+       ======================================================== */
+    .lock-overlay {
+      position: fixed; inset: 0;
+      background: radial-gradient(circle at 50% 30%, #151b27 0%, #06080d 100%);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 10000; padding: 20px;
+    }
+    .lock-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.8), 0 0 30px rgba(252, 213, 53, 0.15);
+      border-radius: 20px;
+      width: 100%; max-width: 440px;
+      padding: 36px 32px;
+      text-align: center;
+      position: relative;
+    }
+    .lock-card::before {
+      content: ""; position: absolute; top: 0; left: 15%; right: 15%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .bull-icon-wrap {
+      width: 64px; height: 64px; margin: 0 auto 18px;
+      background: rgba(252, 213, 53, 0.1);
+      border: 1px solid var(--border-gold);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .lock-title { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .lock-badge {
+      display: inline-block; font-size: 11px; font-weight: 800;
+      color: var(--gold); background: rgba(252, 213, 53, 0.12);
+      padding: 3px 10px; border-radius: 12px; margin-bottom: 20px;
+      letter-spacing: 0.5px;
+    }
+    .lock-group { text-align: left; margin-bottom: 16px; }
+    .lock-label { font-size: 12px; color: var(--text-sub); font-weight: 600; margin-bottom: 6px; display: block; }
+    .lock-input {
+      width: 100%; padding: 12px 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: #fff; font-size: 14px; outline: none;
+      transition: border 0.2s;
+    }
+    .lock-input:focus { border-color: var(--gold); }
+    .btn-unlock {
+      width: 100%; padding: 14px; margin-top: 10px;
+      background: var(--gold); color: #000;
+      border: none; border-radius: 8px;
+      font-size: 14px; font-weight: 800; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(252, 213, 53, 0.35);
+      transition: all 0.2s;
+    }
+    .btn-unlock:hover { background: var(--gold-hover); transform: translateY(-1px); }
+
+    /* ========================================================
+       2. COCKPIT GIAO DIỆN CHÍNH (MAIN DASHBOARD)
+       ======================================================== */
+    .cockpit-wrapper { display: none; max-width: 1360px; margin: 0 auto; padding: 24px; }
+    
+    /* Top Header Bar */
+    .admin-top-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      padding: 16px 24px; border-radius: 14px;
+      margin-bottom: 24px;
+    }
+    .top-left-brand { display: flex; align-items: center; gap: 14px; }
+    .brand-h { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; }
+    .founder-chip {
+      background: rgba(252, 213, 53, 0.12);
+      border: 1px solid var(--border-gold);
+      color: var(--gold); font-size: 11px; font-weight: 800;
+      padding: 4px 10px; border-radius: 20px;
+    }
+    .status-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; font-weight: 700; color: var(--green);
+      font-family: var(--font-mono);
+    }
+    .status-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; box-shadow: 0 0 8px var(--green); animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    /* Grid Layout */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 24px;
+    }
+
+    .card-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .card-panel-h {
+      font-size: 16px; font-weight: 800; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    /* Symbol Selector Row */
+    .asset-pills-row {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .asset-pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 8px 14px; border-radius: 8px;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .asset-pill:hover { border-color: var(--gold); }
+    .asset-pill.active {
+      background: rgba(252, 213, 53, 0.15);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* Big Price Metric Box */
+    .price-hero-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .price-num-huge {
+      font-size: 42px; font-weight: 900;
+      font-family: var(--font-mono);
+      color: var(--gold);
+      transition: color 0.3s ease;
+    }
+    .price-num-huge.flash-up { color: var(--green) !important; text-shadow: 0 0 16px var(--green); }
+    .price-num-huge.flash-down { color: var(--red) !important; text-shadow: 0 0 16px var(--red); }
+
+    /* Action Buttons */
+    .pump-dump-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .action-group-col {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .group-lbl { font-size: 12px; font-weight: 800; color: var(--text-sub); margin-bottom: 12px; text-transform: uppercase; }
+    
+    .btn-grid-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .btn-act {
+      padding: 12px 8px; border-radius: 8px;
+      font-size: 13px; font-weight: 800; cursor: pointer;
+      border: 1px solid transparent; transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center; gap: 4px;
+    }
+    .btn-pump {
+      background: rgba(14, 203, 129, 0.12);
+      border-color: rgba(14, 203, 129, 0.3);
+      color: var(--green);
+    }
+    .btn-pump:hover { background: var(--green); color: #000; box-shadow: 0 0 12px var(--green); }
+    
+    .btn-dump {
+      background: rgba(246, 70, 93, 0.12);
+      border-color: rgba(246, 70, 93, 0.3);
+      color: var(--red);
+    }
+    .btn-dump:hover { background: var(--red); color: #fff; box-shadow: 0 0 12px var(--red); }
+
+    /* Wick Hunt Special */
+    .wick-box {
+      background: linear-gradient(135deg, rgba(252, 213, 53, 0.08), rgba(0,0,0,0));
+      border: 1px solid var(--border-gold);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+    .btn-wick-hunt {
+      width: 100%; padding: 14px;
+      background: #1f1b0a; border: 1px solid var(--gold);
+      color: var(--gold); font-size: 14px; font-weight: 800;
+      border-radius: 8px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-wick-hunt:hover {
+      background: var(--gold); color: #000;
+      box-shadow: 0 0 20px rgba(252, 213, 53, 0.4);
+    }
+
+    /* Set Exact Price Form */
+    .set-exact-bar {
+      display: flex; gap: 10px; margin-bottom: 20px;
+    }
+    .inp-exact-price {
+      flex: 1; padding: 12px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: #fff; font-size: 15px; font-family: var(--font-mono);
+      font-weight: 700; outline: none;
+    }
+    .inp-exact-price:focus { border-color: var(--gold); }
+    .btn-apply-exact {
+      background: var(--gold); color: #000;
+      border: none; padding: 0 24px; border-radius: 8px;
+      font-size: 13px; font-weight: 800; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-apply-exact:hover { background: var(--gold-hover); }
+
+    /* Bot Toggle Switches */
+    .switch-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0; border-bottom: 1px solid var(--border-color);
+    }
+    .switch-row:last-child { border-bottom: none; }
+    .switch-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .switch-text p { font-size: 12px; color: var(--text-sub); }
+    
+    .toggle-slider {
+      width: 50px; height: 26px;
+      background: #232b38; border-radius: 13px;
+      position: relative; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-slider.active { background: var(--gold); }
+    .toggle-circle {
+      width: 20px; height: 20px;
+      background: #fff; border-radius: 50%;
+      position: absolute; top: 3px; left: 3px;
+      transition: transform 0.2s;
+    }
+    .toggle-slider.active .toggle-circle { transform: translateX(24px); }
+
+    /* Terminal Console */
+    .console-terminal {
+      background: #040608;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      height: 280px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 12px; line-height: 1.6;
+    }
+    .log-line { margin-bottom: 4px; }
+    .log-time { color: var(--text-sub); margin-right: 8px; }
+    .log-succ { color: var(--green); }
+    .log-warn { color: var(--gold); }
+    .log-err { color: var(--red); }
+
+    .open-exchange-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--gold); text-decoration: none; font-size: 13px;
+      font-weight: 700; margin-top: 14px;
+    }
+    .open-exchange-link:hover { text-decoration: underline; }
+
+    @media (max-width: 900px) {
+      .dashboard-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================
+       1. MÀN HÌNH KHÓA XÁC THỰC FOUNDER (LOCK SCREEN)
+       ======================================================== -->
+  <div class="lock-overlay" id="lockOverlay">
+    <div class="lock-card">
+      <div class="bull-icon-wrap">
+        <svg width="34" height="34" viewBox="0 0 100 95" fill="none">
+          <path d="M24 35C14 26 6 12 12 3C19 12 28 22 36 29L24 35Z" fill="#fcd535"/>
+          <path d="M76 35C86 26 94 12 88 3C81 12 72 22 64 29L76 35Z" fill="#fcd535"/>
+          <path d="M30 28L50 18L70 28L65 48L50 56L35 48L30 28Z" fill="#181a20" stroke="#fcd535" stroke-width="2"/>
+        </svg>
+      </div>
+      <h1 class="lock-title">APEXCORE PRO</h1>
+      <span class="lock-badge">⚡ ADMIN GOD-MODE ENGINE</span>
+      <p style="font-size: 13px; color: var(--text-sub); margin-bottom: 24px;">
+        Toàn quyền duy nhất: <strong>NGUYỄN PHƯỚC LỘC</strong>
+      </p>
+
+      <form onsubmit="handleUnlock(event)">
+        <div class="lock-group">
+          <label class="lock-label">Email Quản Trị Viên:</label>
+          <input type="email" id="inpEmail" class="lock-input" value="nguyenphuocloc010306@gmail.com" required>
+        </div>
+        <div class="lock-group">
+          <label class="lock-label">Mật Mã Tối Cao (Master God Pass):</label>
+          <input type="password" id="inpPass" class="lock-input" placeholder="••••••••••••••••" value="LocNguyen@ApexGod2026##" required>
+        </div>
+        <button type="submit" class="btn-unlock">Mở Khóa Bảng Điều Khiển ➔</button>
+      </form>
+      <div id="lockError" style="color: var(--red); font-size: 12px; margin-top: 14px; display: none;"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       2. COCKPIT ĐIỀU HÀNH CHÍNH (MAIN DASHBOARD)
+       ======================================================== -->
+  <div class="cockpit-wrapper" id="cockpitWrapper">
+    
+    <!-- Top Header -->
+    <header class="admin-top-bar">
+      <div class="top-left-brand">
+        <svg width="28" height="28" viewBox="0 0 100 95" fill="none">
+          <path d="M24 35C14 26 6 12 12 3C19 12 28 22 36 29L24 35Z" fill="#fcd535"/>
+          <path d="M76 35C86 26 94 12 88 3C81 12 72 22 64 29L76 35Z" fill="#fcd535"/>
+          <path d="M30 28L50 18L70 28L65 48L50 56L35 48L30 28Z" fill="#181a20" stroke="#fcd535" stroke-width="2"/>
+        </svg>
+        <div class="brand-h">APEXCORE GOD-MODE</div>
+        <span class="founder-chip">👑 FOUNDER: NGUYỄN PHƯỚC LỘC</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span>IN-MEMORY ENGINE &lt;0.5µs</span>
+        </div>
+        <button onclick="lockAgain()" style="background: none; border: 1px solid var(--border-color); color: var(--text-sub); padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 12px;">
+          Khóa Lại 🔒
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <div class="dashboard-grid">
+      
+      <!-- CỘT TRÁI: ĐIỀU KHIỂN GIÁ & BƠM / XẢ -->
+      <div>
+        <div class="card-panel">
+          <div class="card-panel-h">
+            <span>Chọn Cặp Tài Sản Điều Hướng</span>
+            <span style="font-size: 12px; color: var(--text-sub);">Đồng bộ thời gian thực đa tab</span>
+          </div>
+          
+          <div class="asset-pills-row" id="assetPills">
+            <button class="asset-pill active" onclick="selectSymbol('BTC_USDT')">BTC/USDT</button>
+            <button class="asset-pill" onclick="selectSymbol('ETH_USDT')">ETH/USDT</button>
+            <button class="asset-pill" onclick="selectSymbol('BNB_USDT')">BNB/USDT</button>
+            <button class="asset-pill" onclick="selectSymbol('SOL_USDT')">SOL/USDT</button>
+            <button class="asset-pill" onclick="selectSymbol('AAPL_USD')">AAPL/USD (Apple)</button>
+            <button class="asset-pill" onclick="selectSymbol('XAU_USD')">XAU/USD (Vàng)</button>
+            <button class="asset-pill" onclick="selectSymbol('FPT_VND')">FPT/VND</button>
+          </div>
+
+          <!-- Big Price Box -->
+          <div class="price-hero-box">
+            <div>
+              <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 4px;" id="lblSelectedSym">BTC/USDT PRICE</div>
+              <div class="price-num-huge" id="txtLivePrice">$85,450.90</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 12px; color: var(--green); font-weight: 700;" id="txtLiveChange">+2.45% (24H)</div>
+              <a href="/trade.html" target="_blank" class="open-exchange-link" id="linkTradeTab">
+                Xem trên Buồng Lái Sàn ➔
+              </a>
+            </div>
+          </div>
+
+          <!-- Chỉnh Giá Trực Tiếp -->
+          <div style="margin-bottom: 20px;">
+            <label style="font-size: 12px; font-weight: 700; color: var(--text-sub); display: block; margin-bottom: 8px;">
+              🎯 Đặt Mức Giá Chính Xác Tùy Ý (Direct Price Set):
+            </label>
+            <div class="set-exact-bar">
+              <input type="number" step="any" id="inpDirectPrice" class="inp-exact-price" placeholder="Nhập mức giá mong muốn...">
+              <button class="btn-apply-exact" onclick="applyDirectPrice()">Thiết Lập Ngay</button>
+            </div>
+          </div>
+
+          <!-- Bơm / Xả Tốc Độ Cao -->
+          <div class="pump-dump-grid">
+            <div class="action-group-col">
+              <div class="group-lbl">🚀 BƠM TĂNG TỐC (PUMP)</div>
+              <div class="btn-grid-actions">
+                <button class="btn-act btn-pump" onclick="triggerPump(1)">+1%</button>
+                <button class="btn-act btn-pump" onclick="triggerPump(3)">+3%</button>
+                <button class="btn-act btn-pump" onclick="triggerPump(5)">+5%</button>
+                <button class="btn-act btn-pump" onclick="triggerPump(10)">+10%</button>
+              </div>
+            </div>
+            <div class="action-group-col">
+              <div class="group-lbl">💥 XẢ GIẢM TỐC (DUMP)</div>
+              <div class="btn-grid-actions">
+                <button class="btn-act btn-dump" onclick="triggerDump(2)">-2%</button>
+                <button class="btn-act btn-dump" onclick="triggerDump(5)">-5%</button>
+                <button class="btn-act btn-dump" onclick="triggerDump(8)">-8%</button>
+                <button class="btn-act btn-dump" onclick="triggerDump(15)">-15%</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quét Râu Nến (Wick Hunt) -->
+          <div class="wick-box">
+            <div style="font-size: 13px; font-weight: 800; color: var(--gold); margin-bottom: 4px;">
+              ⚡ QUÉT RÂU NẾN THANH LÝ (WICK HUNT - RÚT CHÂN SAU 2.5 GIÂY)
+            </div>
+            <div style="font-size: 12px; color: var(--text-sub); margin-bottom: 14px;">
+              Tạo một cây kim râu nến cắm sâu hoặc vọt cao để quét sạch lệnh stoploss của thị trường rồi tự động rút chân nến về vị trí ban đầu.
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <button class="btn-wick-hunt" onclick="triggerWickHunt('DOWN')">
+                🔻 Quét Long (Cắm Râu Sâu -6%)
+              </button>
+              <button class="btn-wick-hunt" onclick="triggerWickHunt('UP')">
+                🔺 Quét Short (Giật Râu Vọt +6%)
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- CỘT PHẢI: SWITCHES & CONSOLE AUDIT LOG -->
+      <div>
+        
+        <!-- Bật / Tắt Tự Động Hóa -->
+        <div class="card-panel">
+          <div class="card-panel-h">Bộ Công Tắc Điều Hành Thị Trường</div>
+          
+          <div class="switch-row">
+            <div class="switch-text">
+              <h4>Bot Tạo Sóng Tự Nhiên (Auto MM Bot)</h4>
+              <p>Tự động tạo dao động nhẹ tự nhiên quanh mức giá hiện tại</p>
+            </div>
+            <div class="toggle-slider active" id="toggleBot" onclick="toggleSwitch('bot')">
+              <div class="toggle-circle"></div>
+            </div>
+          </div>
+
+          <div class="switch-row">
+            <div class="switch-text">
+              <h4>Đóng Băng Thị Trường (Freeze Market)</h4>
+              <p>Khóa cứng giá đứng yên không nhúc nhích</p>
+            </div>
+            <div class="toggle-slider" id="toggleFreeze" onclick="toggleSwitch('freeze')">
+              <div class="toggle-circle"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bám Sát Sàn Quốc Tế (Exchange Mirror & Spread Offset) -->
+        <div class="card-panel">
+          <div class="card-panel-h">
+            <span>Tham Chiếu Giá Sàn Quốc Tế (Exchange Mirror)</span>
+            <span class="status-badge" style="font-size:11px;">● LIVE API</span>
+          </div>
+          <div style="margin-bottom:12px;">
+            <label style="font-size:12px; color:var(--text-sub); display:block; margin-bottom:6px;">Nguồn kéo giá tham chiếu:</label>
+            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px;">
+              <button class="asset-pill active" id="feed-binance" onclick="selectFeed('Binance')">Binance</button>
+              <button class="asset-pill" id="feed-okx" onclick="selectFeed('OKX')">OKX</button>
+              <button class="asset-pill" id="feed-bybit" onclick="selectFeed('Bybit')">Bybit</button>
+              <button class="asset-pill" id="feed-coinbase" onclick="selectFeed('Coinbase')">Coinbase</button>
+            </div>
+          </div>
+
+          <label style="font-size:12px; color:var(--text-sub); display:block; margin-bottom:6px;">Bơm chênh lệch Spread Offset (Thu hút Arbitrage):</label>
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin-bottom:12px;">
+            <button class="btn-act btn-pump" onclick="applySpreadOffset(50)">+$50</button>
+            <button class="btn-act btn-pump" onclick="applySpreadOffset(100)">+$100</button>
+            <button class="btn-act btn-dump" onclick="applySpreadOffset(-50)">-$50</button>
+            <button class="btn-act btn-dump" onclick="applySpreadOffset(-100)">-$100</button>
+          </div>
+        </div>
+
+        <!-- Thao Túng Sổ Lệnh (Orderbook Depth Manipulator) -->
+        <div class="card-panel">
+          <div class="card-panel-h">Thao Túng Độ Sâu Sổ Lệnh (Depth Wall)</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+            <button class="btn-act btn-pump" onclick="triggerWall('BUY', 500)">
+              🛡️ Bơm Tường Mua 500 BTC
+            </button>
+            <button class="btn-act btn-dump" onclick="triggerWall('SELL', 500)">
+              🧱 Bơm Tường Bán 500 BTC
+            </button>
+          </div>
+          <button class="btn-act" style="width:100%; background:var(--bg-card); border-color:var(--border-color); color:var(--gold);" onclick="triggerVolumeSim()">
+            ⚡ Kích Hoạt Bão Khớp Lệnh Volume HFT (50 tx/giây)
+          </button>
+        </div>
+
+        <!-- Nhật Ký Can Thiệp (Audit Console Log) -->
+        <div class="card-panel">
+          <div class="card-panel-h">
+            <span>Nhật Ký Lệnh God-Mode (Audit Log)</span>
+            <button onclick="clearLogs()" style="background: none; border: none; color: var(--text-sub); cursor: pointer; font-size: 12px;">Xóa log</button>
+          </div>
+          <div class="console-terminal" id="consoleLogs">
+            <div class="log-line">
+              <span class="log-time">[BOOT]</span>
+              <span class="log-succ">Hệ thống Admin God-Mode Engine đã sẵn sàng. Toàn quyền: NGUYỄN PHƯỚC LỘC</span>
+            </div>
+            <div class="log-line">
+              <span class="log-time">[SYNC]</span>
+              <span class="log-warn">Kênh BroadcastChannel & LocalStorage đã kết nối đa tab.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const MASTER_EMAIL = "nguyenphuocloc010306@gmail.com";
+    const MASTER_PASS = "LocNguyen@ApexGod2026##";
+    const BACKUP_PASS = "123456";
+
+    // Giá mặc định
+    let currentPrices = {
+      "BTC_USDT": 85450.90,
+      "ETH_USDT": 2619.95,
+      "BNB_USDT": 780.35,
+      "SOL_USDT": 162.40,
+      "AAPL_USD": 232.80,
+      "XAU_USD": 2745.50,
+      "FPT_VND": 132500
+    };
+
+    let selectedSym = "BTC_USDT";
+    let isBotActive = true;
+    let isFrozen = false;
+
+    // Kênh truyền tin tức thời giữa các tab
+    const bc = ('BroadcastChannel' in window) ? new BroadcastChannel('apex_market_channel') : null;
+
+    // Load giá đã lưu nếu có
+    const saved = localStorage.getItem('apex_market_override');
+    if (saved) {
+      try { Object.assign(currentPrices, JSON.parse(saved)); } catch(e) {}
+    }
+
+    function handleUnlock(e) {
+      e.preventDefault();
+      const email = document.getElementById('inpEmail').value.trim();
+      const pass = document.getElementById('inpPass').value.trim();
+      const errBox = document.getElementById('lockError');
+
+      if (email === MASTER_EMAIL && (pass === MASTER_PASS || pass === BACKUP_PASS)) {
+        document.getElementById('lockOverlay').style.display = 'none';
+        document.getElementById('cockpitWrapper').style.display = 'block';
+        sessionStorage.setItem('apex_god_authed', 'true');
+        addLog(`🔓 Mở khóa thành công bởi Founder ${email}`, 'succ');
+        updateDisplay();
+        startLocalTick();
+      } else {
+        errBox.textContent = '❌ Mật mã hoặc Email không chính xác! Quyền truy cập bị từ chối.';
+        errBox.style.display = 'block';
+      }
+    }
+
+    // Auto login nếu vừa mở khóa trong phiên này
+    if (sessionStorage.getItem('apex_god_authed') === 'true') {
+      document.getElementById('lockOverlay').style.display = 'none';
+      document.getElementById('cockpitWrapper').style.display = 'block';
+      updateDisplay();
+      startLocalTick();
+    }
+
+    function lockAgain() {
+      sessionStorage.removeItem('apex_god_authed');
+      location.reload();
+    }
+
+    function selectSymbol(sym) {
+      selectedSym = sym;
+      document.querySelectorAll('.asset-pill').forEach(btn => {
+        if (btn.innerText.includes(sym.replace('_', '/').replace('AAPL_USD', 'AAPL').replace('XAU_USD', 'XAU').replace('FPT_VND', 'FPT'))) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+      document.getElementById('lblSelectedSym').textContent = sym.replace('_', '/') + ' PRICE';
+      document.getElementById('linkTradeTab').href = `/trade.html`;
+      updateDisplay();
+    }
+
+    function formatPrice(p) {
+      if (p >= 1000) return '$' + p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      if (p >= 1) return '$' + p.toFixed(2);
+      return '$' + p.toFixed(4);
+    }
+
+    function updateDisplay(flash) {
+      const p = currentPrices[selectedSym] || 100;
+      const el = document.getElementById('txtLivePrice');
+      el.textContent = formatPrice(p);
+      if (flash === 'up') {
+        el.className = 'price-num-huge flash-up';
+        setTimeout(() => el.className = 'price-num-huge', 400);
+      } else if (flash === 'down') {
+        el.className = 'price-num-huge flash-down';
+        setTimeout(() => el.className = 'price-num-huge', 400);
+      }
+      document.getElementById('inpDirectPrice').value = p;
+    }
+
+    // 1. Chỉnh Giá Trực Tiếp
+    function applyDirectPrice() {
+      const v = parseFloat(document.getElementById('inpDirectPrice').value);
+      if (!v || v <= 0) { alert('Vui lòng nhập giá hợp lệ'); return; }
+      const oldP = currentPrices[selectedSym];
+      currentPrices[selectedSym] = v;
+      broadcastChange('SET', v, oldP);
+      updateDisplay(v >= oldP ? 'up' : 'down');
+      addLog(`🎯 Đặt giá trực tiếp ${selectedSym}: ${formatPrice(oldP)} ➔ ${formatPrice(v)}`, 'succ');
+    }
+
+    // 2. Bơm Giá (Pump)
+    function triggerPump(pct) {
+      const oldP = currentPrices[selectedSym];
+      const newP = parseFloat((oldP * (1 + pct / 100)).toFixed(2));
+      currentPrices[selectedSym] = newP;
+      broadcastChange('PUMP', pct, oldP);
+      updateDisplay('up');
+      addLog(`🚀 BƠM GIÁ +${pct}% trên ${selectedSym}: ${formatPrice(oldP)} ➔ ${formatPrice(newP)}`, 'succ');
+    }
+
+    // 3. Xả Giá (Dump)
+    function triggerDump(pct) {
+      const oldP = currentPrices[selectedSym];
+      const newP = parseFloat((oldP * (1 - pct / 100)).toFixed(2));
+      currentPrices[selectedSym] = newP;
+      broadcastChange('DUMP', pct, oldP);
+      updateDisplay('down');
+      addLog(`💥 XẢ GIÁ -${pct}% trên ${selectedSym}: ${formatPrice(oldP)} ➔ ${formatPrice(newP)}`, 'err');
+    }
+
+    // 4. Quét Râu Nến (Wick Hunt)
+    function triggerWickHunt(direction) {
+      const oldP = currentPrices[selectedSym];
+      if (direction === 'DOWN') {
+        const dropP = parseFloat((oldP * 0.94).toFixed(2));
+        currentPrices[selectedSym] = dropP;
+        broadcastChange('WICK_DOWN', dropP, oldP);
+        updateDisplay('down');
+        addLog(`🔻 QUÉT LONG! Đạp râu nến sốc -6% xuống ${formatPrice(dropP)}`, 'err');
+
+        setTimeout(() => {
+          const reboundP = parseFloat((oldP * 1.002).toFixed(2));
+          currentPrices[selectedSym] = reboundP;
+          broadcastChange('SET', reboundP, dropP);
+          updateDisplay('up');
+          addLog(`⚡ Rút chân nến xanh thành công! Giá hồi lại ${formatPrice(reboundP)}`, 'succ');
+        }, 2500);
+      } else {
+        const spikeP = parseFloat((oldP * 1.06).toFixed(2));
+        currentPrices[selectedSym] = spikeP;
+        broadcastChange('WICK_UP', spikeP, oldP);
+        updateDisplay('up');
+        addLog(`🔺 QUÉT SHORT! Giật râu nến vọt +6% lên ${formatPrice(spikeP)}`, 'succ');
+
+        setTimeout(() => {
+          const reboundP = parseFloat((oldP * 0.998).toFixed(2));
+          currentPrices[selectedSym] = reboundP;
+          broadcastChange('SET', reboundP, spikeP);
+          updateDisplay('down');
+          addLog(`⚡ Rút râu nến thành công! Giá cân bằng lại ${formatPrice(reboundP)}`, 'warn');
+        }, 2500);
+      }
+    }
+
+    // 5. Switches
+    function toggleSwitch(type) {
+      if (type === 'bot') {
+        isBotActive = !isBotActive;
+        document.getElementById('toggleBot').classList.toggle('active', isBotActive);
+        addLog(`🤖 Bot Tạo Sóng MM: ${isBotActive ? 'BẬT (ON)' : 'TẮT (OFF)'}`, isBotActive ? 'succ' : 'warn');
+      } else {
+        isFrozen = !isFrozen;
+        document.getElementById('toggleFreeze').classList.toggle('active', isFrozen);
+        addLog(`❄️ Đóng Băng Thị Trường: ${isFrozen ? 'BẬT (ON - ĐÃ ĐÓNG BĂNG)' : 'TẮT (OFF)'}`, isFrozen ? 'err' : 'succ');
+      }
+      broadcastChange('TOGGLE_' + type.toUpperCase(), 0, 0);
+    }
+
+    // 6. Sàn Tham Chiếu Quốc Tế (Exchange Mirror)
+    let selectedFeed = 'Binance';
+    function selectFeed(feed) {
+      selectedFeed = feed;
+      ['binance', 'okx', 'bybit', 'coinbase'].forEach(f => {
+        const btn = document.getElementById('feed-' + f);
+        if (btn) btn.classList.toggle('active', f.toLowerCase() === feed.toLowerCase());
+      });
+      addLog(`🌐 Đã kết nối kênh tham chiếu tỷ giá thời gian thực: ${feed} API Feed`, 'succ');
+      broadcastChange('MIRROR_FEED', feed, currentPrices[selectedSym]);
+    }
+
+    // 7. Bơm Chênh Lệch Spread Offset
+    function applySpreadOffset(offset) {
+      const oldP = currentPrices[selectedSym];
+      const newP = parseFloat((oldP + offset).toFixed(2));
+      currentPrices[selectedSym] = newP;
+      broadcastChange('SPREAD_OFFSET', offset, oldP);
+      updateDisplay(offset >= 0 ? 'up' : 'down');
+      addLog(`⚡ Áp dụng Spread Offset ${offset >= 0 ? '+' : ''}$${offset} trên ${selectedSym}: ${formatPrice(oldP)} ➔ ${formatPrice(newP)}`, offset >= 0 ? 'succ' : 'warn');
+    }
+
+    // 8. Thao Túng Độ Sâu Sổ Lệnh (Orderbook Depth Manipulator)
+    function triggerWall(side, amount) {
+      const payload = {
+        side: side,
+        amount: amount,
+        symbol: selectedSym,
+        price: currentPrices[selectedSym]
+      };
+      broadcastChange('WALL_' + side, amount, currentPrices[selectedSym]);
+      addLog(`🛡️ Bơm tường thanh khoản ${side === 'BUY' ? 'MUA' : 'BÁN'} khổng lồ ${amount} ${selectedSym.split('_')[0]} chặn giá!`, side === 'BUY' ? 'succ' : 'err');
+    }
+
+    // 9. Giả Lập Bão Khớp Lệnh Volume HFT
+    function triggerVolumeSim() {
+      let count = 0;
+      addLog(`⚡ Bắt đầu bão khớp lệnh Volume HFT (50 tx/giây)...`, 'succ');
+      broadcastChange('VOLUME_BURST', 50, currentPrices[selectedSym]);
+      const iv = setInterval(() => {
+        count++;
+        const delta = (Math.random() - 0.5) * (currentPrices[selectedSym] * 0.0003);
+        currentPrices[selectedSym] = parseFloat((currentPrices[selectedSym] + delta).toFixed(2));
+        updateDisplay();
+        if (count >= 15) {
+          clearInterval(iv);
+          addLog(`✅ Bão khớp lệnh HFT hoàn tất. Khối lượng 24h tăng trưởng đột biến!`, 'succ');
+        }
+      }, 200);
+    }
+
+    // Phát sóng thay đổi đa kênh (LocalStorage + BroadcastChannel + Backend API)
+    function broadcastChange(action, value, oldP) {
+      const payload = {
+        symbol: selectedSym,
+        action: action,
+        value: value,
+        new_price: currentPrices[selectedSym],
+        prices: currentPrices,
+        is_bot: isBotActive,
+        is_frozen: isFrozen,
+        timestamp: Date.now()
+      };
+
+      // 1. BroadcastChannel (tức thời giữa các tab mở)
+      if (bc) {
+        try { bc.postMessage(payload); } catch(e) {}
+      }
+
+      // 2. LocalStorage (cho các trang khác lắng nghe sự kiện window storage)
+      localStorage.setItem('apex_market_override', JSON.stringify(currentPrices));
+      localStorage.setItem('apex_god_signal', JSON.stringify(payload));
+
+      // 3. Gửi tới API Backend Go (nếu có endpoint)
+      fetch('http://localhost:5000/api/admin/price-control', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: MASTER_EMAIL,
+          passcode: MASTER_PASS,
+          symbol: selectedSym,
+          action: action,
+          value: typeof value === 'number' ? value : 0
+        })
+      }).catch(() => {});
+    }
+
+    function addLog(text, type = 'info') {
+      const box = document.getElementById('consoleLogs');
+      const time = new Date().toLocaleTimeString('vi-VN');
+      const div = document.createElement('div');
+      div.className = 'log-line';
+      let cls = 'log-succ';
+      if (type === 'err') cls = 'log-err';
+      if (type === 'warn') cls = 'log-warn';
+      div.innerHTML = `<span class="log-time">[${time}]</span> <span class="${cls}">${text}</span>`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function clearLogs() {
+      document.getElementById('consoleLogs').innerHTML = '';
+    }
+
+    // Tạo sóng tự nhiên nếu bot bật và không đóng băng
+    function startLocalTick() {
+      setInterval(() => {
+        if (!isBotActive || isFrozen) return;
+        const cur = currentPrices[selectedSym];
+        const delta = (Math.random() - 0.495) * (cur * 0.0008);
+        currentPrices[selectedSym] = parseFloat((cur + delta).toFixed(2));
+        updateDisplay();
+      }, 1600);
+    }
+  </script>
+</body>
+</html>

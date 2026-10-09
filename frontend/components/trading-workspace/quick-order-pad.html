@@ -1,0 +1,112 @@
+<!-- ========================================================
+     APEXCORE COMPONENT: Quick Order Pad (Speed Order Form)
+     2 Independent Columns: Mua (Green) & Bán (Red)
+     ======================================================== -->
+<section class="quick-order-pad-panel glass-card">
+  <div class="order-pad-header">
+    <div class="order-pad-title-row">
+      <h3 class="panel-section-title">Giao dịch nhanh</h3>
+      <span class="order-symbol-tag" id="order-active-symbol">BTC/USDT</span>
+    </div>
+  </div>
+
+  <div class="order-columns-container">
+    <!-- ================= BUY COLUMN (GREEN) ================= -->
+    <div class="order-column buy-column">
+      <div class="column-type-header buy-header">
+        <span class="type-title">Mua</span>
+        <span class="user-avail-balance text-contrast-sub">Khả dụng: <strong class="num-tabular" id="avail-usdt">12,458.32 USDT</strong></span>
+      </div>
+
+      <!-- Order Subtype Tabs -->
+      <div class="order-subtype-tabs">
+        <button class="subtype-tab active" data-type="market" data-side="buy">Market</button>
+        <button class="subtype-tab" data-type="limit" data-side="buy">Limit</button>
+        <button class="subtype-tab" data-type="stop" data-side="buy">Stop-limit</button>
+      </div>
+
+      <!-- Amount Input -->
+      <div class="form-group-compact">
+        <label class="compact-label">Số lượng</label>
+        <div class="compact-input-wrapper">
+          <input type="number" step="any" class="compact-input num-tabular" id="buy-amount-input" placeholder="0.00">
+          <span class="input-currency-badge" id="buy-amount-unit">USDT</span>
+        </div>
+      </div>
+
+      <!-- Percentage Slider & Pills -->
+      <div class="percent-picker-group">
+        <div class="percent-pills-row">
+          <button type="button" class="pct-pill" data-pct="25" data-side="buy">25%</button>
+          <button type="button" class="pct-pill" data-pct="50" data-side="buy">50%</button>
+          <button type="button" class="pct-pill" data-pct="75" data-side="buy">75%</button>
+          <button type="button" class="pct-pill" data-pct="100" data-side="buy">100%</button>
+        </div>
+        <input type="range" class="pct-slider buy-slider" min="0" max="100" value="0" id="buy-slider">
+      </div>
+
+      <!-- Total Preview -->
+      <div class="form-group-compact">
+        <label class="compact-label">Tổng</label>
+        <div class="compact-input-wrapper">
+          <input type="text" class="compact-input num-tabular" id="buy-total-preview" placeholder="0.00" readonly>
+          <span class="input-currency-badge">USDT</span>
+        </div>
+      </div>
+
+      <!-- Big Action Button (Mua BTC) -->
+      <button class="btn-execute-buy" id="btn-submit-buy">
+        <span class="btn-text">Mua BTC</span>
+      </button>
+    </div>
+
+    <!-- ================= SELL COLUMN (RED) ================= -->
+    <div class="order-column sell-column">
+      <div class="column-type-header sell-header">
+        <span class="type-title">Bán</span>
+        <span class="user-avail-balance text-contrast-sub">Khả dụng: <strong class="num-tabular" id="avail-btc">0.1854 BTC</strong></span>
+      </div>
+
+      <!-- Order Subtype Tabs -->
+      <div class="order-subtype-tabs">
+        <button class="subtype-tab active" data-type="market" data-side="sell">Market</button>
+        <button class="subtype-tab" data-type="limit" data-side="sell">Limit</button>
+        <button class="subtype-tab" data-type="stop" data-side="sell">Stop-limit</button>
+      </div>
+
+      <!-- Amount Input -->
+      <div class="form-group-compact">
+        <label class="compact-label">Số lượng</label>
+        <div class="compact-input-wrapper">
+          <input type="number" step="any" class="compact-input num-tabular" id="sell-amount-input" placeholder="0.00">
+          <span class="input-currency-badge" id="sell-amount-unit">BTC</span>
+        </div>
+      </div>
+
+      <!-- Percentage Slider & Pills -->
+      <div class="percent-picker-group">
+        <div class="percent-pills-row">
+          <button type="button" class="pct-pill" data-pct="25" data-side="sell">25%</button>
+          <button type="button" class="pct-pill" data-pct="50" data-side="sell">50%</button>
+          <button type="button" class="pct-pill" data-pct="75" data-side="sell">75%</button>
+          <button type="button" class="pct-pill" data-pct="100" data-side="sell">100%</button>
+        </div>
+        <input type="range" class="pct-slider sell-slider" min="0" max="100" value="0" id="sell-slider">
+      </div>
+
+      <!-- Total Preview -->
+      <div class="form-group-compact">
+        <label class="compact-label">Tổng</label>
+        <div class="compact-input-wrapper">
+          <input type="text" class="compact-input num-tabular" id="sell-total-preview" placeholder="0.00" readonly>
+          <span class="input-currency-badge">USDT</span>
+        </div>
+      </div>
+
+      <!-- Big Action Button (Bán BTC) -->
+      <button class="btn-execute-sell" id="btn-submit-sell">
+        <span class="btn-text">Bán BTC</span>
+      </button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>APEXCORE — Buồng Lái Giao Dịch Pro (Professional Terminal V17.0)</title>
+  <meta name="description" content="APEXCORE SOVEREIGN EXCHANGE — Buồng Lái Giao Dịch Pro chuẩn quốc tế do Founder Nguyễn Phước Lộc sáng lập. Tốc độ cao, không xẹp nến, bảo chứng an toàn quốc gia.">
+  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+
+  <!-- V17.0 MODULAR CSS ARCHITECTURE -->
+  <link rel="stylesheet" href="assets/css/header.css?v=17.0">
+  <link rel="stylesheet" href="assets/css/terminal.css?v=17.0">
+
+  <style>
+    /* CSS BUỒNG LÁI GIAO DỊCH PRO CHUẨN QUỐC TẾ (PRO COCKPIT) */
+    .pro-cockpit-container {
+      background: #141820;
+      border: 1px solid #232934;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 10px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .cockpit-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #1E232D;
+    }
+    .order-type-tabs {
+      display: flex;
+      gap: 8px;
+    }
+    .ot-btn {
+      background: transparent;
+      border: none;
+      color: #848E9C;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .ot-btn.active, .ot-btn:hover {
+      color: #FCD535;
+      background: rgba(252, 213, 53, 0.08);
+    }
+    .leverage-badge {
+      background: rgba(252, 213, 53, 0.12);
+      border: 1px solid rgba(252, 213, 53, 0.35);
+      color: #FCD535;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .cockpit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .cockpit-col {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .balance-info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #848E9C;
+    }
+    .val-balance strong {
+      color: #EAECEF;
+    }
+    .input-block {
+      display: flex;
+      align-items: center;
+      background: #1E232D;
+      border: 1px solid #2B313A;
+      border-radius: 6px;
+      padding: 2px 10px;
+      transition: border-color 0.2s;
+    }
+    .input-block:focus-within {
+      border-color: #FCD535;
+    }
+    .input-prefix {
+      font-size: 12px;
+      color: #848E9C;
+      width: 65px;
+    }
+    .pro-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 4px;
+      outline: none;
+      text-align: right;
+      font-family: 'SF Mono', 'Roboto Mono', Consolas, monospace;
+    }
+    .input-suffix {
+      font-size: 12px;
+      color: #848E9C;
+      margin-left: 8px;
+      width: 40px;
+      text-align: right;
+      font-weight: 700;
+    }
+    .percent-pills {
+      display: flex;
+      gap: 8px;
+    }
+    .pct-btn {
+      flex: 1;
+      background: #1E232D;
+      border: 1px solid #2B313A;
+      color: #848E9C;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pct-btn:hover, .pct-btn.active {
+      border-color: #FCD535;
+      color: #FCD535;
+      background: rgba(252, 213, 53, 0.05);
+    }
+    /* NÚT MUA XANH NGỌC LỤC BẢO */
+    .btn-action-buy {
+      background: #0ECB81;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 750;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(14, 203, 129, 0.25);
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-action-buy:hover {
+      background: #0bb573;
+      transform: translateY(-1px);
+    }
+    /* NÚT BÁN ĐỎ RUBY */
+    .btn-action-sell {
+      background: #F6465D;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 750;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(246, 70, 93, 0.25);
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-action-sell:hover {
+      background: #e03b51;
+      transform: translateY(-1px);
+    }
+
+    /* Bổ trợ layout cho thanh phân tích dưới cockpit */
+    .terminal-analysis-card {
+      background: #14171f;
+      border-top: 1px solid #2b313a;
+      margin-top: 1px;
+    }
+    .analysis-tabs-header {
+      display: flex;
+      gap: 12px;
+      padding: 8px 16px;
+      border-bottom: 1px solid #2b313a;
+      user-select: none;
+    }
+    .atab-btn {
+      background: transparent;
+      border: none;
+      color: #848e9c;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .atab-btn:hover { color: #eaecef; }
+    .atab-btn.active {
+      color: #fcd535;
+      background: #202630;
+    }
+    .analysis-content-pane {
+      padding: 14px 16px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #848e9c;
+    }
+  </style>
+</head>
+<body class="terminal-body">
+
+  <!-- ========================================================
+       1. TOP STICKY HEADER (LOGO BỎ VIỀN 100% & GIAO DIỆN CHUẨN MỰC)
+       ======================================================== -->
+  <header class="apex-sovereign-header">
+    <div class="header-left-cluster">
+      <!-- KHỐI LOGO APEXCORE HOÀNG GIA - BỎ HOÀN TOÀN KHUNG VIỀN -->
+      <div class="brand-sovereign-clean" onclick="location.href='index.html'" title="ApexCore Sovereign Exchange">
+        <img src="/assets/images/logo.jpg" alt="ApexCore Logo" class="star-logo-noborder" onerror="this.src='assets/images/logo.jpg'">
+        <span class="brand-text-clean">APEXCORE</span>
+      </div>
+
+      <!-- ĐIỀU HƯỚNG SÀN CHUẨN MỰC (KHÔNG BỊ TRÙNG LẶP SPOT/STOCKS/MARGIN/BOT) -->
+      <nav class="header-nav-menu">
+        <a href="index.html" class="nav-link-btn">Trang chủ</a>
+        <a href="trade.html" class="nav-link-btn active">Buồng Lái Pro</a>
+
+        <!-- MEGA DROPDOWN BỘ ICON VECTOR KIM HOÀN THUẦN SVG -->
+        <div class="nav-dropdown-wrapper">
+          <button class="nav-link-btn">
+            Thị Trường <span class="nav-caret-arrow">▼</span>
+          </button>
+          <div class="mega-dropdown-panel">
+            <div class="mega-grid-2cols">
+              <div>
+                <div class="mega-group-title">Giao Dịch Cốt Lõi</div>
+                <!-- 1. Spot -->
+                <div class="mega-item-link" onclick="window.ApexTerminal && window.ApexTerminal.switchMode('spot')">
+                  <div class="mega-icon-svg-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <line x1="7" y1="2" x2="7" y2="22" stroke="#FCD535" stroke-width="1.8" stroke-linecap="round"/>
+                      <rect x="4.5" y="6" width="5" height="10" rx="1.5" fill="#FCD535"/>
+                      <line x1="17" y1="3" x2="17" y2="21" stroke="#0ECB81" stroke-width="1.8" stroke-linecap="round"/>
+                      <rect x="14.5" y="8" width="5" height="7" rx="1.5" fill="#0ECB81"/>
+                    </svg>
+                  </div>
+                  <div class="mega-item-content">
+                    <div class="mega-item-name">Spot Giao Ngay</div>
+                    <div class="mega-item-desc">Khớp lệnh In-Memory siêu tốc</div>
+                  </div>
+                </div>
+
+                <!-- 2. Stocks -->
+                <div class="mega-item-link" onclick="window.ApexTerminal && window.ApexTerminal.switchMode('stocks')">
+                  <div class="mega-icon-svg-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M3 19h18" stroke="#848E9C" stroke-width="1.8" stroke-linecap="round"/>
+                      <path d="M4 15l5-6 4 3 6-8" stroke="#FCD535" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                      <polyline points="15 4 19 4 19 8" stroke="#FCD535" stroke-width="2" stroke-linecap="round"/>
+                      <circle cx="13" cy="12" r="2.5" fill="#FCD535"/>
+                    </svg>
+                  </div>
+                  <div class="mega-item-content">
+                    <div class="mega-item-name">Stocks Tokenized <span class="badge-tag-yellow">NEW</span></div>
+                    <div class="mega-item-desc">FPT, AAPL, NVDA bảo chứng 1:1</div>
+                  </div>
+                </div>
+
+                <!-- 3. Margin -->
+                <div class="mega-item-link" onclick="window.ApexTerminal && window.ApexTerminal.switchMode('margin')">
+                  <div class="mega-icon-svg-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <line x1="12" y1="3" x2="12" y2="21" stroke="#FCD535" stroke-width="2" stroke-linecap="round"/>
+                      <line x1="8" y1="21" x2="16" y2="21" stroke="#FCD535" stroke-width="2" stroke-linecap="round"/>
+                      <line x1="4" y1="7" x2="20" y2="7" stroke="#FCD535" stroke-width="1.8" stroke-linecap="round"/>
+                      <path d="M4 7l-2 5h8l-2-5" stroke="#FCD535" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path d="M16 7l-2 7h8l-2-7" stroke="#FCD535" stroke-width="1.5" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <div class="mega-item-content">
+                    <div class="mega-item-name">Margin Đòn Bẩy</div>
+                    <div class="mega-item-desc">Đòn bẩy tài chính từ 3x đến 20x</div>
+                  </div>
+                </div>
+
+                <!-- 4. P2P Express -->
+                <div class="mega-item-link" onclick="alert('Cổng P2P Express: Hỗ trợ nạp rút tài khoản ngân hàng và VietQR')">
+                  <div class="mega-icon-svg-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M17 3l4 4-4 4" stroke="#FCD535" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M3 7h18" stroke="#FCD535" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M7 21l-4-4 4-4" stroke="#0ECB81" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M21 17H3" stroke="#0ECB81" stroke-width="2" stroke-linecap="round"/>
+                      <circle cx="12" cy="12" r="2.5" stroke="#FCD535" stroke-width="1.5"/>
+                    </svg>
+                  </div>
+                  <div class="mega-item-content">
+                    <div class="mega-item-name">P2P Express</div>
+                    <div class="mega-item-desc">Giao dịch ngân hàng 0% phí</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="mega-group-title">Công Nghệ Định Chế</div>
+                <!-- 5. DEX -->
+                <div class="mega-item-link" onclick="alert('Apex DEX: Hoán đổi Web3 trên mạng Solana & BNB Chain')">
+                  <div class="mega-icon-svg-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <circle cx="12" cy="4" r="2.5" fill="#FCD535"/>
+                      <circle cx="4" cy="18" r="2.5" fill="#FCD535"/>
+                      <circle cx="20" cy="18" r="2.5" fill="#FCD535"/>
+                      <line x1="12" y1="6.5" x2="5.5" y2="16" stroke="#FCD535" stroke-width="1.5" stroke-dasharray="2 2"/>
+                      <line x1="12" y1="6.5" x2="18.5" y2="16" stroke="#FCD535" stroke-width="1.5" stroke-dasharray="2 2"/>
+                      <line x1="6.5" y1="18" x2="17.5" y2="18" stroke="#FCD535" stroke-width="1.5"/>
+                    </svg>
+                  </div>
+                  <div class="mega-item-content">
+                    <div class="mega-item-name">DEX Web3 Swap</div>
+                    <div class="mega-item-desc">Giao dịch phi tập trung bảo mật</div>
+                  </div>
+                </div>
+
+                <!-- 6. Trading Bots -->
+                <div class="mega-item-link" onclick="window.ApexTerminal && window.ApexTerminal.switchMode('bot')">
+                  <div class="mega-icon-svg-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <rect x="5" y="5" width="14" height="14" rx="3" stroke="#FCD535" stroke-width="1.8"/>
+                      <line x1="9" y1="1" x2="9" y2="5" stroke="#FCD535" stroke-width="1.5"/>
+                      <line x1="15" y1="1" x2="15" y2="5" stroke="#FCD535" stroke-width="1.5"/>
+                      <line x1="9" y1="19" x2="9" y2="23" stroke="#FCD535" stroke-width="1.5"/>
+                      <line x1="15" y1="19" x2="15" y2="23" stroke="#FCD535" stroke-width="1.5"/>
+                      <circle cx="12" cy="12" r="3" fill="#FCD535"/>
+                      <circle cx="12" cy="12" r="1" fill="#181C24"/>
+                    </svg>
+                  </div>
+                  <div class="mega-item-content">
+                    <div class="mega-item-name">Trading Bots AI</div>
+                    <div class="mega-item-desc">Lưới tự động Grid Market Making</div>
+                  </div>
+                </div>
+
+                <!-- 7. Copy Trading -->
+                <div class="mega-item-link" onclick="alert('Copy Trading: Sao chép các chiến lược gia hàng đầu')">
+                  <div class="mega-icon-svg-box">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <circle cx="9" cy="7" r="3.5" stroke="#FCD535" stroke-width="1.8"/>
+                      <path d="M2 19c0-3.5 3.1-6 7-6s7 2.5 7 6" stroke="#FCD535" stroke-width="1.8" stroke-linecap="round"/>
+                      <circle cx="18" cy="8" r="2.5" stroke="#0ECB81" stroke-width="1.5"/>
+                      <path d="M14.5 18c.5-2.2 2.3-3.8 4.5-3.8 1.8 0 3.3 1 4 2.5" stroke="#0ECB81" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div class="mega-item-content">
+                    <div class="mega-item-name">Copy Trading</div>
+                    <div class="mega-item-desc">Tự động bám sát lệnh chuyên gia</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#/wallet" class="nav-link-btn" onclick="alert('Ví Tổng: 25,480.50 USDT | 0.854 BTC')">Tài Sản & Ví</a>
+      </nav>
+    </div>
+
+    <!-- DÀN CÔNG CỤ BÊN PHẢI (8 NÚT TOÀN DIỆN - KHÔNG VIỀN THỪA) -->
+    <div class="header-right-tools">
+      <!-- 1. TÌM KIẾM -->
+      <button class="tool-icon-btn" title="Tìm kiếm mã" onclick="document.getElementById('market-search-input')?.focus()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+
+      <!-- 2. NÚT DEPOSIT VÀNG -->
+      <button class="btn-deposit-gold-solid" onclick="alert('Nạp On-chain Crypto hoặc VietQR MB Bank: 0987654321 - NGUYEN PHUOC LOC')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+        Deposit
+      </button>
+
+      <!-- 3. HỒ SƠ FOUNDER NGUYỄN PHƯỚC LỘC (UID: 1107519625) & DROPDOWN -->
+      <div class="user-profile-anchor">
+        <div class="user-avatar-gold-ring" title="Hồ Sơ Founder Nguyễn Phước Lộc (UID: 1107519625)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FCD535" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+        </div>
+
+        <div class="profile-dropdown-card">
+          <div class="profile-header-meta">
+            <img src="/assets/images/logo.jpg" alt="Founder" class="profile-avatar-large" onerror="this.src='assets/images/logo.jpg'">
+            <div>
+              <div class="profile-name-text">NguyenPhuocLoc</div>
+              <div class="profile-uid-row">
+                <span>UID: 1107519625</span>
+                <span class="btn-copy-uid" onclick="copyUID()" title="Sao chép UID">⧉</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-badges-row">
+            <span class="badge-pill-soft">Founder VIP</span>
+            <span class="badge-pill-soft badge-verified">Verified</span>
+            <span class="badge-pill-soft">SAFU 100%</span>
+          </div>
+
+          <div class="profile-nav-list">
+            <a href="index.html" class="profile-nav-link"><span>⊞</span> Trang Tổng Quan</a>
+            <a href="trade.html" class="profile-nav-link"><span>📊</span> Buồng Lái Giao Dịch</a>
+            <a href="#/wallet" class="profile-nav-link" onclick="alert('Ví Tổng: 25,480.50 USDT | 0.854 BTC')"><span>💳</span> Danh Mục Tài Sản</a>
+            <a href="#/orders" class="profile-nav-link" onclick="alert('Lịch Sử 100% Khớp Lệnh Minh Bạch')"><span>📄</span> Sổ Lệnh Đã Đặt</a>
+            <a href="apex-master-admin.html" target="_blank" class="profile-nav-link"><span>👑</span> Cổng Quản Trị God-Mode</a>
+          </div>
+
+          <div class="profile-nav-link profile-logout-btn" onclick="handleUserLogout()">
+            <span>🚪</span> Đăng Xuất An Toàn
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. VÍ TIỀN -->
+      <button class="tool-icon-btn" title="Danh Mục Ví" onclick="alert('Ví Tài Sản Đã Khóa Bảo Mật Chuẩn Ngân Hàng')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M16 14h2"/></svg>
+      </button>
+
+      <!-- 5. THÔNG BÁO -->
+      <button class="tool-icon-btn" title="Thông Báo Hệ Thống" onclick="window.HeaderController && window.HeaderController.toast('Hệ thống hoạt động ổn định với độ trễ 0.2ms.')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="14" y2="13"/></svg>
+        <span class="notification-dot"></span>
+      </button>
+
+      <!-- 6. QUÉT TẢI APP MOBILE -->
+      <button class="tool-icon-btn" title="Tải Ứng Dụng" onclick="alert('Quét mã QR để tải App ApexCore trên iOS & Android')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8V4h4m8 0h4v4m0 8v4h-4m-8 0H4v-4M12 8v8m-3-3 3 3 3-3"/></svg>
+      </button>
+
+      <!-- 7. NGÔN NGỮ QUỐC TẾ -->
+      <button class="tool-icon-btn" title="Đa Ngôn Ngữ" onclick="window.HeaderController && window.HeaderController.toast('Múi giờ UTC+7 (Hà Nội, Bangkok) | Tiếng Việt')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </button>
+
+      <!-- 8. ĐỔI CHẾ ĐỘ SÁNG / TỐI -->
+      <button class="tool-icon-btn" id="btn-theme-switch" title="Chuyển sang giao diện Sáng" onclick="toggleTheme()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================
+       2. TICKER SUB-BAR (BỘ ĐIỀU KHIỂN CHẾ ĐỘ SÀN DUY NHẤT - SINGLE MASTER SWITCHER)
+       ======================================================== -->
+  <section class="ticker-sub-bar">
+    <div class="ticker-pair-picker" onclick="document.getElementById('market-search-input')?.focus()">
+      <div class="ticker-pair-title">
+        <span id="txt-active-pair">BTC/USDT</span>
+        <span class="ticker-pair-tag">Unified</span>
+        <span style="font-size:11px; color:#848e9c;">▼</span>
+      </div>
+      <div>
+        <div class="ticker-price-huge text-green" id="txt-header-price">$85,450.90</div>
+      </div>
+    </div>
+
+    <!-- BỘ ĐIỀU KHIỂN ĐỒNG BỘ 100% CỦA SÀN GIAO DỊCH -->
+    <div class="market-mode-pills">
+      <button class="mode-pill-btn active" data-mode="spot" onclick="window.ApexTerminal && window.ApexTerminal.switchMode('spot')">Spot (Giao Ngay)</button>
+      <button class="mode-pill-btn" data-mode="stocks" onclick="window.ApexTerminal && window.ApexTerminal.switchMode('stocks')">Stocks Token</button>
+      <button class="mode-pill-btn" data-mode="margin" onclick="window.ApexTerminal && window.ApexTerminal.switchMode('margin')">Margin Ký Quỹ</button>
+      <button class="mode-pill-btn" data-mode="bot" onclick="window.ApexTerminal && window.ApexTerminal.switchMode('bot')">Bot Lưới AI</button>
+    </div>
+
+    <div class="ticker-stats-row">
+      <div class="stat-item">
+        <span class="stat-lbl">Biến Động 24h</span>
+        <span class="stat-val text-green" id="txt-change-24h">+2.45%</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-lbl">24h High</span>
+        <span class="stat-val" id="txt-high-24h">86,220.00</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-lbl">24h Low</span>
+        <span class="stat-val" id="txt-low-24h">83,110.50</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-lbl">Khối Lượng 24h</span>
+        <span class="stat-val">34,512 BTC</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================
+       3. BỐ CỤC KHUNG SÀN DUY NHẤT (KÉO SÁT LÊN TICKER - THOÁNG ĐẲNG CẤP PRO)
+       (ĐÃ XÓA BỎ HOÀN TOÀN KHỐI 2 THẺ NO.1 RA KHỎI SÀN GIAO DỊCH)
+       ======================================================== -->
+  <div class="terminal-main-grid">
+
+    <!-- CỘT 1: SỔ LỆNH (ORDER BOOK) -->
+    <aside class="col-orderbook">
+      <div class="panel-header-sm">
+        <span>Sổ Lệnh (Order Book)</span>
+        <div class="ob-view-filters">
+          <button class="ob-view-btn active" onclick="window.OrderBook && window.OrderBook.setViewMode('all')" title="Tất cả">☰</button>
+          <button class="ob-view-btn text-green" onclick="window.OrderBook && window.OrderBook.setViewMode('buy')" title="Chỉ Mua">▲</button>
+          <button class="ob-view-btn text-red" onclick="window.OrderBook && window.OrderBook.setViewMode('sell')" title="Chỉ Bán">▼</button>
+        </div>
+      </div>
+
+      <div class="ob-table-head">
+        <span>Giá</span>
+        <span style="text-align:right;">Khối Lượng</span>
+        <span style="text-align:right;">Tổng</span>
+      </div>
+
+      <!-- Asks (Bán) -->
+      <div class="ob-list-container" id="terminal-asks-rows"></div>
+
+      <!-- Mid Price -->
+      <div class="ob-mid-price">
+        <div>
+          <span class="ob-mid-num text-green" id="terminal-mid-price">85,450.90</span>
+          <span style="font-size:12px; margin-left:4px;" class="text-green">↑</span>
+        </div>
+        <span style="font-size:11px; color:#848e9c;" class="font-mono">Tự Động Cân Đối</span>
+      </div>
+
+      <!-- Bids (Mua) -->
+      <div class="ob-list-container" id="terminal-bids-rows"></div>
+    </aside>
+
+    <!-- CỘT 2: TRADINGVIEW CHART & BUỒNG LÁI GIAO DỊCH PRO -->
+    <main class="col-center-workspace">
+
+      <!-- BIỂU ĐỒ NẾN TRADINGVIEW CHUẨN (KHÔNG BỊ XẸP KHI KÉO VÀ LIVE) -->
+      <section class="chart-card-box">
+        <div class="chart-toolbar">
+          <div class="tf-group">
+            <button class="tf-btn" onclick="window.ChartEngine && window.ChartEngine.switchTimeframe('1s')">1s</button>
+            <button class="tf-btn active" onclick="window.ChartEngine && window.ChartEngine.switchTimeframe('15m')">15m</button>
+            <button class="tf-btn" onclick="window.ChartEngine && window.ChartEngine.switchTimeframe('1h')">1h</button>
+            <button class="tf-btn" onclick="window.ChartEngine && window.ChartEngine.switchTimeframe('4h')">4h</button>
+            <button class="tf-btn" onclick="window.ChartEngine && window.ChartEngine.switchTimeframe('1D')">1D</button>
+            <button class="tf-btn" onclick="window.ChartEngine && window.ChartEngine.switchTimeframe('1W')">1W</button>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:8px; font-size:11px; color:#848e9c;">
+            <span>Chế độ: <strong class="text-yellow">TradingView Pro Scale V17</strong></span>
+            <span style="cursor:pointer;" onclick="window.ChartEngine && (window.ChartEngine.priceScaleFactor=1.0, window.ChartEngine.panOffset=0, window.ChartEngine.render())">↺ Reset Trục</span>
+          </div>
+        </div>
+
+        <div class="chart-canvas-wrapper">
+          <canvas id="apex-interactive-canvas"></canvas>
+          <div class="chart-y-axis-drag-hint" id="chart-y-drag-zone" title="Kéo trục Y lên/xuống để co giãn (Double click để Reset)"></div>
+          <div class="canvas-live-flag" id="apex-live-price-flag">85,450.90</div>
+        </div>
+      </section>
+
+      <!-- ==================== BUỒNG LÁI GIAO DỊCH PRO (PRO COCKPIT CHUẨN QUỐC TẾ) ==================== -->
+      <div class="pro-cockpit-container">
+        <!-- 1. THANH CHỌN LOẠI LỆNH & ĐÒN BẨY -->
+        <div class="cockpit-top-bar">
+          <div class="order-type-tabs">
+            <button type="button" class="ot-btn active" onclick="setOrderType('limit')">Limit (Giới Hạn)</button>
+            <button type="button" class="ot-btn" onclick="setOrderType('market')">Market (Thị Trường)</button>
+            <button type="button" class="ot-btn" onclick="setOrderType('stop')">Stop-Limit</button>
+          </div>
+          <!-- Huy hiệu đòn bẩy Margin cao cấp -->
+          <div class="leverage-badge" id="cockpitLeverageBadge" onclick="window.ApexTerminal && window.ApexTerminal.switchMode('margin')" title="Điều chỉnh đòn bẩy ký quỹ">
+            <span>Margin</span>
+            <strong id="currentLeverageTxt">10x</strong>
+          </div>
+        </div>
+
+        <!-- THANH ĐÒN BẨY MARGIN (HIỂN THỊ KHI CHỌN CHẾ ĐỘ MARGIN) -->
+        <div class="margin-leverage-slider" id="marginLeverageSlider" style="display:none; align-items:center; gap:8px; padding:8px 12px; background:rgba(252,213,53,0.08); border:1px solid rgba(252,213,53,0.3); border-radius:6px; margin-bottom:12px;">
+          <span style="font-size:11px; font-weight:700; color:#FCD535;">Đòn bẩy:</span>
+          <button type="button" class="pct-btn" style="flex:0 0 45px;" onclick="setLeverage(3)">3x</button>
+          <button type="button" class="pct-btn" style="flex:0 0 45px;" onclick="setLeverage(5)">5x</button>
+          <button type="button" class="pct-btn active" style="flex:0 0 45px;" onclick="setLeverage(10)">10x</button>
+          <button type="button" class="pct-btn" style="flex:0 0 45px;" onclick="setLeverage(20)">20x</button>
+          <span style="font-size:11px; color:#848E9C; margin-left:auto;">Bảo Chứng An Toàn Cấp Định Chế</span>
+        </div>
+
+        <!-- BẢNG CẤU HÌNH BOT LƯỚI GRID (HIỂN THỊ KHI CHỌN BOT) -->
+        <div class="bot-grid-config" id="botGridConfig" style="display:none; background:#181C24; border:1px solid #2B313A; border-radius:6px; padding:12px; margin-bottom:14px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+            <div>
+              <span class="input-prefix" style="display:block; width:auto; margin-bottom:4px;">Giá Dưới</span>
+              <div class="input-block"><input type="number" class="pro-input" value="81000.00"></div>
+            </div>
+            <div>
+              <span class="input-prefix" style="display:block; width:auto; margin-bottom:4px;">Giá Trên</span>
+              <div class="input-block"><input type="number" class="pro-input" value="89500.00"></div>
+            </div>
+            <div>
+              <span class="input-prefix" style="display:block; width:auto; margin-bottom:4px;">Số Lưới</span>
+              <div class="input-block"><input type="number" class="pro-input" value="25"></div>
+            </div>
+          </div>
+          <button type="button" class="btn-action-buy" style="margin-top:10px; width:100%;" onclick="alert('Đã kích hoạt AI Grid Bot tự động tạo lập thanh khoản!')">KÍCH HOẠT GRID BOT AI</button>
+        </div>
+
+        <!-- 2. BỐ CỤC 2 CỘT MUA / BÁN CHUYÊN NGHIỆP -->
+        <div class="cockpit-grid">
+          <!-- CỘT MUA (BUY COCKPIT - XANH EMERALD) -->
+          <div class="cockpit-col buy-col">
+            <div class="balance-info-row">
+              <span class="lbl-balance">Khả dụng:</span>
+              <span class="val-balance"><strong>12,458.32</strong> <span class="val-quote-unit">USDT</span></span>
+            </div>
+            <!-- Ô Nhập Giá Mua -->
+            <div class="input-block">
+              <span class="input-prefix">Giá</span>
+              <input type="number" id="buyPriceInput" class="pro-input" value="85450.90" step="0.1">
+              <span class="input-suffix val-quote-unit">USDT</span>
+            </div>
+            <!-- Ô Nhập Khối Lượng -->
+            <div class="input-block">
+              <span class="input-prefix">Số lượng</span>
+              <input type="number" id="buyAmountInput" class="pro-input" placeholder="0.00" step="0.001">
+              <span class="input-suffix val-base-unit">BTC</span>
+            </div>
+            <!-- Thanh chọn % vốn nhanh chuẩn Binance (25% - 50% - 75% - 100%) -->
+            <div class="percent-pills">
+              <button type="button" class="pct-btn" onclick="applyPercent('buy', 25)">25%</button>
+              <button type="button" class="pct-btn" onclick="applyPercent('buy', 50)">50%</button>
+              <button type="button" class="pct-btn" onclick="applyPercent('buy', 75)">75%</button>
+              <button type="button" class="pct-btn" onclick="applyPercent('buy', 100)">100%</button>
+            </div>
+            <!-- Nút MUA Vàng Ngọc Lục Bảo Nguyên Khối -->
+            <button type="button" class="btn-action-buy" onclick="executeProOrder('BUY')">
+              MUA BTC
+            </button>
+          </div>
+
+          <!-- CỘT BÁN (SELL COCKPIT - ĐỎ RUBY) -->
+          <div class="cockpit-col sell-col">
+            <div class="balance-info-row">
+              <span class="lbl-balance">Khả dụng:</span>
+              <span class="val-balance"><strong>0.8540</strong> <span class="val-base-unit">BTC</span></span>
+            </div>
+            <!-- Ô Nhập Giá Bán -->
+            <div class="input-block">
+              <span class="input-prefix">Giá</span>
+              <input type="number" id="sellPriceInput" class="pro-input" value="85450.90" step="0.1">
+              <span class="input-suffix val-quote-unit">USDT</span>
+            </div>
+            <!-- Ô Nhập Khối Lượng -->
+            <div class="input-block">
+              <span class="input-prefix">Số lượng</span>
+              <input type="number" id="sellAmountInput" class="pro-input" placeholder="0.00" step="0.001">
+              <span class="input-suffix val-base-unit">BTC</span>
+            </div>
+            <!-- Thanh chọn % vốn nhanh -->
+            <div class="percent-pills">
+              <button type="button" class="pct-btn" onclick="applyPercent('sell', 25)">25%</button>
+              <button type="button" class="pct-btn" onclick="applyPercent('sell', 50)">50%</button>
+              <button type="button" class="pct-btn" onclick="applyPercent('sell', 75)">75%</button>
+              <button type="button" class="pct-btn" onclick="applyPercent('sell', 100)">100%</button>
+            </div>
+            <!-- Nút BÁN Đỏ Ruby Nguyên Khối -->
+            <button type="button" class="btn-action-sell" onclick="executeProOrder('SELL')">
+              BÁN BTC
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 TAB PHÂN TÍCH CHUYÊN SÂU DƯỚI BẢNG ĐẶT LỆNH -->
+      <section class="terminal-analysis-card">
+        <div class="analysis-tabs-header">
+          <button type="button" class="atab-btn active" onclick="switchAnalysisTab(this, 'info')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Thông Tin Cơ Bản
+          </button>
+          <button type="button" class="atab-btn" onclick="switchAnalysisTab(this, 'data')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+            Dòng Tiền & Ký Quỹ
+          </button>
+          <button type="button" class="atab-btn" onclick="switchAnalysisTab(this, 'audit')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Kiểm Định Bảo Mật AI
+          </button>
+          <button type="button" class="atab-btn" onclick="switchAnalysisTab(this, 'earn')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M16 10H9.5a2.5 2.5 0 0 0 0 5h5a2.5 2.5 0 0 1 0 5H8"/></svg>
+            Gói Sinh Lời Earn
+          </button>
+        </div>
+        <div class="analysis-content-pane" id="analysis-content-pane">
+          <div>Hệ thống khớp lệnh FIFO In-Memory sub-microsecond, bảo chứng 100% tài sản Reserve SAFU. Khớp lệnh trực tiếp không qua trung gian.</div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- CỘT 3: DANH SÁCH MÃ & LỊCH SỬ KHỚP LỆNH -->
+    <aside class="col-right-market">
+      <div style="padding:10px 12px; border-bottom:1px solid #2b313a;">
+        <input type="text" id="market-search-input" class="market-search-input" placeholder="🔍 Tìm kiếm mã (BTC, ETH, FPT, AAPL...)" oninput="window.TerminalEngine && window.TerminalEngine.filterMarkets(this.value)">
+      </div>
+
+      <div class="market-category-tabs">
+        <button type="button" class="mcat-btn active" data-cat="all" onclick="setMarketCat(this, 'all')">Tất cả</button>
+        <button type="button" class="mcat-btn" data-cat="crypto" onclick="setMarketCat(this, 'crypto')">Crypto</button>
+        <button type="button" class="mcat-btn" data-cat="stocks" onclick="setMarketCat(this, 'stocks')">Stocks</button>
+        <button type="button" class="mcat-btn" data-cat="commodities" onclick="setMarketCat(this, 'commodities')">Vàng / Hàng Hóa</button>
+      </div>
+
+      <!-- Danh sách mã thị trường -->
+      <div class="market-coin-list" id="terminal-market-list"></div>
+
+      <!-- Lịch sử khớp lệnh -->
+      <div class="panel-header-sm" style="border-top:1px solid #2b313a;">
+        <span>Khớp Lệnh Thị Trường (Market Trades)</span>
+      </div>
+      <div class="ob-table-head">
+        <span>Giá</span>
+        <span style="text-align:right;">Khối Lượng</span>
+        <span style="text-align:right;">Thời Gian</span>
+      </div>
+      <div class="recent-trades-list" id="terminal-recent-trades"></div>
+    </aside>
+
+  </div>
+
+  <!-- ========================================================
+       4. MODULAR JAVASCRIPT ARCHITECTURE
+       ======================================================== -->
+  <script src="assets/js/header.js?v=17.0"></script>
+  <script src="assets/js/chart.js?v=17.0"></script>
+  <script src="assets/js/orderbook.js?v=17.0"></script>
+  <script src="assets/js/engine.js?v=17.0"></script>
+
+  <!-- ========================================================
+       5. BỘ ĐIỀU KHIỂN ĐỒNG BỘ SÀN GIAO DỊCH 100% (JS MASTER CONTROLLER)
+       ======================================================== -->
+  <script>
+    // ============================================================================
+    // APEXCORE MASTER UNIFIED TERMINAL CONTROLLER (ĐỒNG BỘ 100% SÀN GIAO DỊCH)
+    // ============================================================================
+    window.ApexTerminal = {
+      currentMode: 'spot', // 'spot' | 'stocks' | 'margin' | 'bot'
+      currentSymbol: 'BTC/USDT',
+      currentPrice: 85450.90,
+
+      // Hàm chuyển chế độ sàn đồng bộ
+      switchMode: function(mode) {
+        this.currentMode = mode;
+        console.log("⚡ ApexCore Terminal Mode Switched to:", mode);
+
+        // 1. Đồng bộ trạng thái Active trên tất cả các thanh tab
+        document.querySelectorAll('[data-mode]').forEach(el => {
+          if (el.getAttribute('data-mode') === mode) {
+            el.classList.add('active');
+            el.style.background = '#FCD535';
+            el.style.color = '#0B0E11';
+            el.style.fontWeight = '700';
+          } else {
+            el.classList.remove('active');
+            el.style.background = 'transparent';
+            el.style.color = '#848E9C';
+            el.style.fontWeight = '500';
+          }
+        });
+
+        // 2. Đồng bộ danh sách mã giao dịch bên phải
+        const filterCat = (mode === 'stocks') ? 'stocks' : 'crypto';
+        const filterTab = document.querySelector(`.mcat-btn[data-cat="${filterCat}"]`);
+        if (filterTab) filterTab.click();
+
+        // 3. Cập nhật Form đặt lệnh tương ứng
+        const marginSlider = document.getElementById('marginLeverageSlider');
+        const botGridConfig = document.getElementById('botGridConfig');
+        const levBadge = document.getElementById('cockpitLeverageBadge');
+
+        if (mode === 'margin') {
+          if (marginSlider) marginSlider.style.display = 'flex';
+          if (botGridConfig) botGridConfig.style.display = 'none';
+          if (levBadge) levBadge.style.display = 'inline-flex';
+        } else if (mode === 'bot') {
+          if (marginSlider) marginSlider.style.display = 'none';
+          if (botGridConfig) botGridConfig.style.display = 'block';
+          if (levBadge) levBadge.style.display = 'none';
+        } else {
+          if (marginSlider) marginSlider.style.display = 'none';
+          if (botGridConfig) botGridConfig.style.display = 'none';
+          if (levBadge) levBadge.style.display = 'none';
+        }
+
+        // Tự động chọn mã đại diện nếu cần
+        if (mode === 'stocks') {
+          if (!this.currentSymbol.includes('FPT') && !this.currentSymbol.includes('AAPL')) {
+            this.selectSymbol('FPT/VND', 135200);
+          }
+        } else if (mode === 'spot' && this.currentSymbol.includes('FPT')) {
+          this.selectSymbol('BTC/USDT', 85450.90);
+        }
+
+        if (window.HeaderController) {
+          window.HeaderController.toast(`⚡ Chế độ: ${mode.toUpperCase()} đã đồng bộ`);
+        }
+      },
+
+      // Hàm chuyển cặp tiền giao dịch
+      selectSymbol: function(symbol, price) {
+        this.currentSymbol = symbol;
+        this.currentPrice = price;
+
+        const tickerName = document.getElementById('txt-active-pair');
+        const tickerPrice = document.getElementById('txt-header-price');
+        if (tickerName) tickerName.innerText = symbol;
+        if (tickerPrice) {
+          tickerPrice.innerText = symbol.includes('VND') 
+            ? price.toLocaleString('vi-VN') + ' ₫' 
+            : '$' + price.toLocaleString('en-US', { minimumFractionDigits: 2 });
+        }
+
+        const buyPriceInput = document.getElementById('buyPriceInput');
+        const sellPriceInput = document.getElementById('sellPriceInput');
+        if (buyPriceInput) buyPriceInput.value = price;
+        if (sellPriceInput) sellPriceInput.value = price;
+
+        const baseUnit = symbol.split('/')[0];
+        const quoteUnit = symbol.split('/')[1];
+        document.querySelectorAll('.val-quote-unit').forEach(el => el.textContent = quoteUnit);
+        document.querySelectorAll('.val-base-unit').forEach(el => el.textContent = baseUnit);
+
+        const btnBuy = document.querySelector('.btn-action-buy');
+        const btnSell = document.querySelector('.btn-action-sell');
+        if (btnBuy) btnBuy.textContent = `MUA ${baseUnit}`;
+        if (btnSell) btnSell.textContent = `BÁN ${baseUnit}`;
+
+        if (window.ChartEngine) {
+          window.ChartEngine.symbol = symbol;
+          window.ChartEngine.setPrice(price, true);
+        }
+        if (window.OrderBook) {
+          window.OrderBook.updatePrice(price);
+        }
+      }
+    };
+
+    // Hàm điều khiển loại lệnh Pro
+    function setOrderType(type) {
+      document.querySelectorAll('.order-type-tabs .ot-btn').forEach(btn => btn.classList.remove('active'));
+      if (window.event && window.event.target) {
+        window.event.target.classList.add('active');
+      }
+      if (window.HeaderController) {
+        window.HeaderController.toast(`Loại lệnh: ${type.toUpperCase()}`);
+      }
+    }
+
+    // Hàm chọn nhanh % vốn Pro
+    function applyPercent(side, pct) {
+      const price = parseFloat(document.getElementById(side === 'buy' ? 'buyPriceInput' : 'sellPriceInput')?.value) || window.ApexTerminal.currentPrice;
+      if (side === 'buy') {
+        const avail = 12458.32;
+        const amount = ((avail * (pct / 100)) / price);
+        const inp = document.getElementById('buyAmountInput');
+        if (inp) inp.value = amount > 0 ? amount.toFixed(4) : '0.00';
+      } else {
+        const avail = 0.8540;
+        const amount = (avail * (pct / 100));
+        const inp = document.getElementById('sellAmountInput');
+        if (inp) inp.value = amount > 0 ? amount.toFixed(4) : '0.00';
+      }
+    }
+
+    // Hàm đặt lệnh Pro
+    function executeProOrder(side) {
+      const p = parseFloat(document.getElementById(side === 'BUY' ? 'buyPriceInput' : 'sellPriceInput')?.value) || window.ApexTerminal.currentPrice;
+      const a = parseFloat(document.getElementById(side === 'BUY' ? 'buyAmountInput' : 'sellAmountInput')?.value);
+      if (!a || a <= 0) {
+        if (window.HeaderController) window.HeaderController.toast('⚠️ Vui lòng nhập số lượng hợp lệ!');
+        return;
+      }
+      const base = window.ApexTerminal.currentSymbol.split('/')[0];
+      if (window.OrderBook) {
+        window.OrderBook.pushTrade(p, side === 'BUY', a);
+      }
+      if (window.HeaderController) {
+        window.HeaderController.toast(`✅ Khớp lệnh Pro: ${side} ${a} ${base} @ $${p.toLocaleString('en-US')}`);
+      }
+      const amtInp = document.getElementById(side === 'BUY' ? 'buyAmountInput' : 'sellAmountInput');
+      if (amtInp) amtInp.value = '';
+    }
+
+    // Điều chỉnh đòn bẩy Margin
+    function setLeverage(lev) {
+      const txt = document.getElementById('currentLeverageTxt');
+      if (txt) txt.textContent = lev + 'x';
+      document.querySelectorAll('#marginLeverageSlider .pct-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.trim() === (lev + 'x'));
+      });
+      if (window.HeaderController) {
+        window.HeaderController.toast(`⚖️ Đòn bẩy đã chọn: ${lev}x`);
+      }
+    }
+
+    // Lọc danh mục thị trường
+    function setMarketCat(btn, cat) {
+      document.querySelectorAll('.mcat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      if (window.TerminalEngine) window.TerminalEngine.renderMarketList(cat);
+    }
+
+    // Chuyển tab phân tích
+    function switchAnalysisTab(btn, tab) {
+      document.querySelectorAll('.atab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const pane = document.getElementById('analysis-content-pane');
+      if (!pane) return;
+      const texts = {
+        info: 'Mã niêm yết chuẩn định chế tài chính toàn cầu. Hỗ trợ thanh toán nhanh bằng USDT hoặc VND VietQR. Khối lượng lưu thông tự do.',
+        data: 'Dòng tiền tổ chức ròng 24h: +14.2M USD. Tỷ lệ ký quỹ duy trì: 105%. Không ghi nhận thanh lý cưỡng bức trong 48 giờ qua.',
+        audit: 'Trạng thái kiểm định AI: An toàn tuyệt đối 100/100. Mã hợp đồng và ví lạnh Reserve SAFU được kiểm toán liên tục thời gian thực.',
+        earn: 'Gói gửi tiết kiệm linh hoạt: Lãi suất 8.5% APY cho USDT, 2.8% APY cho BTC. Rút gốc và lãi tức thời 24/7.'
+      };
+      pane.textContent = texts[tab] || texts.info;
+    }
+  </script>
+</body>
+</html>

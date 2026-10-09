@@ -1,0 +1,72 @@
+<!-- ========================================================
+     APEXCORE COMPONENT: Order Book Depth (L2) & Recent Trades
+     Asks (Red) / Mid Price / Bids (Green) / Live Match Ticker
+     ======================================================== -->
+<section class="orderbook-panel glass-card">
+  <!-- Orderbook Header & Tab Toggle -->
+  <div class="orderbook-header">
+    <div class="orderbook-tab-row">
+      <button class="ob-tab-btn active" id="tab-btn-orderbook">Sổ lệnh</button>
+      <button class="ob-tab-btn" id="tab-btn-trades">Giao dịch gần nhất</button>
+    </div>
+    
+    <!-- Precision selector -->
+    <div class="ob-precision-selector">
+      <span class="precision-val">0.01</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+  </div>
+
+  <!-- ORDERBOOK VIEW -->
+  <div class="orderbook-view-content" id="orderbook-table-container">
+    <div class="ob-table-header">
+      <span class="ob-col col-price">Giá (USDT)</span>
+      <span class="ob-col col-amount text-right">Số lượng (BTC)</span>
+      <span class="ob-col col-total text-right">Tổng (USDT)</span>
+    </div>
+
+    <!-- Red Asks (Sell Orders) List -->
+    <div class="ob-asks-list" id="ob-asks-container">
+      <div class="ob-row ask-row"><span class="price-danger num-tabular">68,445.21</span><span class="num-tabular text-right">0.5321</span><span class="num-tabular text-right">36,452.32</span><div class="depth-bar ask-depth" style="width: 48%;"></div></div>
+      <div class="ob-row ask-row"><span class="price-danger num-tabular">68,442.75</span><span class="num-tabular text-right">0.4210</span><span class="num-tabular text-right">28,650.18</span><div class="depth-bar ask-depth" style="width: 38%;"></div></div>
+      <div class="ob-row ask-row"><span class="price-danger num-tabular">68,438.30</span><span class="num-tabular text-right">0.3120</span><span class="num-tabular text-right">21,368.44</span><div class="depth-bar ask-depth" style="width: 29%;"></div></div>
+      <div class="ob-row ask-row"><span class="price-danger num-tabular">68,435.76</span><span class="num-tabular text-right">0.2847</span><span class="num-tabular text-right">19,483.12</span><div class="depth-bar ask-depth" style="width: 26%;"></div></div>
+      <div class="ob-row ask-row"><span class="price-danger num-tabular">68,433.89</span><span class="num-tabular text-right">0.2163</span><span class="num-tabular text-right">12,062.47</span><div class="depth-bar ask-depth" style="width: 20%;"></div></div>
+    </div>
+
+    <!-- Center Market Spread & Last Price -->
+    <div class="ob-mid-market-strip">
+      <div class="mid-price-display">
+        <span class="current-price-num num-tabular" id="ob-mid-price">68,432.12</span>
+        <svg class="price-dir-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+      </div>
+      <span class="spread-indicator text-contrast-sub">Spread: 0.01</span>
+    </div>
+
+    <!-- Green Bids (Buy Orders) List -->
+    <div class="ob-bids-list" id="ob-bids-container">
+      <div class="ob-row bid-row"><span class="price-success num-tabular">68,431.00</span><span class="num-tabular text-right">0.4217</span><span class="num-tabular text-right">28,900.24</span><div class="depth-bar bid-depth" style="width: 40%;"></div></div>
+      <div class="ob-row bid-row"><span class="price-success num-tabular">68,428.32</span><span class="num-tabular text-right">0.6532</span><span class="num-tabular text-right">44,741.16</span><div class="depth-bar bid-depth" style="width: 61%;"></div></div>
+      <div class="ob-row bid-row"><span class="price-success num-tabular">68,425.17</span><span class="num-tabular text-right">0.7810</span><span class="num-tabular text-right">53,482.79</span><div class="depth-bar bid-depth" style="width: 72%;"></div></div>
+      <div class="ob-row bid-row"><span class="price-success num-tabular">68,420.38</span><span class="num-tabular text-right">1.0247</span><span class="num-tabular text-right">70,134.38</span><div class="depth-bar bid-depth" style="width: 95%;"></div></div>
+      <div class="ob-row bid-row"><span class="price-success num-tabular">68,417.26</span><span class="num-tabular text-right">1.5620</span><span class="num-tabular text-right">106,692.11</span><div class="depth-bar bid-depth" style="width: 100%;"></div></div>
+    </div>
+  </div>
+
+  <!-- RECENT TRADES VIEW (Hidden by default, switched via tab) -->
+  <div class="recent-trades-view-content" id="recent-trades-container" style="display: none;">
+    <div class="ob-table-header">
+      <span class="ob-col">Thời gian</span>
+      <span class="ob-col text-center">Loại</span>
+      <span class="ob-col text-right">Giá</span>
+      <span class="ob-col text-right">Số lượng</span>
+    </div>
+    <div class="trades-list" id="trades-ticker-list">
+      <div class="trade-row"><span class="text-contrast-sub num-tabular">14:32:12</span><span class="badge-trade-buy">Mua</span><span class="price-success num-tabular">68,432.12</span><span class="num-tabular text-right">0.0214</span></div>
+      <div class="trade-row"><span class="text-contrast-sub num-tabular">14:20:45</span><span class="badge-trade-sell">Bán</span><span class="price-danger num-tabular">68,440.75</span><span class="num-tabular text-right">0.1532</span></div>
+      <div class="trade-row"><span class="text-contrast-sub num-tabular">13:50:22</span><span class="badge-trade-buy">Mua</span><span class="price-success num-tabular">68,428.30</span><span class="num-tabular text-right">0.4210</span></div>
+      <div class="trade-row"><span class="text-contrast-sub num-tabular">12:34:17</span><span class="badge-trade-sell">Bán</span><span class="price-danger num-tabular">68,420.38</span><span class="num-tabular text-right">0.1256</span></div>
+      <div class="trade-row"><span class="text-contrast-sub num-tabular">11:22:03</span><span class="badge-trade-buy">Mua</span><span class="price-success num-tabular">68,417.26</span><span class="num-tabular text-right">0.7842</span></div>
+    </div>
+  </div>
+</section>

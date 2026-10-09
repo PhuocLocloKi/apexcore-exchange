@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>APEXCORE PRO — Sàn Giao Dịch Đa Tài Sản Đẳng Cấp Thế Giới</title>
+  <meta name="description" content="APEXCORE PRO EXCHANGE — Nền tảng giao dịch tài sản số, chứng khoán và ngoại hối thế hệ mới do Founder Nguyễn Phước Lộc sáng lập. Tốc độ cao, tối giản, thanh khoản sâu.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 95'><path d='M24 35C14 26 6 12 12 3C19 12 28 22 36 29L24 35Z' fill='%23fcd535'/><path d='M76 35C86 26 94 12 88 3C81 12 72 22 64 29L76 35Z' fill='%23fcd535'/><path d='M30 28L50 18L70 28L65 48L50 56L35 48L30 28Z' fill='%23181a20' stroke='%23fcd535' stroke-width='2'/></svg>">
+
+  <!-- Core Design Tokens & Styles (V14.0 Modular) -->
+  <link rel="stylesheet" href="assets/css/header.css?v=14.0">
+  <link rel="stylesheet" href="assets/css/seals.css?v=14.0">
+  <link rel="stylesheet" href="css/theme.css?v=20261008_binance_pro">
+  <link rel="stylesheet" href="css/layout.css?v=20261008_binance_pro">
+  
+  <style id="binance-pro-header-styles">
+    /* KHÓA CHẶT KÍCH THƯỚC MỌI SVG - KHÔNG BAO GIỜ BỊ PHÓNG TO */
+    svg { max-width: 100%; max-height: 100%; }
+    .icon-coin { width: 24px !important; height: 24px !important; min-width: 24px !important; min-height: 24px !important; max-width: 24px !important; max-height: 24px !important; display: inline-block !important; flex-shrink: 0 !important; }
+    .icon-social { width: 20px !important; height: 20px !important; min-width: 20px !important; min-height: 20px !important; max-width: 20px !important; max-height: 20px !important; display: inline-block !important; flex-shrink: 0 !important; }
+
+    /* ========================================================
+       BINANCE PRO ULTRA-CLEAN BALANCED HEADER (FORCED INLINE 100%)
+       ======================================================== */
+    .apex-header, .terminal-header {
+      height: 64px !important;
+      background: #181a20 !important;
+      background-color: #181a20 !important;
+      border-bottom: 1px solid #2b313a !important;
+      padding: 0 24px !important;
+      display: flex !important;
+      align-items: center !important;
+      box-shadow: none !important;
+    }
+
+    .header-container {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      width: 100% !important;
+      max-width: 1920px !important;
+      margin: 0 auto !important;
+    }
+
+    /* 1. Nav links: HOÀN TOÀN TRONG SUỐT, KHÔNG HỘP ĐEN */
+    .nav-links, .header-nav-links {
+      display: flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+    }
+
+    .nav-item, .header-nav-link {
+      color: #848e9c !important;
+      background: transparent !important;
+      background-color: transparent !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      padding: 6px 12px !important;
+      border-radius: 4px !important;
+      transition: color 0.15s ease !important;
+      text-decoration: none !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+    }
+
+    .nav-item:hover, .header-nav-link:hover {
+      color: #eaecef !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+      background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .nav-item.active, .header-nav-link.active, #nav-home.active {
+      color: #fcd535 !important;
+      font-weight: 600 !important;
+      background: transparent !important;
+      background-color: transparent !important;
+    }
+
+    /* 2. Header right actions: HÀNG NGANG CÂN ĐỐI 100% */
+    .header-actions, .terminal-header-right {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+    }
+
+    /* 3. BỘ ICON: HOÀN TOÀN KHÔNG KHUNG VIỀN (FRAMELESS) */
+    .icon-btn-header,
+    .theme-toggle-btn,
+    .lang-switcher,
+    button.icon-btn-header,
+    button.theme-toggle-btn,
+    button.lang-switcher {
+      background: transparent !important;
+      background-color: transparent !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      color: #848e9c !important;
+      cursor: pointer !important;
+      padding: 6px !important;
+      margin: 0 !important;
+      min-width: 32px !important;
+      height: 32px !important;
+      border-radius: 4px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: all 0.15s ease !important;
+    }
+
+    .icon-btn-header:hover,
+    .theme-toggle-btn:hover,
+    .lang-switcher:hover {
+      color: #eaecef !important;
+      background: rgba(255, 255, 255, 0.08) !important;
+      background-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    /* 4. NÚT DEPOSIT VÀNG CHUẨN BINANCE PRO */
+    .btn-deposit-yellow,
+    .btn-deposit-gold,
+    button.btn-deposit-yellow,
+    button.btn-deposit-gold {
+      background: #fcd535 !important;
+      background-color: #fcd535 !important;
+      color: #000000 !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      font-size: 13px !important;
+      font-weight: 700 !important;
+      border-radius: 4px !important;
+      padding: 6px 14px !important;
+      height: 32px !important;
+      cursor: pointer !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      transition: all 0.15s ease !important;
+      white-space: nowrap !important;
+    }
+
+    .btn-deposit-yellow:hover,
+    .btn-deposit-gold:hover {
+      background: #f0b90b !important;
+      background-color: #f0b90b !important;
+      color: #000000 !important;
+      transform: translateY(-1px);
+    }
+
+    .btn-deposit-yellow svg,
+    .btn-deposit-gold svg {
+      stroke: #000000 !important;
+    }
+
+    /* 5. THẺ USER PROFILE: PHẲNG, BO TRÒN TINH TẾ */
+    .user-profile-chip,
+    .user-header-chip {
+      background: transparent !important;
+      background-color: transparent !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+      padding: 2px 6px !important;
+      border-radius: 4px !important;
+      height: 32px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      cursor: pointer !important;
+      transition: all 0.15s ease !important;
+    }
+
+    .user-profile-chip:hover,
+    .user-header-chip:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+      background-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .user-avatar-circle {
+      width: 24px !important;
+      height: 24px !important;
+      border-radius: 50% !important;
+      background: #fcd535 !important;
+      color: #000000 !important;
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    .user-chip-name {
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      color: #eaecef !important;
+    }
+
+    .user-chip-role {
+      font-size: 9px !important;
+      font-weight: 700 !important;
+      color: #fcd535 !important;
+    }
+
+    /* CSS CHO HỘP THOẠI DROPDOWN PROFILE CHUẨN ẢNH 2 */
+    .user-profile-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 0;
+      cursor: pointer;
+    }
+    .profile-dropdown-box {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 260px;
+      background: #181c24;
+      border: 1px solid #2b313a;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      display: none;
+      z-index: 99999;
+    }
+    .user-profile-wrapper:hover .profile-dropdown-box {
+      display: block;
+      animation: fadeInDown 0.2s ease-out;
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .profile-pill {
+      font-size: 11px;
+      font-weight: 600;
+      color: #848e9c;
+      background: #202630;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    .verified-pill {
+      color: #0ecb81;
+      background: rgba(14, 203, 129, 0.12);
+      border: 1px solid rgba(14, 203, 129, 0.3);
+    }
+    .profile-menu-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .profile-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #eaecef;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .profile-menu-item:hover {
+      background: #202630;
+      color: #FCD535;
+    }
+    .logout-item:hover {
+      color: #f6465d;
+    }
+
+    /* NÚT TRUY CẬP BUỒNG LÁI SANG TRỌNG ĐẲNG CẤP (METALLIC SHEEN & SLIDE ARROW) */
+    .btn-cockpit-gold {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .btn-cockpit-gold::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: all 0.6s ease;
+    }
+
+    .btn-cockpit-gold:hover::after {
+      left: 100%;
+    }
+
+    .btn-cockpit-gold:hover .cockpit-arrow {
+      transform: translateX(4px) !important;
+    }
+
+    /* CSS BRAND-BOX KHÔNG CÒN CHỮ PRO & KHÔNG CÒN DÒNG FOUNDER */
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      cursor: pointer;
+      user-select: none;
+      padding: 4px 8px;
+      border-radius: 10px;
+      transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+    }
+    .brand-box:hover {
+      background: rgba(252, 213, 53, 0.05);
+    }
+    .logo-wrapper {
+      position: relative;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 9px;
+      background: radial-gradient(circle, rgba(252, 213, 53, 0.15) 0%, rgba(11, 14, 17, 0.8) 100%);
+      border: 1px solid rgba(252, 213, 53, 0.35);
+      box-shadow: 0 0 12px rgba(252, 213, 53, 0.25), inset 0 0 6px rgba(252, 213, 53, 0.15);
+    }
+    .brand-logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease, filter 0.35s ease;
+      filter: drop-shadow(0 0 6px rgba(252, 213, 53, 0.4));
+    }
+    .brand-box:hover .brand-logo-img {
+      transform: scale(1.08) rotate(4deg);
+      filter: drop-shadow(0 0 14px rgba(252, 213, 53, 0.85));
+    }
+    /* Ánh sáng quét chéo qua logo */
+    .logo-shimmer-sweep {
+      position: absolute;
+      top: -50%;
+      left: -120%;
+      width: 60%;
+      height: 200%;
+      background: linear-gradient(
+        60deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 100%
+      );
+      transform: rotate(25deg);
+      pointer-events: none;
+      animation: logoShimmerSweep 5s infinite ease-in-out;
+    }
+    @keyframes logoShimmerSweep {
+      0% { left: -120%; }
+      25% { left: 160%; }
+      100% { left: 160%; }
+    }
+    /* Chữ APEXCORE Tối Giản & Đẳng Cấp */
+    .brand-text {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 20px;
+      font-weight: 850;
+      letter-spacing: 1.2px;
+      color: #FFFFFF;
+      text-shadow: 0 0 12px rgba(252, 213, 53, 0.35);
+      transition: color 0.25s ease, text-shadow 0.25s ease;
+    }
+    .brand-box:hover .brand-text {
+      color: #FCD535;
+      text-shadow: 0 0 18px rgba(252, 213, 53, 0.65);
+    }
+  </style>
+
+  <!-- Script Favicon Động: Ánh sáng vàng lấp lánh nhẹ nhàng trên Tab trình duyệt -->
+  <script>
+  (function initDynamicFavicon() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 32;
+    canvas.height = 32;
+    const ctx = canvas.getContext('2d');
+    
+    let faviconLink = document.querySelector("link[rel*='icon']");
+    if (!faviconLink) {
+      faviconLink = document.createElement('link');
+      faviconLink.rel = 'shortcut icon';
+      document.getElementsByTagName('head')[0].appendChild(faviconLink);
+    }
+    const img = new Image();
+    img.src = '/assets/images/logo.jpg';
+    img.onerror = () => { img.src = 'assets/images/logo.jpg'; };
+    img.onload = () => {
+      let frame = 0;
+      function renderFavicon() {
+        ctx.clearRect(0, 0, 32, 32);
+        
+        // Vẽ ảnh logo
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(16, 16, 15, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(img, 0, 0, 32, 32);
+        ctx.restore();
+        // Hiệu ứng vành hào quang vàng thở nhịp nhàng
+        const pulse = (Math.sin(frame * 0.05) + 1) / 2; // Dao động 0 -> 1
+        ctx.strokeStyle = `rgba(252, 213, 53, ${0.3 + pulse * 0.65})`;
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.arc(16, 16, 14.5, 0, Math.PI * 2);
+        ctx.stroke();
+        faviconLink.href = canvas.toDataURL('image/png');
+        frame++;
+        requestAnimationFrame(() => {
+          setTimeout(renderFavicon, 120); // 8 FPS mượt mà và nhẹ nhàng cho CPU
+        });
+      }
+      renderFavicon();
+    };
+  })();
+  </script>
+
+  <!-- SDK Google Identity Services chính thức -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div class="app-wrapper">
+    <!-- ========================================================
+         HEADER NAVBAR (BINANCE PRO MINIMALIST STYLE)
+         ======================================================== -->
+    <header class="apex-header">
+      <div class="header-container">
+        <!-- ================= APEXCORE SOVEREIGN CLEAN BRAND (V17.0 BỎ VIỀN 100%) ================= -->
+        <div class="brand-sovereign-clean" onclick="location.href='index.html'" title="ApexCore Sovereign Exchange">
+          <img src="/assets/images/logo.jpg" alt="ApexCore Logo" class="star-logo-noborder" onerror="this.src='assets/images/logo.jpg'">
+          <span class="brand-text-clean">APEXCORE</span>
+        </div>
+
+        <!-- Primary Navigation with Mega Dropdowns -->
+        <nav class="nav-links">
+          <a href="#/home" class="nav-item" data-tab="home" id="nav-home">Trang chủ</a>
+          <a href="trade.html?mode=spot" class="nav-item" id="nav-buycrypto">Mua Crypto</a>
+          <a href="#/markets" class="nav-item" data-tab="markets" id="nav-markets">Thị trường</a>
+
+          <!-- 1. TRADE ▾ (HỘP 2 CỘT VỚI BỘ ICON VECTOR KIM HOÀN THUẦN SVG) -->
+          <div class="nav-dropdown-item">
+            <a href="trade.html" class="nav-item active" data-tab="trade">
+              Trade <span class="nav-caret">▼</span>
+            </a>
+            <div class="mega-dropdown-menu" style="left: -20px; width: 540px;">
+              <div class="mega-grid-2col">
+                <div class="mega-col">
+                  <div class="mega-col-title">Giao Dịch Cốt Lõi</div>
+                  <!-- Spot: Hai thanh nến song song cắt góc vàng kim -->
+                  <a href="trade.html?mode=spot" class="mega-menu-link">
+                    <span class="mega-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <line x1="7" y1="2" x2="7" y2="22" stroke="#FCD535" stroke-width="1.8" stroke-linecap="round"/>
+                        <rect x="4.5" y="6" width="5" height="10" rx="1.5" fill="#FCD535"/>
+                        <line x1="17" y1="3" x2="17" y2="21" stroke="#0ECB81" stroke-width="1.8" stroke-linecap="round"/>
+                        <rect x="14.5" y="8" width="5" height="7" rx="1.5" fill="#0ECB81"/>
+                      </svg>
+                    </span>
+                    <div class="mega-text">
+                      <div class="mega-name">Spot (Giao dịch giao ngay)</div>
+                      <div class="mega-desc">Khớp lệnh tức thì tốc độ cao</div>
+                    </div>
+                  </a>
+
+                  <!-- Stocks: Biểu đồ tăng trưởng dốc đứng + token coin -->
+                  <a href="trade.html?mode=stocks&pair=FPT/VND" class="mega-menu-link">
+                    <span class="mega-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 19h18" stroke="#848E9C" stroke-width="1.8" stroke-linecap="round"/>
+                        <path d="M4 15l5-6 4 3 6-8" stroke="#FCD535" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <polyline points="15 4 19 4 19 8" stroke="#FCD535" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="13" cy="12" r="2.5" fill="#FCD535"/>
+                      </svg>
+                    </span>
+                    <div class="mega-text">
+                      <div class="mega-name">Stocks <span class="badge-mini badge-new">New</span></div>
+                      <div class="mega-desc">Chứng khoán token hóa (FPT, AAPL)</div>
+                    </div>
+                  </a>
+
+                  <!-- Margin: Cán cân tài chính hợp kim giác cạnh -->
+                  <a href="trade.html?mode=margin" class="mega-menu-link">
+                    <span class="mega-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <line x1="12" y1="3" x2="12" y2="21" stroke="#FCD535" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="8" y1="21" x2="16" y2="21" stroke="#FCD535" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="4" y1="7" x2="20" y2="7" stroke="#FCD535" stroke-width="1.8" stroke-linecap="round"/>
+                        <path d="M4 7l-2 5h8l-2-5" stroke="#FCD535" stroke-width="1.5" stroke-linejoin="round"/>
+                        <path d="M16 7l-2 7h8l-2-7" stroke="#FCD535" stroke-width="1.5" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                    <div class="mega-text">
+                      <div class="mega-name">Margin (Đòn bẩy 3x - 20x)</div>
+                      <div class="mega-desc">Tăng lợi nhuận với đòn bẩy linh hoạt</div>
+                    </div>
+                  </a>
+
+                  <!-- P2P Express: Hai bàn tay công nghệ bắt chéo chuyển tiền -->
+                  <a href="#/wallet" class="mega-menu-link" onclick="window.ApexApp?.openVietQR()">
+                    <span class="mega-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M17 3l4 4-4 4" stroke="#FCD535" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M3 7h18" stroke="#FCD535" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M7 21l-4-4 4-4" stroke="#0ECB81" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M21 17H3" stroke="#0ECB81" stroke-width="2" stroke-linecap="round"/>
+                        <circle cx="12" cy="12" r="2.5" stroke="#FCD535" stroke-width="1.5"/>
+                      </svg>
+                    </span>
+                    <div class="mega-text">
+                      <div class="mega-name">P2P Express</div>
+                      <div class="mega-desc">Mua bán qua ngân hàng 0% phí</div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="mega-col">
+                  <div class="mega-col-title">Công Nghệ Định Chế</div>
+                  <!-- DEX: Mạng lưới nguyên tử 3 nút phi tập trung -->
+                  <a href="trade.html?mode=spot" class="mega-menu-link">
+                    <span class="mega-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <circle cx="12" cy="4" r="2.5" fill="#FCD535"/>
+                        <circle cx="4" cy="18" r="2.5" fill="#FCD535"/>
+                        <circle cx="20" cy="18" r="2.5" fill="#FCD535"/>
+                        <line x1="12" y1="6.5" x2="5.5" y2="16" stroke="#FCD535" stroke-width="1.5" stroke-dasharray="2 2"/>
+                        <line x1="12" y1="6.5" x2="18.5" y2="16" stroke="#FCD535" stroke-width="1.5" stroke-dasharray="2 2"/>
+                        <line x1="6.5" y1="18" x2="17.5" y2="18" stroke="#FCD535" stroke-width="1.5"/>
+                      </svg>
+                    </span>
+                    <div class="mega-text">
+                      <div class="mega-name">DEX <span class="badge-mini badge-beta">Beta</span></div>
+                      <div class="mega-desc">Hoán đổi Web3 phi tập trung</div>
+                    </div>
+                  </a>
+
+                  <!-- Trading Bots: Chip xử lý thuật toán AI với mắt laser vàng -->
+                  <a href="trade.html?mode=bot" class="mega-menu-link">
+                    <span class="mega-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <rect x="5" y="5" width="14" height="14" rx="3" stroke="#FCD535" stroke-width="1.8"/>
+                        <line x1="9" y1="1" x2="9" y2="5" stroke="#FCD535" stroke-width="1.5"/>
+                        <line x1="15" y1="1" x2="15" y2="5" stroke="#FCD535" stroke-width="1.5"/>
+                        <line x1="9" y1="19" x2="9" y2="23" stroke="#FCD535" stroke-width="1.5"/>
+                        <line x1="15" y1="19" x2="15" y2="23" stroke="#FCD535" stroke-width="1.5"/>
+                        <line x1="1" y1="9" x2="5" y2="9" stroke="#FCD535" stroke-width="1.5"/>
+                        <line x1="1" y1="15" x2="5" y2="15" stroke="#FCD535" stroke-width="1.5"/>
+                        <line x1="19" y1="9" x2="23" y2="9" stroke="#FCD535" stroke-width="1.5"/>
+                        <line x1="19" y1="15" x2="23" y2="15" stroke="#FCD535" stroke-width="1.5"/>
+                        <circle cx="12" cy="12" r="3" fill="#FCD535"/>
+                        <circle cx="12" cy="12" r="1" fill="#181C24"/>
+                      </svg>
+                    </span>
+                    <div class="mega-text">
+                      <div class="mega-name">Trading Bots</div>
+                      <div class="mega-desc">Lưới giao dịch Grid MM tự động</div>
+                    </div>
+                  </a>
+
+                  <!-- Copy Trading: Hai bóng nhân vật dẫn dắt giao dịch song hành -->
+                  <a href="trade.html?mode=spot" class="mega-menu-link">
+                    <span class="mega-icon">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <circle cx="9" cy="7" r="3.5" stroke="#FCD535" stroke-width="1.8"/>
+                        <path d="M2 19c0-3.5 3.1-6 7-6s7 2.5 7 6" stroke="#FCD535" stroke-width="1.8" stroke-linecap="round"/>
+                        <circle cx="18" cy="8" r="2.5" stroke="#0ECB81" stroke-width="1.5"/>
+                        <path d="M14.5 18c.5-2.2 2.3-3.8 4.5-3.8 1.8 0 3.3 1 4 2.5" stroke="#0ECB81" stroke-width="1.5" stroke-linecap="round"/>
+                      </svg>
+                    </span>
+                    <div class="mega-text">
+                      <div class="mega-name">Copy Trading</div>
+                      <div class="mega-desc">Sao chép chuyên gia hàng đầu</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. FUTURES ▾ -->
+          <div class="nav-dropdown-item">
+            <a href="#/futures" class="nav-item" data-tab="futures">
+              Futures <span class="nav-caret">▼</span>
+            </a>
+            <div class="mega-dropdown-menu" style="left: -10px; width: 320px;">
+              <div class="mega-col">
+                <a href="#/futures" class="mega-menu-link">
+                  <span class="mega-icon">🚀</span>
+                  <div class="mega-text">
+                    <div class="mega-name">USDⓈ-M Futures</div>
+                    <div class="mega-desc">Thanh toán bằng USDT, đòn bẩy x100</div>
+                  </div>
+                </a>
+                <a href="#/futures" class="mega-menu-link">
+                  <span class="mega-icon">🪙</span>
+                  <div class="mega-text">
+                    <div class="mega-name">COIN-M Futures</div>
+                    <div class="mega-desc">Ký quỹ bằng tiền mã hóa</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. EARN ▾ -->
+          <div class="nav-dropdown-item">
+            <a href="#/earn" class="nav-item" data-tab="earn">
+              Earn <span class="nav-caret">▼</span>
+            </a>
+            <div class="mega-dropdown-menu" style="left: -10px; width: 320px;">
+              <div class="mega-col">
+                <a href="#/earn" class="mega-menu-link">
+                  <span class="mega-icon">💰</span>
+                  <div class="mega-text">
+                    <div class="mega-name">Simple Earn</div>
+                    <div class="mega-desc">Lãi suất gửi tiết kiệm hàng ngày</div>
+                  </div>
+                </a>
+                <a href="#/earn" class="mega-menu-link">
+                  <span class="mega-icon">🔒</span>
+                  <div class="mega-text">
+                    <div class="mega-name">Staking Cố Định</div>
+                    <div class="mega-desc">Lợi suất cao lên đến 18.2% APY</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <a href="#/square" class="nav-item" data-tab="square">Square</a>
+          <a href="#/wallet" class="nav-item" data-tab="wallet">Ví tiền (Wallet)</a>
+        </nav>
+
+        <!-- 3. BÊN PHẢI: DÀN TOOLBAR ĐỘC QUYỀN QUỐC GIA (8 NÚT TINH HOA - ẢNH 4 & DROPDOWN ẢNH 2) -->
+        <div class="hdr-right-toolbar" style="display: flex; align-items: center; gap: 14px; position: relative; white-space: nowrap;">
+          <!-- 1. TÌM KIẾM -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#848e9c" stroke-width="1.8" style="cursor: pointer;" onclick="document.getElementById('market-search-box')?.focus()" title="Tìm kiếm coin"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          
+          <!-- 2. NÚT DEPOSIT VÀNG -->
+          <button onclick="window.ApexApp ? window.ApexApp.openVietQR() : alert('Nạp On-chain Crypto hoặc VietQR MB Bank - NGUYEN PHUOC LOC')" style="background: linear-gradient(135deg, #FCD535, #E5A800); color: #000; border: none; font-weight: 800; font-size: 12px; padding: 6px 14px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 0 10px rgba(252, 213, 53, 0.3);" title="Nạp Tiền">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
+            Deposit
+          </button>
+          
+          <!-- 3. KHỐI ICON NGƯỜI DÙNG & PROFILE DROPDOWN (RÊ CHUỘT TỰ ĐỘNG XỔ XUỐNG - ẢNH 2) -->
+          <div class="user-profile-wrapper" style="position: relative; padding: 8px 0; cursor: pointer;">
+            <!-- Icon Người Dùng Viền Vàng Hoàng Gia -->
+            <div style="width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #FCD535; display: flex; align-items: center; justify-content: center; background: #1e232d;" title="Hồ Sơ NguyenPhuocLoc (UID: 1107519625)">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FCD535" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+            </div>
+            
+            <!-- HỘP THOẠI DROPDOWN PROFILE CHUẨN ẢNH 2 -->
+            <div class="profile-dropdown-box">
+              <!-- Header Profile -->
+              <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                <img src="assets/images/logo.jpg" alt="NguyenPhuocLoc" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1px solid #FCD535;" onerror="this.onerror=null; this.src='assets/bull_logo.jpg';">
+                <div>
+                  <div style="font-size: 15px; font-weight: 800; color: #ffffff;">NguyenPhuocLoc</div>
+                  <div style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #848e9c; margin-top: 2px;">
+                    <span>ID: 1107519625</span>
+                    <span onclick="copyUID()" style="cursor: pointer; color: #FCD535; font-size: 13px;" title="Sao chép UID">⧉</span>
+                  </div>
+                </div>
+              </div>
+              <!-- 3 Huy hiệu bảo chứng -->
+              <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+                <span class="profile-pill">Regular User</span>
+                <span class="profile-pill verified-pill">Verified</span>
+                <span class="profile-pill">Link X</span>
+              </div>
+              <!-- Danh mục menu điều hướng (8 mục chuẩn Ảnh 2) -->
+              <div class="profile-menu-list">
+                <a href="#/home" class="profile-menu-item"><span>⊞</span> Dashboard</a>
+                <a href="#/wallet" class="profile-menu-item"><span>💳</span> Assets</a>
+                <a href="trade.html" class="profile-menu-item"><span>📄</span> Orders</a>
+                <a href="#/home" class="profile-menu-item"><span>👤</span> Account</a>
+                <a href="#/home" class="profile-menu-item"><span>👥</span> Referral</a>
+                <a href="#/earn" class="profile-menu-item"><span>🎟️</span> Rewards Hub</a>
+                <a href="#/home" class="profile-menu-item"><span>👥</span> Sub Accounts</a>
+                <a href="#" onclick="window.SettingsPanel ? window.SettingsPanel.open() : (window.ApexApp?.openSettingsModal())" class="profile-menu-item"><span>⚙️</span> Settings</a>
+              </div>
+              <!-- Nút Đăng Xuất An Toàn 100% -->
+              <div style="border-top: 1px solid #2b313a; margin-top: 8px; padding-top: 8px;">
+                <div onclick="handleUserLogout()" class="profile-menu-item logout-item">
+                  <span>🚪</span> Log Out
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 4. VÍ TIỀN -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#848e9c" stroke-width="1.8" style="cursor: pointer;" onclick="window.WalletDropdown ? window.WalletDropdown.toggle() : window.location.hash='#/wallet'" title="Danh Mục Ví"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18M16 14h2"/></svg>
+          
+          <!-- 5. TIN NHẮN / THÔNG BÁO CÓ CHẤM VÀNG (ẢNH 4) -->
+          <div style="position: relative; cursor: pointer;" onclick="window.ApexApp?.showToast('Không có cảnh báo rủi ro. Sàn vận hành mượt mà.', 'info')" title="Thông Báo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#848e9c" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="14" y2="13"/></svg>
+            <span style="position: absolute; top: -1px; right: -1px; width: 6px; height: 6px; background: #FCD535; border-radius: 50%;"></span>
+          </div>
+          
+          <!-- 6. QUÉT TẢI APP -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#848e9c" stroke-width="1.8" style="cursor: pointer;" onclick="alert('Quét QR để cài App ApexCore trên iOS & Android')" title="Tải Ứng Dụng"><path d="M4 8V4h4m8 0h4v4m0 8v4h-4m-8 0H4v-4M12 8v8m-3-3 3 3 3-3"/></svg>
+          
+          <!-- 7. QUẢ ĐỊA CẦU NGÔN NGỮ -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#848e9c" stroke-width="1.8" style="cursor: pointer;" id="btn-lang-switcher" onclick="alert('Ngôn ngữ: Tiếng Việt (VI) | Múi giờ UTC+7')" title="Đa Ngôn Ngữ"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          
+          <!-- 8. MẶT TRĂNG ĐỔI THEME -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#848e9c" stroke-width="1.8" style="cursor: pointer;" id="btn-theme-toggle" onclick="toggleTheme()" title="Đổi Chế Độ Sáng/Tối"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========================================================
+         SPA ROUTER VIEWPORT (DYNAMICALLY MOUNTED BY router.js)
+         ======================================================== -->
+    <main id="app-router-view"></main>
+
+    <!-- ========================================================
+         USER PROFILE DRAWER / DROPDOWN (NGUYENPHUOCLOC UID 1107519625)
+         ======================================================== -->
+    <div class="profile-drawer-overlay" id="profile-drawer-overlay" style="display:none;" onclick="if(event.target===this) (window.ApexApp ? window.ApexApp.toggleProfileDrawer() : window.toggleProfileDrawer())">
+      <div class="profile-drawer-card">
+        <div class="profile-card-header">
+          <div class="profile-user-left">
+            <div class="profile-avatar-big">NL</div>
+            <div>
+              <div class="profile-username">NguyenPhuocLoc</div>
+              <div class="profile-uid-row">
+                <span>UID: <strong>1107519625</strong></span>
+                <button class="btn-copy-uid" onclick="navigator.clipboard.writeText('1107519625'); window.ApexApp?.showToast('Đã sao chép UID: 1107519625', 'success');" title="Sao chép UID">📋</button>
+              </div>
+            </div>
+          </div>
+          <button class="profile-close-btn" onclick="window.ApexApp ? window.ApexApp.toggleProfileDrawer() : window.toggleProfileDrawer()">✕</button>
+        </div>
+
+        <!-- Badges -->
+        <div class="profile-badges-row">
+          <span class="badge-pill badge-regular">⭐ Regular User</span>
+          <span class="badge-pill badge-verified">✅ Verified</span>
+          <span class="badge-pill badge-x">🔗 Link X</span>
+        </div>
+
+        <!-- Asset summary -->
+        <div class="profile-asset-box">
+          <div class="asset-metric-head">Ước Tính Tổng Giá Trị</div>
+          <div class="asset-metric-val">0.1579766 USDT <span class="asset-usd-equiv">≈ $0.16</span></div>
+          <div class="asset-pnl-row">
+            <span>Today's PnL: <strong class="text-up">+$0.00 (0.00%)</strong></span>
+            <span class="text-muted">Following: 0 | Followers: 0</span>
+          </div>
+        </div>
+
+        <!-- 9 Navigation Items -->
+        <div class="profile-nav-list">
+          <a href="#/home" class="profile-nav-item" onclick="window.ApexApp?.toggleProfileDrawer()">
+            <span class="p-ico">⊞</span> <span>Dashboard (Bảng tổng quan)</span>
+          </a>
+          <a href="#/wallet" class="profile-nav-item" onclick="window.ApexApp?.toggleProfileDrawer()">
+            <span class="p-ico">👛</span> <span>Assets (Ví và danh mục số dư)</span>
+          </a>
+          <a href="#/trade/BNB_USDT" class="profile-nav-item" onclick="window.ApexApp?.toggleProfileDrawer()">
+            <span class="p-ico">📋</span> <span>Orders (Lịch sử đặt lệnh)</span>
+          </a>
+          <div class="profile-nav-item" onclick="window.ApexApp?.showToast('Tài khoản đã kích hoạt bảo mật 2FA và bảo vệ đa tầng!', 'info'); window.ApexApp?.toggleProfileDrawer();">
+            <span class="p-ico">👤</span> <span>Account (Cài đặt bảo mật 2FA)</span>
+          </div>
+          <div class="profile-nav-item" onclick="window.ApexApp?.showToast('Mã hoa hồng giới thiệu: APEX-1107519625 (30% rebate)', 'success'); window.ApexApp?.toggleProfileDrawer();">
+            <span class="p-ico">👥</span> <span>Referral (Mã giới thiệu)</span>
+          </div>
+          <div class="profile-nav-item" onclick="window.ApexApp?.showToast('Bạn có 3 phần thưởng người mới có thể nhận!', 'info'); window.ApexApp?.toggleProfileDrawer();">
+            <span class="p-ico">🎟️</span> <span>Rewards Hub (Trung tâm phần thưởng)</span>
+          </div>
+          <div class="profile-nav-item" onclick="window.ApexApp?.showToast('Đang quản lý 1 tài khoản chính và 0 tài khoản phụ.', 'info'); window.ApexApp?.toggleProfileDrawer();">
+            <span class="p-ico">👥</span> <span>Sub Accounts (Quản lý tài khoản phụ)</span>
+          </div>
+          <div class="profile-nav-item" onclick="window.ApexApp?.openSettingsModal(); window.ApexApp?.toggleProfileDrawer();">
+            <span class="p-ico">⚙️</span> <span>Settings (Cài đặt hệ thống)</span>
+          </div>
+          <div class="profile-nav-item text-down" onclick="window.ApexApp?.logoutUser(); window.ApexApp?.toggleProfileDrawer();">
+            <span class="p-ico">🚪</span> <span>Log Out (Đăng xuất an toàn)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================
+         MODAL: SETTINGS (CÀI ĐẶT HỆ THỐNG)
+         ======================================================== -->
+    <div class="modal-backdrop" id="settings-modal" style="display:none; z-index:99999;" onclick="if(event.target===this) window.ApexApp?.closeSettingsModal()">
+      <div class="settings-modal-card">
+        <div class="modal-header-row">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:20px;">⚙️</span>
+            <h2 style="font-size:18px; font-weight:800;">Cài Đặt Hệ Thống</h2>
+          </div>
+          <button class="modal-close-btn" onclick="window.ApexApp?.closeSettingsModal()">✕</button>
+        </div>
+
+        <div class="settings-body">
+          <div class="setting-field-group">
+            <label class="setting-label">Tiền Tệ Cơ Sở (Base Currency):</label>
+            <select class="setting-select" id="setting-currency">
+              <option value="USDT">USDT (Tether USD)</option>
+              <option value="USD">USD ($ - Đô la Mỹ)</option>
+              <option value="VND">VND (₫ - Việt Nam Đồng)</option>
+              <option value="EUR">EUR (€ - Đồng Euro)</option>
+            </select>
+          </div>
+
+          <div class="setting-field-group">
+            <label class="setting-label">Múi Giờ Giao Dịch (Timezone):</label>
+            <select class="setting-select" id="setting-timezone">
+              <option value="UTC+7">UTC+7 (Bangkok, Hanoi, Jakarta)</option>
+              <option value="UTC+0">UTC+0 (London, GMT)</option>
+              <option value="UTC-5">UTC-5 (New York, EST)</option>
+            </select>
+          </div>
+
+          <div class="setting-field-group">
+            <label class="setting-label">Màu Sắc Nến Biểu Đồ (Candlestick Palette):</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+              <button type="button" class="btn-palette-choice active" id="pal-standard" onclick="window.ApexApp?.setCandlePalette('standard')">
+                <span style="color:#0ecb81; font-weight:800;">● Xanh</span> / <span style="color:#f6465d; font-weight:800;">● Đỏ</span> (Chuẩn)
+              </button>
+              <button type="button" class="btn-palette-choice" id="pal-cyberpunk" onclick="window.ApexApp?.setCandlePalette('cyberpunk')">
+                <span style="color:#00ffcc; font-weight:800;">● Xanh ngọc</span> / <span style="color:#ff007f; font-weight:800;">● Hồng neon</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-switch-row">
+            <div>
+              <div style="font-weight:700; font-size:13px;">Âm Thanh Khớp Lệnh</div>
+              <div class="text-sub" style="font-size:11px;">Phát chuông "Ding" khi lệnh mua/bán được khớp hoàn tất</div>
+            </div>
+            <input type="checkbox" id="setting-sound" checked style="width:20px; height:20px; accent-color:var(--color-yellow);">
+          </div>
+        </div>
+
+        <div style="margin-top:20px; display:flex; justify-content:flex-end; gap:10px;">
+          <button class="btn-ghost" onclick="window.ApexApp?.closeSettingsModal()">Hủy</button>
+          <button class="btn-primary" onclick="window.ApexApp?.saveSettings()">Lưu Cài Đặt</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL 1: LOGIN POPUP (3D MATTE GEOMETRIC FLOAT & FROSTED GLASS)
+       ======================================================== -->
+  <div class="modal-backdrop-3d" id="login-modal-overlay" style="display: none;">
+    <div class="scene-container-3d">
+      <!-- CÁC KHỐI LẬP PHƯƠNG 3D BỒNG BỀNH -->
+      <div class="cube-wrap c1"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c2"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c3"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c4"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c5"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c6"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c7"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+
+      <!-- THẺ KÍNH MỜ CHÍNH GIỮA -->
+      <div class="glass-card-3d">
+        <button class="modal-close-btn-3d" id="login-modal-close" aria-label="Đóng">✕</button>
+
+        <h1 style="font-size:26px; font-weight:800; letter-spacing:-0.5px; margin-bottom:4px;">Welcome Back!</h1>
+        <p style="font-size:13px; color:var(--text-sub, #94a3b8); margin-bottom:24px;">Đăng nhập để vào buồng lái ApexCore Pro</p>
+
+        <!-- ĐĂNG NHẬP GOOGLE & APPLE CHUẨN MONOCHROME -->
+        <div class="social-row-3d">
+          <button type="button" class="btn-icon-auth-3d" onclick="loginWithGoogle()">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            Google
+          </button>
+          <button type="button" class="btn-icon-auth-3d" onclick="loginWithApple()">
+            <svg width="16" height="16" viewBox="0 0 170 170" fill="currentColor"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.66-7.74-11.89-14.1-6.73-10.14-12.02-21.65-15.88-34.52-3.86-12.87-5.8-24.97-5.8-36.31 0-15.03 3.73-27.53 11.2-37.52 7.46-9.98 16.9-15.08 28.3-15.3 4.8.12 10.23 1.34 16.29 3.67 6.06 2.33 10.05 3.63 11.97 3.9 2.45-.48 6.64-1.94 12.56-4.39 5.92-2.44 11.05-3.53 15.39-3.26 13.68.79 24.59 5.86 32.72 15.2-11.96 7.27-17.8 17.2-17.52 29.8.27 9.87 4.09 18.23 11.45 25.07 7.37 6.84 16.14 10.58 26.31 11.23-2.17 6.3-4.8 12.44-7.89 18.42m-33.3-107.01c0 7.82-2.9 15.17-8.69 22.06-6.84 8.04-15.22 12.63-24.6 11.85-.27-1.19-.41-2.38-.41-3.57 0-7.59 3.03-15.25 9.09-22.97 3.03-3.86 6.78-7.06 11.25-9.6 4.47-2.54 8.78-4.04 12.93-4.51.3 2.29.43 4.54.43 6.74z"/></svg>
+            Apple
+          </button>
+        </div>
+
+        <div class="auth-sep-3d"><span>hoặc bằng Email</span></div>
+
+        <form class="modal-form" id="form-login" onsubmit="return false;">
+          <div class="field-group-3d">
+            <label for="login-identity" class="field-label-3d">Email hoặc Tên đăng nhập</label>
+            <input type="text" id="login-identity" class="field-input-3d" placeholder="nguyenphuocloc010306@gmail.com" required autocomplete="username">
+          </div>
+
+          <div class="field-group-3d">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <label for="login-password" class="field-label-3d">Mật khẩu</label>
+              <a href="#" style="font-size:11px; color:var(--color-yellow, #fcd535); text-decoration:none;" onclick="window.ApexApp?.showToast('Vui lòng liên hệ Admin để khôi phục mật khẩu!', 'info')">Quên mật khẩu?</a>
+            </div>
+            <input type="password" id="login-password" class="field-input-3d" placeholder="••••••••••••" required autocomplete="current-password">
+            <button type="button" class="pwd-toggle-3d" id="toggle-login-pass" onclick="const p=document.getElementById('login-password'); p.type=p.type==='password'?'text':'password';">👁</button>
+          </div>
+
+          <button type="submit" class="btn-submit-3d" id="btn-submit-login">
+            Log In ➔
+          </button>
+
+          <div style="text-align:center; font-size:12px; color:var(--text-sub, #94a3b8); margin-top:16px;">
+            Chưa có tài khoản? <a href="#" id="switch-to-register" style="color:var(--color-yellow, #fcd535); font-weight:700; text-decoration:none;">Đăng ký ngay</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL 2: REGISTER POPUP (3D MATTE GEOMETRIC FLOAT & FROSTED GLASS)
+       ======================================================== -->
+  <div class="modal-backdrop-3d" id="register-modal-overlay" style="display: none;">
+    <div class="scene-container-3d">
+      <!-- CÁC KHỐI LẬP PHƯƠNG 3D BỒNG BỀNH -->
+      <div class="cube-wrap c1"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c2"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c3"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c4"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c5"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c6"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+      <div class="cube-wrap c7"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+
+      <!-- THẺ KÍNH MỜ CHÍNH GIỮA -->
+      <div class="glass-card-3d">
+        <button class="modal-close-btn-3d" id="register-modal-close" aria-label="Đóng">✕</button>
+
+        <h1 style="font-size:26px; font-weight:800; letter-spacing:-0.5px; margin-bottom:4px;">Tạo Tài Khoản</h1>
+        <p style="font-size:13px; color:var(--text-sub, #94a3b8); margin-bottom:24px;">Đăng ký để nhận gói thưởng chào mừng lên đến 100 USD</p>
+
+        <!-- ĐĂNG KÝ GOOGLE & APPLE CHUẨN MONOCHROME -->
+        <div class="social-row-3d">
+          <button type="button" class="btn-icon-auth-3d" onclick="loginWithGoogle()">
+            <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+            Google
+          </button>
+          <button type="button" class="btn-icon-auth-3d" onclick="loginWithApple()">
+            <svg width="16" height="16" viewBox="0 0 170 170" fill="currentColor"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.66-7.74-11.89-14.1-6.73-10.14-12.02-21.65-15.88-34.52-3.86-12.87-5.8-24.97-5.8-36.31 0-15.03 3.73-27.53 11.2-37.52 7.46-9.98 16.9-15.08 28.3-15.3 4.8.12 10.23 1.34 16.29 3.67 6.06 2.33 10.05 3.63 11.97 3.9 2.45-.48 6.64-1.94 12.56-4.39 5.92-2.44 11.05-3.53 15.39-3.26 13.68.79 24.59 5.86 32.72 15.2-11.96 7.27-17.8 17.2-17.52 29.8.27 9.87 4.09 18.23 11.45 25.07 7.37 6.84 16.14 10.58 26.31 11.23-2.17 6.3-4.8 12.44-7.89 18.42m-33.3-107.01c0 7.82-2.9 15.17-8.69 22.06-6.84 8.04-15.22 12.63-24.6 11.85-.27-1.19-.41-2.38-.41-3.57 0-7.59 3.03-15.25 9.09-22.97 3.03-3.86 6.78-7.06 11.25-9.6 4.47-2.54 8.78-4.04 12.93-4.51.3 2.29.43 4.54.43 6.74z"/></svg>
+            Apple
+          </button>
+        </div>
+
+        <div class="auth-sep-3d"><span>hoặc bằng Thông tin cá nhân</span></div>
+
+        <form class="modal-form" id="form-register" onsubmit="return false;">
+          <div class="field-group-3d">
+            <label for="reg-fullname" class="field-label-3d">Họ và Tên</label>
+            <input type="text" id="reg-fullname" class="field-input-3d" placeholder="Nguyễn Phước Lộc" required autocomplete="name">
+          </div>
+
+          <div class="field-group-3d">
+            <label for="reg-identity" class="field-label-3d">Email hoặc Số điện thoại</label>
+            <input type="text" id="reg-identity" class="field-input-3d" placeholder="nguyenphuocloc010306@gmail.com" required autocomplete="username">
+          </div>
+
+          <div class="field-group-3d">
+            <label for="reg-password" class="field-label-3d">Mật khẩu</label>
+            <input type="password" id="reg-password" class="field-input-3d" placeholder="Tối thiểu 6 ký tự..." required minlength="6" autocomplete="new-password">
+            <button type="button" class="pwd-toggle-3d" id="toggle-reg-pass" onclick="const p=document.getElementById('reg-password'); p.type=p.type==='password'?'text':'password';">👁</button>
+          </div>
+
+          <button type="submit" class="btn-submit-3d" id="btn-submit-register">
+            Sign Up ➔
+          </button>
+
+          <div style="text-align:center; font-size:12px; color:var(--text-sub, #94a3b8); margin-top:16px;">
+            Đã có tài khoản? <a href="#" id="switch-to-login" style="color:var(--color-yellow, #fcd535); font-weight:700; text-decoration:none;">Đăng nhập ngay</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL 3: VIETQR DYNAMIC DEPOSIT POPUP
+       ======================================================== -->
+  <div class="modal-backdrop" id="vietqr-modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 400px; text-align:center;">
+      <button class="modal-close-btn" id="vietqr-modal-close" aria-label="Đóng">✕</button>
+
+      <h3 style="font-size:18px; font-weight:800; margin-bottom:4px;">Nạp Tiền VietQR 3 Giây</h3>
+      <p class="text-sub" style="font-size:12px; margin-bottom:16px;">Quét mã QR qua ứng dụng ngân hàng để nạp tiền tự động</p>
+
+      <div style="background:#fff; padding:12px; border-radius:10px; display:inline-block; margin-bottom:16px;">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=00020101021238570010A00000072701270006970422011309876543210208QRIBFTTA5303704540750000005802VN62160812APEXLOC886304E85C" alt="VietQR Code" style="width:180px; height:180px; display:block;">
+      </div>
+
+      <div style="background:var(--bg-input); border-radius:8px; padding:14px; font-size:12px; display:flex; flex-direction:column; gap:6px; text-align:left; margin-bottom:16px; border:1px solid var(--border-color);">
+        <div style="display:flex; justify-content:space-between;"><span>Ngân hàng:</span><strong>MB Bank (Quân Đội)</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Số tài khoản:</span><strong class="text-accent">0987654321</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Chủ tài khoản:</span><strong>NGUYEN PHUOC LOC</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Nội dung chuyển:</span><strong class="text-gold">APEXLOC88</strong></div>
+        <div style="display:flex; justify-content:space-between;"><span>Thời gian xử lý:</span><span class="text-up font-bold">Tự động 3 giây</span></div>
+      </div>
+
+      <button class="btn-submit-main" id="btn-vietqr-confirm" style="width:100%;">
+        Tôi Đã Chuyển Tiền ➔
+      </button>
+    </div>
+  </div>
+
+  <!-- Google One-Tap & OAuth 2.0 Super Fast Handler -->
+  <script>
+    function renderUser(name, picture) {
+      const userNameEl = document.getElementById('user-chip-name');
+      const userRoleEl = document.getElementById('user-chip-role');
+      const userAvatarEl = document.getElementById('user-chip-avatar');
+      const guestBox = document.getElementById('header-guest-actions') || document.getElementById('header-guest-box');
+      const userChip = document.getElementById('header-user-chip');
+
+      if (guestBox) guestBox.style.display = 'none';
+      if (userChip) userChip.style.display = 'flex';
+
+      const isFounder = (name && (name.includes('LỘC') || name.includes('Loc') || name.includes('loc') || name.includes('nguyenphuocloc')));
+      if (userNameEl) userNameEl.textContent = isFounder ? 'NGUYỄN PHƯỚC LỘC' : name;
+      if (userRoleEl) userRoleEl.textContent = isFounder ? 'FOUNDER VIP' : 'PRO TRADER';
+
+      if (userAvatarEl && picture) {
+        userAvatarEl.innerHTML = `<img src="${picture}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+      }
+    }
+
+    // HỖ TRỢ ĐĂNG NHẬP USER CHÍNH THỨC
+    function applyGoogleUserLogin(user, accessToken) {
+      const isFounder = user.email === 'nguyenphuocloc010306@gmail.com';
+      const displayName = isFounder ? 'NGUYỄN PHƯỚC LỘC' : (user.name || user.email.split('@')[0]);
+      const userData = {
+        id: 'usr_' + Date.now(),
+        name: displayName,
+        full_name: displayName,
+        email: user.email,
+        role: isFounder ? 'ADMIN' : 'USER',
+        avatar: user.picture
+      };
+
+      // Lưu thông tin người dùng
+      localStorage.setItem("apex_auth", JSON.stringify({
+        name: displayName,
+        email: user.email,
+        avatar: user.picture
+      }));
+      localStorage.setItem("apex_user", JSON.stringify(userData));
+      localStorage.setItem("apex_token", accessToken || 'google_token_' + Date.now());
+
+      renderUser(displayName, user.picture);
+
+      ['login-modal-overlay', 'register-modal-overlay', 'vietqr-modal-overlay', 'loginModal', 'authModal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+      if (window.ApexApp && typeof window.ApexApp.closeAllModals === 'function') {
+        window.ApexApp.closeAllModals();
+      }
+
+      alert('🎉 Đăng nhập thành công tài khoản: ' + displayName);
+      location.reload();
+    }
+
+    // HÀM ĐĂNG NHẬP GOOGLE SIÊU TỐC — MỞ CỬA SỔ GOOGLE NGAY LẬP TỨC
+    function loginWithGoogle() {
+      const clientId = "459445903377-iefegjgl1rpi81m5keicj3r44s7lsuod.apps.googleusercontent.com";
+      const redirectUri = window.location.origin; // http://localhost:5000
+      const scope = "email profile openid";
+      const responseType = "token";
+      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=${responseType}&scope=${encodeURIComponent(scope)}&prompt=select_account`;
+      
+      const width = 500;
+      const height = 650;
+      const left = Math.max(0, (window.screen.width - width) / 2);
+      const top = Math.max(0, (window.screen.height - height) / 2);
+      
+      const authWindow = window.open(
+        authUrl,
+        'GoogleLoginWindow',
+        `width=${width},height=${height},top=${top},left=${left},scrollbars=yes,resizable=yes`
+      );
+
+      // Nếu trình duyệt chặn popup, tự động chuyển hướng tab hiện tại ngay lập tức
+      if (!authWindow || authWindow.closed || typeof authWindow.closed === 'undefined') {
+        window.location.href = authUrl;
+        return;
+      }
+
+      // Lắng nghe liên tục khi user chọn xong tài khoản Google
+      const checkTokenInterval = setInterval(() => {
+        try {
+          if (!authWindow || authWindow.closed) {
+            clearInterval(checkTokenInterval);
+            return;
+          }
+          
+          let currentUrl = '';
+          try {
+            currentUrl = authWindow.location.href;
+          } catch(e) {
+            // Đang ở accounts.google.com nên chặn cross-origin, tiếp tục chờ
+            return;
+          }
+
+          if (currentUrl && currentUrl.includes("access_token=")) {
+            const hash = authWindow.location.hash.substring(1);
+            const params = new URLSearchParams(hash);
+            const accessToken = params.get("access_token");
+            if (accessToken) {
+              clearInterval(checkTokenInterval);
+              try { authWindow.close(); } catch(e){}
+              
+              fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+                headers: { Authorization: `Bearer ${accessToken}` }
+              })
+              .then(res => res.json())
+              .then(user => {
+                applyGoogleUserLogin(user, accessToken);
+              })
+              .catch(err => {
+                console.error("Lỗi lấy thông tin Google:", err);
+                alert("Lỗi tải thông tin Google: " + err.message);
+              });
+            }
+          }
+        } catch (e) {
+          // Bỏ qua lỗi trong lúc user thao tác
+        }
+      }, 300);
+    }
+
+    // Tự động phân tích Token khi chuyển hướng từ Google OAuth
+    (function checkOAuthRedirectHash() {
+      try {
+        if (window.location.hash && window.location.hash.includes("access_token=")) {
+          const hash = window.location.hash.substring(1);
+          const params = new URLSearchParams(hash);
+          const accessToken = params.get("access_token");
+          if (accessToken) {
+            // Nếu đây là popup được mở bởi window.opener
+            if (window.opener && !window.opener.closed) {
+              try {
+                window.opener.postMessage({ type: 'GOOGLE_AUTH_SUCCESS', accessToken: accessToken }, '*');
+                window.close();
+                return;
+              } catch(e) {}
+            }
+
+            fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+              headers: { Authorization: `Bearer ${accessToken}` }
+            })
+            .then(res => res.json())
+            .then(user => {
+              window.history.replaceState(null, '', window.location.pathname + window.location.search);
+              applyGoogleUserLogin(user, accessToken);
+            })
+            .catch(err => console.error("OAuth redirect error:", err));
+          }
+        }
+      } catch(e) {}
+    })();
+
+    // Lắng nghe postMessage từ popup
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'GOOGLE_AUTH_SUCCESS' && e.data.accessToken) {
+        fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+          headers: { Authorization: `Bearer ${e.data.accessToken}` }
+        })
+        .then(res => res.json())
+        .then(user => {
+          applyGoogleUserLogin(user, e.data.accessToken);
+        });
+      }
+    });
+
+    // HÀM ĐĂNG NHẬP APPLE ID CHÍNH THỨC
+    function loginWithApple() {
+      const defaultEmail = "nguyenphuocloc010306@gmail.com";
+      const appleEmail = prompt(
+        "🍎 ĐĂNG NHẬP VỚI APPLE ID\n\nXác thực tài khoản Apple ID để đăng nhập vào ApexCore Exchange.\nNhập Apple ID (hoặc email iCloud) của bạn:",
+        defaultEmail
+      );
+
+      if (!appleEmail || !appleEmail.trim()) {
+        return; // Người dùng bấm Hủy
+      }
+
+      const email = appleEmail.trim();
+      const isFounder = email === 'nguyenphuocloc010306@gmail.com' || email.includes('loc') || email.includes('nguyenphuoc');
+      const displayName = isFounder ? 'NGUYỄN PHƯỚC LỘC' : email.split('@')[0];
+
+      const userData = {
+        id: 'usr_apple_' + Date.now(),
+        name: displayName,
+        full_name: displayName,
+        email: email,
+        role: isFounder ? 'ADMIN' : 'USER',
+        provider: 'apple',
+        avatar: 'https://api.dicebear.com/7.x/identicon/svg?seed=' + encodeURIComponent(email)
+      };
+
+      // Lưu trữ phiên đăng nhập Apple
+      localStorage.setItem("apex_auth", JSON.stringify({
+        name: displayName,
+        email: email,
+        avatar: userData.avatar
+      }));
+      localStorage.setItem("apex_user", JSON.stringify(userData));
+      localStorage.setItem("apex_token", 'apple_jwt_auth_' + Date.now());
+
+      if (typeof renderUser === "function") {
+        renderUser(displayName, userData.avatar);
+      }
+
+      ['login-modal-overlay', 'register-modal-overlay', 'vietqr-modal-overlay', 'loginModal', 'authModal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+      });
+
+      if (window.ApexApp && typeof window.ApexApp.closeAllModals === "function") {
+        window.ApexApp.closeAllModals();
+      }
+
+      alert(`🍎 Chúc mừng ${displayName} đã đăng nhập Apple ID thành công!`);
+      location.reload();
+    }
+
+    // HIỆU ỨNG PARALLAX 3D TƯƠNG TÁC THEO CHUỘT
+    document.addEventListener('mousemove', (e) => {
+      const isLoginOpen = document.getElementById('login-modal-overlay')?.style.display === 'flex';
+      const isRegOpen = document.getElementById('register-modal-overlay')?.style.display === 'flex';
+      if (!isLoginOpen && !isRegOpen) return;
+
+      const x = (e.clientX - window.innerWidth / 2) / 35;
+      const y = (e.clientY - window.innerHeight / 2) / 35;
+      document.querySelectorAll('.cube-wrap').forEach((cube, index) => {
+        const speed = ((index % 7) + 1) * 0.35;
+        cube.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+      });
+    });
+
+
+
+    // ĐĂNG KÝ NHANH HERO
+    function submitQuickAuth() {
+      const input = document.getElementById('quickInput');
+      const val = input ? input.value.trim() : '';
+      if (!val) {
+        alert("Vui lòng nhập Email hoặc Số điện thoại để bắt đầu!");
+        return;
+      }
+      const isFounder = val.includes('nguyenphuocloc') || val.includes('loc');
+      const userObj = {
+        name: isFounder ? "NGUYỄN PHƯỚC LỘC" : val.split('@')[0],
+        email: val.includes('@') ? val : val + "@apexcore.io",
+        role: isFounder ? "ADMIN" : "USER"
+      };
+      localStorage.setItem("apex_auth", JSON.stringify(userObj));
+      localStorage.setItem("apex_user", JSON.stringify(userObj));
+      if (typeof window.renderUser === "function") {
+        window.renderUser(userObj.name);
+      }
+      alert(`🎉 Chúc mừng ${userObj.name}! Bạn đã đăng ký tài khoản thành công trên ApexCore.`);
+      if (input) input.value = '';
+    }
+
+    // BỘ TỪ ĐIỂN SONG NGỮ ĐỘNG (VI 🇻🇳 ↔ EN 🇬🇧)
+    let currentLang = 'VI';
+    window.currentLang = currentLang;
+    const dict = {
+      VI: {
+        buycrypto: "Mua Crypto", markets: "Thị Trường", trade: "Trade ▾", futures: "Futures ▾",
+        earn: "Earn ▾", square: "Square ▾", login: "Đăng Nhập", signup: "Đăng Ký",
+        usertrust: "USERS TRUST US", subdesc: "Sàn Giao Dịch Đa Tài Sản Hàng Đầu • Sáng Lập Bởi <strong>NGUYỄN PHƯỚC LỘC</strong>",
+        laurel1: "Customer Assets", laurel2: "Trading Volume",
+        quickbtn: "Đăng Ký", quicklabel: "Đăng nhập siêu tốc 1-Click",
+        viewall: "Xem tất cả >", newstitle: "Tin Tức Thị Trường", newsviewall: "Xem tất cả tin tức >",
+        whyhead: "Vì Sao Các Nhà Giao Dịch Chọn ApexCore",
+        f1h: "Khớp Lệnh Siêu Tốc", f1p: "Động cơ khớp lệnh đạt độ trễ dưới 12 microsecond, mang đến trải nghiệm mượt mà không độ trễ nghẽn lệnh.",
+        f2h: "Bảo Mật Cấp Ngân Hàng", f2p: "Quỹ dự trữ bảo vệ tài sản SAFU độc lập cùng kiến trúc mã hóa đa lớp bảo vệ 100% tiền gửi của nhà giao dịch.",
+        f3h: "Thanh Khoản Sâu", f3p: "Kết nối thanh khoản đa sàn hàng đầu thế giới với hơn 150+ cặp giao dịch Crypto, Cổ phiếu Mỹ và Vàng.",
+        f4h: "Ưu Đãi Đặc Quyền", f4p: "Chương trình hoàn phí giao dịch và phần thưởng chào mừng dành riêng cho thành viên của ApexCore.",
+        dlhead: "Giao dịch mọi lúc. Mọi nơi.", dlsub: "Quét mã QR để tải ứng dụng sàn giao dịch ApexCore trên thiết bị của bạn."
+      },
+      EN: {
+        buycrypto: "Buy Crypto", markets: "Markets", trade: "Trade ▾", futures: "Futures ▾",
+        earn: "Earn ▾", square: "Square ▾", login: "Log In", signup: "Sign Up",
+        usertrust: "USERS TRUST US", subdesc: "The World’s Leading Multi-Asset Exchange • Founded by <strong>NGUYỄN PHƯỚC LỘC</strong>",
+        laurel1: "Customer Assets", laurel2: "Trading Volume",
+        quickbtn: "Sign Up", quicklabel: "Instant 1-Click Sign In",
+        viewall: "View All >", newstitle: "Market News", newsviewall: "View All News >",
+        whyhead: "Why Traders Choose ApexCore",
+        f1h: "Lightning Fast", f1p: "Ultra-fast matching engine with under 12 microseconds latency for seamless trading.",
+        f2h: "Bank-Grade Security", f2p: "Independent SAFU asset protection fund with multi-layer encryption securing 100% of deposits.",
+        f3h: "Deep Liquidity", f3p: "Top-tier global liquidity aggregation across 150+ Crypto, US Stocks, and Gold pairs.",
+        f4h: "Exclusive Rewards", f4p: "Special trading fee rebates and welcome reward campaigns reserved for ApexCore members.",
+        dlhead: "Trade on the go. Anywhere, anytime.", dlsub: "Scan QR code to download the ApexCore exchange app on your mobile device."
+      }
+    };
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'VI' ? 'EN' : 'VI';
+      window.currentLang = currentLang;
+      const langBtn = document.getElementById('btn-lang-switcher');
+      if (langBtn) langBtn.innerText = currentLang === 'VI' ? 'VI 🇻🇳' : 'EN 🇬🇧';
+      applyLanguageToHome();
+    }
+
+    function applyLanguageToHome() {
+      const d = dict[currentLang || 'VI'];
+      if (!d) return;
+      const setEl = (id, text, isHtml) => {
+        const el = document.getElementById(id);
+        if (el) {
+          if (isHtml) el.innerHTML = text;
+          else el.innerText = text;
+        }
+      };
+      setEl('nav-buycrypto', d.buycrypto);
+      setEl('nav-markets', d.markets);
+      setEl('header-btn-login', d.login);
+      setEl('header-btn-register', d.signup);
+      setEl('l-login', d.login);
+      setEl('l-signup', d.signup);
+      setEl('t-usertrust', d.usertrust);
+      setEl('l-trust', d.usertrust);
+      setEl('t-subdesc', d.subdesc, true);
+      setEl('l-founder', d.subdesc, true);
+      setEl('t-laurel1', d.laurel1);
+      setEl('l-laurel1', d.laurel1);
+      setEl('t-laurel2', d.laurel2);
+      setEl('l-laurel2', d.laurel2);
+      setEl('t-quickbtn', d.quickbtn);
+      setEl('l-quickbtn', d.quickbtn);
+      setEl('t-quicklabel', d.quicklabel);
+      setEl('l-quicktxt', d.quicklabel);
+      setEl('t-viewall', d.viewall);
+      setEl('l-viewall', d.viewall);
+      setEl('t-newstitle', d.newstitle);
+      setEl('l-newshead', d.newstitle);
+      setEl('t-newsviewall', d.newsviewall);
+      setEl('l-newsall', d.newsviewall);
+      setEl('t-whyhead', d.whyhead);
+      setEl('l-whyhead', d.whyhead);
+      setEl('t-f1-h', d.f1h); setEl('t-f1-p', d.f1p);
+      setEl('l-f1h', d.f1h); setEl('l-f1p', d.f1p);
+      setEl('t-f2-h', d.f2h); setEl('t-f2-p', d.f2p);
+      setEl('l-f2h', d.f2h); setEl('l-f2p', d.f2p);
+      setEl('t-f3-h', d.f3h); setEl('t-f3-p', d.f3p);
+      setEl('l-f3h', d.f3h); setEl('l-f3p', d.f3p);
+      setEl('t-f4-h', d.f4h); setEl('t-f4-p', d.f4p);
+      setEl('l-f4h', d.f4h); setEl('l-f4p', d.f4p);
+      setEl('t-dl-head', d.dlhead);
+      setEl('l-dlhead', d.dlhead);
+      setEl('t-dl-sub', d.dlsub);
+      setEl('l-dlsub', d.dlsub);
+    }
+
+    function submitQuick() {
+      const v = document.getElementById('quickInp')?.value || document.getElementById('quickInput')?.value;
+      if (!v) {
+        alert("Vui lòng nhập Email hoặc Số điện thoại!");
+        return;
+      }
+      loginWithGoogle();
+    }
+
+    // HÀM SAO CHÉP UID CHÍNH XÁC
+    function copyUID() {
+      navigator.clipboard.writeText('1107519625').then(() => {
+        alert('Đã sao chép Founder UID: 1107519625');
+      });
+    }
+
+    // HÀM XỬ LÝ ĐĂNG XUẤT TRIỆT ĐỂ
+    function handleUserLogout() {
+      localStorage.removeItem('apex_token');
+      localStorage.removeItem('apex_user');
+      sessionStorage.clear();
+      alert('Đã đăng xuất tài khoản thành công!');
+      window.location.reload();
+    }
+
+    // Expose aliases globally
+    window.copyUID = copyUID;
+    window.handleUserLogout = handleUserLogout;
+    window.loginWithGoogle = loginWithGoogle;
+    window.loginWithGoogleOAuth = loginWithGoogle;
+    window.loginWithApple = loginWithApple;
+    window.loginWithAppleOAuth = loginWithApple;
+    window.renderUser = renderUser;
+    window.submitQuick = submitQuick;
+    window.submitQuickAuth = submitQuick;
+    window.toggleLanguage = toggleLanguage;
+    window.toggleLang = toggleLanguage;
+    window.applyLanguageToHome = applyLanguageToHome;
+  </script>
+
+  <!-- NÚT HỖ TRỢ KHÁCH HÀNG TAI NGHE VÀNG NẰM GÓC PHẢI DƯỚI -->
+  <div class="support-float-btn" onclick="alert('🎧 Đội ngũ CSKH ApexCore luôn sẵn sàng hỗ trợ bạn 24/7!')" title="Hỗ trợ trực tuyến 24/7">
+    🎧
+  </div>
+
+  <!-- Master Application Script (ES Module) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

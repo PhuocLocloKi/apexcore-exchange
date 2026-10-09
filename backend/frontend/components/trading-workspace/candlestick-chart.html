@@ -1,0 +1,86 @@
+<!-- ========================================================
+     APEXCORE COMPONENT: Professional Candlestick Chart
+     High-DPI Retina Canvas + TradingView Style Pro Header & Toolbar
+     ======================================================== -->
+<section class="chart-panel glass-card">
+  <!-- Chart Top Bar -->
+  <div class="chart-header-bar">
+    <!-- Active Symbol Info -->
+    <div class="symbol-info-group">
+      <div class="symbol-badge-icon">₿</div>
+      <div class="symbol-main-info">
+        <div class="symbol-name-row">
+          <span class="active-symbol-pair" id="chart-symbol-pair">BTC/USDT</span>
+          <span class="active-symbol-badge-pct change-positive" id="chart-symbol-pct">+2.41%</span>
+        </div>
+        <div class="symbol-sub-name" id="chart-symbol-name">Bitcoin / Tether</div>
+      </div>
+    </div>
+
+    <!-- 24h Stats Metrics -->
+    <div class="chart-24h-metrics">
+      <div class="metric-item">
+        <span class="metric-label">Giá cao nhất</span>
+        <span class="metric-val num-tabular" id="chart-high-val">69,412.36</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">Giá thấp nhất</span>
+        <span class="metric-val num-tabular" id="chart-low-val">66,732.18</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">KL (24h)</span>
+        <span class="metric-val num-tabular" id="chart-vol-val">1,932,467.21</span>
+      </div>
+    </div>
+
+    <!-- Timeframes Selector -->
+    <div class="timeframe-selector">
+      <button class="tf-btn" data-tf="1m">1m</button>
+      <button class="tf-btn" data-tf="5m">5m</button>
+      <button class="tf-btn active" data-tf="15m">15m</button>
+      <button class="tf-btn" data-tf="1h">1h</button>
+      <button class="tf-btn" data-tf="4h">4h</button>
+      <button class="tf-btn" data-tf="1D">1D</button>
+      <button class="tf-btn" data-tf="1W">1W</button>
+    </div>
+
+    <!-- Tools & Indicators -->
+    <div class="chart-tools-group">
+      <button class="chart-tool-btn" id="btn-indicators">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+        <span>Chỉ báo</span>
+      </button>
+      <button class="chart-tool-btn" id="btn-compare">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+        <span>So sánh</span>
+      </button>
+      <button class="chart-icon-btn" id="btn-fullscreen-chart" title="Toàn màn hình">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Chart Stage with Left Drawing Toolbar & Canvas Area -->
+  <div class="chart-canvas-wrapper">
+    <!-- Left Drawing Tools Toolbar -->
+    <aside class="drawing-toolbar">
+      <button class="draw-tool-btn active" title="Con trỏ chuột"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="2" x2="12" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line></svg></button>
+      <button class="draw-tool-btn" title="Đường xu hướng (Trendline)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="20" x2="20" y2="4"></line></svg></button>
+      <button class="draw-tool-btn" title="Fibonacci Retracement"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+      <button class="draw-tool-btn" title="Vùng hỗ trợ / kháng cự"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect></svg></button>
+      <button class="draw-tool-btn" title="Văn bản ghi chú"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="12" y1="4" x2="12" y2="20"></line></svg></button>
+      <button class="draw-tool-btn" title="Thước đo khoảng giá"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.3 15.3l-6.6-6.6M12 12l2-2M9 15l2-2M6 18l2-2"/></svg></button>
+    </aside>
+
+    <!-- Retina 4K Canvas -->
+    <div class="canvas-render-container" id="chart-container">
+      <canvas id="apex-candle-canvas" class="retina-crisp"></canvas>
+      
+      <!-- Overlay Current Price Marker -->
+      <div class="live-price-flag" id="live-price-flag">
+        <span class="flag-symbol">BTC</span>
+        <span class="flag-price num-tabular" id="flag-price-val">68,432.12</span>
+      </div>
+    </div>
+  </div>
+</section>

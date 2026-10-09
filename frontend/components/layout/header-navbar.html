@@ -1,0 +1,37 @@
+<!-- ==========================================
+     APEXCORE COMPONENT: Header & Navigation (V14.0)
+     Founder: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
+     ========================================== -->
+<header class="apex-sovereign-header">
+  <div class="header-container" style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+    <!-- Brand Clean Static Logo (V17.0 BỎ VIỀN 100%) -->
+    <div class="brand-sovereign-clean" onclick="location.href='index.html'" title="ApexCore Sovereign Exchange">
+      <img src="/assets/images/logo.jpg" alt="ApexCore Logo" class="star-logo-noborder" onerror="this.src='assets/images/logo.jpg'">
+      <span class="brand-text-clean">APEXCORE</span>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="header-nav-menu">
+      <a href="index.html" class="nav-link-btn">Trang chủ</a>
+      <a href="trade.html?mode=spot" class="nav-link-btn active">Giao dịch</a>
+      <a href="trade.html?mode=stocks" class="nav-link-btn">Chứng khoán</a>
+      <a href="trade.html?mode=margin" class="nav-link-btn">Ký quỹ</a>
+      <a href="#/wallet" class="nav-link-btn">Ví tiền</a>
+    </nav>
+
+    <!-- Header Right Actions -->
+    <div class="header-right-tools">
+      <button class="tool-icon-btn" title="Tìm kiếm" id="btn-search-trigger">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </button>
+
+      <button class="btn-deposit-gold-solid" onclick="alert('Nạp tiền On-chain & VietQR')">
+        Deposit
+      </button>
+
+      <button class="tool-icon-btn" id="btn-theme-switch" onclick="toggleTheme()" title="Đổi theme">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>

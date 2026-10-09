@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  postgres:
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_LOG_STATEMENT: all
+
+  redis:
+    ports:
+      - "6379:6379"
+
+  clickhouse:
+    ports:
+      - "8123:8123"
+      - "9000:9000"

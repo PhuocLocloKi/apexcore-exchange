@@ -1,0 +1,93 @@
+/* ========================================================
+   APEXCORE SOVEREIGN EXCHANGE — SEALS MODULE (assets/css/seals.css)
+   Khối Ấn Tín Bảo Chứng Quốc Gia: Nằm Ngang & Độc Bản
+   Founder & Chief Architect: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
+   ======================================================== */
+
+.sovereign-seal-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin: 16px 0;
+  flex-wrap: nowrap;
+}
+
+.seal-badge-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(24, 28, 36, 0.95) 0%, rgba(15, 18, 24, 0.98) 100%);
+  border: 1px solid rgba(252, 213, 53, 0.35);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(252, 213, 53, 0.05);
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.seal-badge-card:hover {
+  border-color: rgba(252, 213, 53, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(252, 213, 53, 0.15);
+}
+
+.seal-icon-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: rgba(252, 213, 53, 0.12);
+  border: 1px solid rgba(252, 213, 53, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.seal-text-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.seal-title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.seal-rank {
+  font-size: 13px;
+  font-weight: 800;
+  color: #FCD535;
+  background: rgba(252, 213, 53, 0.15);
+  padding: 1px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.seal-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: 0.3px;
+}
+
+.seal-sub {
+  font-size: 11px;
+  color: #848E9C;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .sovereign-seal-row {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .seal-badge-card {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}

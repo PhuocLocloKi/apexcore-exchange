@@ -1,0 +1,505 @@
+/* ========================================================
+   APEXCORE SOVEREIGN EXCHANGE — HEADER MODULE (assets/css/header.css)
+   Khối Nhận Diện Thương Hiệu, Thanh Điều Hướng & Toolbar 8 Nút
+   Founder & Chief Architect: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
+   ======================================================== */
+
+/* 1. KHỐI BRAND LOGO TĨNH MẶC ĐỊNH BỎ VIỀN 100% (CLEAN FLOATING LOGO) */
+.brand-sovereign-clean,
+.brand-clean {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  text-decoration: none !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+}
+
+.star-logo-noborder,
+.brand-star-img {
+  width: 32px !important;
+  height: 32px !important;
+  object-fit: contain !important;
+  background: transparent !important;
+  border: none !important; /* XÓA BỎ HOÀN TOÀN VIỀN */
+  border-radius: 0 !important;
+  box-shadow: none !important; /* XÓA BỎ HÀO QUANG ĐÓNG HỘP */
+  display: block !important;
+  flex-shrink: 0 !important;
+  transform: none !important;
+  filter: none !important;
+  animation: none !important;
+}
+
+.brand-text-clean,
+.brand-title-clean {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 19px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  color: #FFFFFF !important;
+  line-height: 1 !important;
+  text-shadow: none !important;
+  animation: none !important;
+}
+
+[data-theme="light"] .brand-text-clean,
+[data-theme="light"] .brand-title-clean {
+  color: #181a20 !important;
+}
+
+/* 2. HEADER CONTAINER & ROOT (KHÓA CỨNG FLEXBOX, OVERFLOW VISIBLE - XÓA VẠCH XÁM LỖI) */
+.apex-sovereign-header,
+.terminal-header,
+.apex-header {
+  height: 64px !important;
+  background-color: #181a20 !important;
+  border-bottom: 1px solid #2b313a !important;
+  padding: 0 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 1000 !important;
+  box-sizing: border-box !important;
+  overflow: visible !important; /* KHÔNG BỊ THANH CUỘN LẠ NẰM GIỮA HEADER */
+  box-shadow: none !important;
+}
+
+[data-theme="light"] .apex-sovereign-header,
+[data-theme="light"] .terminal-header,
+[data-theme="light"] .apex-header {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #eaecef !important;
+}
+
+.header-left-cluster {
+  display: flex !important;
+  align-items: center !important;
+  gap: 24px !important;
+  overflow: visible !important;
+}
+
+/* 3. ĐIỀU HƯỚNG CHÍNH (FRAMELESS, CÂN ĐỐI CHUẨN QUỐC TẾ) */
+.header-nav-menu {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.nav-link-btn {
+  color: #848e9c !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  padding: 6px 12px !important;
+  border-radius: 4px !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  transition: color 0.15s ease, background-color 0.15s ease !important;
+  white-space: nowrap !important;
+  position: relative !important;
+}
+
+.nav-link-btn:hover {
+  color: #eaecef !important;
+  background-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+[data-theme="light"] .nav-link-btn {
+  color: #474d57 !important;
+}
+[data-theme="light"] .nav-link-btn:hover {
+  color: #181a20 !important;
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+.nav-link-btn.active {
+  color: #fcd535 !important;
+  font-weight: 600 !important;
+  background: transparent !important;
+}
+
+.nav-caret-arrow {
+  font-size: 9px;
+  margin-left: 2px;
+  color: #848e9c;
+  transition: transform 0.2s ease;
+}
+
+.nav-dropdown-wrapper:hover .nav-caret-arrow {
+  transform: rotate(180deg);
+  color: #fcd535;
+}
+
+/* 4. MEGA DROPDOWN MENU CHỨA BỘ ICON VECTOR KIM HOÀN THUẦN SVG */
+.nav-dropdown-wrapper {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  overflow: visible !important;
+}
+
+.mega-dropdown-panel {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  margin-top: 4px !important;
+  background: #181c24 !important;
+  border: 1px solid #2b313a !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65) !important;
+  display: none;
+  z-index: 9999 !important;
+  animation: dropFadeIn 0.18s ease-out;
+}
+
+[data-theme="light"] .mega-dropdown-panel {
+  background: #ffffff !important;
+  border-color: #e6e8ea !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12) !important;
+}
+
+.nav-dropdown-wrapper:hover .mega-dropdown-panel {
+  display: block !important;
+}
+
+@keyframes dropFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mega-grid-2cols {
+  display: grid !important;
+  grid-template-columns: 240px 240px !important;
+  gap: 16px !important;
+}
+
+.mega-group-title {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #848e9c !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  margin-bottom: 8px !important;
+  padding-left: 6px !important;
+}
+
+.mega-item-link {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 10px !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  transition: all 0.18s ease !important;
+  cursor: pointer !important;
+}
+
+.mega-item-link:hover {
+  background: #202630 !important;
+}
+
+[data-theme="light"] .mega-item-link:hover {
+  background: #f5f5f5 !important;
+}
+
+.mega-icon-svg-box {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 8px !important;
+  background: rgba(252, 213, 53, 0.08) !important;
+  border: 1px solid rgba(252, 213, 53, 0.18) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.mega-item-link:hover .mega-icon-svg-box {
+  background: rgba(252, 213, 53, 0.18) !important;
+  border-color: rgba(252, 213, 53, 0.45) !important;
+}
+
+.mega-item-content {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.mega-item-name {
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #eaecef !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+[data-theme="light"] .mega-item-name {
+  color: #181a20 !important;
+}
+
+.mega-item-desc {
+  font-size: 11px !important;
+  color: #848e9c !important;
+}
+
+.badge-tag-yellow {
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  background: #fcd535 !important;
+  color: #000000 !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
+  text-transform: uppercase !important;
+}
+
+/* 5. CỤM CÔNG CỤ BÊN PHẢI (8 NÚT TOÀN DIỆN - KHÔNG VIỀN, CÂN ĐỐI) */
+.header-right-tools {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  overflow: visible !important;
+}
+
+.tool-icon-btn {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: #848e9c !important;
+  cursor: pointer !important;
+  padding: 6px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  border-radius: 4px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.15s ease !important;
+  position: relative !important;
+}
+
+.tool-icon-btn:hover {
+  color: #eaecef !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+[data-theme="light"] .tool-icon-btn {
+  color: #474d57 !important;
+}
+[data-theme="light"] .tool-icon-btn:hover {
+  color: #181a20 !important;
+  background: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* NÚT DEPOSIT VÀNG CHUẨN QUỐC TẾ */
+.btn-deposit-gold-solid {
+  background: #fcd535 !important;
+  color: #000000 !important;
+  border: none !important;
+  outline: none !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  border-radius: 4px !important;
+  padding: 6px 14px !important;
+  height: 32px !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  transition: all 0.15s ease !important;
+  white-space: nowrap !important;
+}
+
+.btn-deposit-gold-solid:hover {
+  background: #f0b90b !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(252, 213, 53, 0.35) !important;
+}
+
+/* THẺ PROFILE FOUNDER & DROPDOWN */
+.user-profile-anchor {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 6px 0 !important;
+  cursor: pointer !important;
+  overflow: visible !important;
+}
+
+.user-avatar-gold-ring {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  border: 1.5px solid #fcd535 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #1e232d !important;
+  color: #fcd535 !important;
+}
+
+.profile-dropdown-card {
+  position: absolute !important;
+  top: 100% !important;
+  right: 0 !important;
+  width: 280px !important;
+  background: #181c24 !important;
+  border: 1px solid #2b313a !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7) !important;
+  display: none;
+  z-index: 99999 !important;
+  animation: dropFadeIn 0.18s ease-out;
+}
+
+[data-theme="light"] .profile-dropdown-card {
+  background: #ffffff !important;
+  border-color: #e6e8ea !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14) !important;
+}
+
+.user-profile-anchor:hover .profile-dropdown-card {
+  display: block !important;
+}
+
+.profile-header-meta {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+.profile-avatar-large {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 1.5px solid #fcd535 !important;
+}
+
+.profile-name-text {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+}
+
+[data-theme="light"] .profile-name-text {
+  color: #181a20 !important;
+}
+
+.profile-uid-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 12px !important;
+  color: #848e9c !important;
+  margin-top: 2px !important;
+}
+
+.btn-copy-uid {
+  cursor: pointer !important;
+  color: #fcd535 !important;
+  font-size: 13px !important;
+}
+
+.profile-badges-row {
+  display: flex !important;
+  gap: 6px !important;
+  margin-bottom: 12px !important;
+}
+
+.badge-pill-soft {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: #848e9c !important;
+  background: #202630 !important;
+  padding: 3px 8px !important;
+  border-radius: 4px !important;
+}
+
+[data-theme="light"] .badge-pill-soft {
+  background: #f0f2f5 !important;
+}
+
+.badge-verified {
+  color: #0ecb81 !important;
+  background: rgba(14, 203, 129, 0.12) !important;
+  border: 1px solid rgba(14, 203, 129, 0.3) !important;
+}
+
+.profile-nav-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.profile-nav-link {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 8px 10px !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: #eaecef !important;
+  text-decoration: none !important;
+  border-radius: 6px !important;
+  transition: all 0.18s ease !important;
+  cursor: pointer !important;
+}
+
+[data-theme="light"] .profile-nav-link {
+  color: #181a20 !important;
+}
+
+.profile-nav-link:hover {
+  background: #202630 !important;
+  color: #fcd535 !important;
+}
+
+[data-theme="light"] .profile-nav-link:hover {
+  background: #f5f5f5 !important;
+}
+
+.profile-logout-btn {
+  color: #f6465d !important;
+  border-top: 1px solid #2b313a !important;
+  margin-top: 8px !important;
+  padding-top: 10px !important;
+}
+
+.notification-dot {
+  position: absolute !important;
+  top: 4px !important;
+  right: 4px !important;
+  width: 6px !important;
+  height: 6px !important;
+  background: #fcd535 !important;
+  border-radius: 50% !important;
+}

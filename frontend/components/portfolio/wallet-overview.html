@@ -1,0 +1,142 @@
+<!-- ========================================================
+     APEXCORE COMPONENT: Wallet Overview & Financial News
+     Total Balance + Sparkline + Nạp/Rút/Chuyển + Macro News
+     ======================================================== -->
+<div class="portfolio-right-col" id="wallet">
+  <!-- Asset Overview Card -->
+  <section class="wallet-overview-card glass-card">
+    <div class="wallet-header-row">
+      <div class="wallet-title-group">
+        <span class="wallet-label text-contrast-sub">Tổng quan tài sản</span>
+        <div class="wallet-balance-row">
+          <span class="wallet-balance-num num-tabular" id="user-total-balance">$12,458.32</span>
+          <!-- Dynamic Sparkline Curve -->
+          <div class="sparkline-wrapper">
+            <svg class="sparkline-svg" viewBox="0 0 100 30" preserveAspectRatio="none">
+              <path d="M0,25 Q20,28 35,18 T70,12 T100,5" fill="none" stroke="#00f2ad" stroke-width="2.5" stroke-linecap="round"></path>
+              <circle cx="100" cy="5" r="3.5" fill="#00f2ad" class="sparkline-dot"></circle>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <button class="wallet-eye-toggle" title="Ẩn/hiện số dư">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+      </button>
+    </div>
+
+    <!-- 3 Core Action Buttons: Nạp · Rút · Chuyển -->
+    <div class="wallet-actions-row">
+      <button class="btn-wallet-action btn-deposit-glow" id="btn-wallet-deposit">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+        <span>Nạp</span>
+      </button>
+      <button class="btn-wallet-action btn-withdraw-glow" id="btn-wallet-withdraw">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+        <span>Rút</span>
+      </button>
+      <button class="btn-wallet-action btn-transfer-glow" id="btn-wallet-transfer">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+        <span>Chuyển</span>
+      </button>
+    </div>
+
+    <!-- Wallet Sub-Tabs -->
+    <div class="wallet-subtabs">
+      <button class="wtab-btn active">Tổng quan</button>
+      <button class="wtab-btn">Ví spot</button>
+      <button class="wtab-btn">Ví futures</button>
+    </div>
+
+    <!-- Asset Allocation Breakdown List -->
+    <div class="asset-allocation-list">
+      <!-- USDT 34% -->
+      <div class="asset-item-row">
+        <div class="asset-left">
+          <span class="coin-icon-tag bg-usdt">₮</span>
+          <div class="asset-meta"><span class="asset-name">USDT</span></div>
+        </div>
+        <div class="asset-right">
+          <span class="asset-amount num-tabular">4,230.12</span>
+          <span class="asset-pct text-contrast-sub">34.00%</span>
+        </div>
+      </div>
+
+      <!-- BTC 28.7% -->
+      <div class="asset-item-row">
+        <div class="asset-left">
+          <span class="coin-icon-tag bg-btc">₿</span>
+          <div class="asset-meta"><span class="asset-name">BTC</span></div>
+        </div>
+        <div class="asset-right">
+          <span class="asset-amount num-tabular">0.1854</span>
+          <span class="asset-pct text-contrast-sub">28.70%</span>
+        </div>
+      </div>
+
+      <!-- ETH 24.1% -->
+      <div class="asset-item-row">
+        <div class="asset-left">
+          <span class="coin-icon-tag bg-eth">Ξ</span>
+          <div class="asset-meta"><span class="asset-name">ETH</span></div>
+        </div>
+        <div class="asset-right">
+          <span class="asset-amount num-tabular">1.2432</span>
+          <span class="asset-pct text-contrast-sub">24.10%</span>
+        </div>
+      </div>
+
+      <!-- SOL 8.2% -->
+      <div class="asset-item-row">
+        <div class="asset-left">
+          <span class="coin-icon-tag bg-sol">◎</span>
+          <div class="asset-meta"><span class="asset-name">SOL</span></div>
+        </div>
+        <div class="asset-right">
+          <span class="asset-amount num-tabular">12.563</span>
+          <span class="asset-pct text-contrast-sub">8.22%</span>
+        </div>
+      </div>
+
+      <!-- BNB 4.7% -->
+      <div class="asset-item-row">
+        <div class="asset-left">
+          <span class="coin-icon-tag bg-bnb">◆</span>
+          <div class="asset-meta"><span class="asset-name">BNB</span></div>
+        </div>
+        <div class="asset-right">
+          <span class="asset-amount num-tabular">2.351</span>
+          <span class="asset-pct text-contrast-sub">4.74%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Real-Time Macro Financial News Stream -->
+  <section class="financial-news-card glass-card">
+    <div class="news-header-row">
+      <div class="news-title-group">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2ad" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path><path d="M18 14h-8"></path><path d="M15 18h-5"></path><path d="M10 6h8v4h-8V6Z"></path></svg>
+        <span class="news-card-title">Tin tức</span>
+      </div>
+    </div>
+
+    <div class="news-stream-list">
+      <article class="news-stream-item">
+        <h5 class="news-item-headline">Bitcoin vượt mốc 68,000 USD, thị trường lạc quan trở lại</h5>
+        <span class="news-item-time text-contrast-sub">2 giờ trước</span>
+      </article>
+      <article class="news-stream-item">
+        <h5 class="news-item-headline">Ethereum chuẩn bị nâng cấp mạng lưới mới</h5>
+        <span class="news-item-time text-contrast-sub">4 giờ trước</span>
+      </article>
+      <article class="news-stream-item">
+        <h5 class="news-item-headline">Thị trường chứng khoán Mỹ tăng điểm mạnh</h5>
+        <span class="news-item-time text-contrast-sub">6 giờ trước</span>
+      </article>
+    </div>
+
+    <div class="news-footer-link">
+      <a href="#" class="view-all-news">Xem tất cả ➔</a>
+    </div>
+  </section>
+</div>

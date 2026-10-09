@@ -1,0 +1,93 @@
+/* ========================================================
+   APEXCORE ULTRA-MINIMALIST DESIGN TOKENS
+   Chế độ 2 Màu Sáng / Tối (Dark & Light Mode) — Zero-Distraction
+   Phông chữ quốc tế chuẩn Binance: Inter, SF Pro, Segoe UI
+   ======================================================== */
+
+:root,
+[data-theme="dark"] {
+  /* 🌙 DARK MODE (MẶC ĐỊNH) */
+  --bg-app: #0b0e14;
+  --bg-card: #181a20;
+  --bg-card-sub: #1e232d;
+  --bg-input: #1e232d;
+  --bg-input-focus: #2b313a;
+  --bg-hover: rgba(255, 255, 255, 0.04);
+  --border-color: #2b313a;
+  --border-light: rgba(255, 255, 255, 0.08);
+
+  /* Typography */
+  --text-primary: #eaecef;
+  --text-secondary: #848e9c;
+  --text-muted: #5e6673;
+  --text-disabled: #474d57;
+
+  /* Trading Colors */
+  --color-buy: #0ecb81;        /* Xanh mua / nến tăng */
+  --color-buy-bg: rgba(14, 203, 129, 0.12);
+  --color-sell: #f6465d;       /* Đỏ bán / nến giảm */
+  --color-sell-bg: rgba(246, 70, 93, 0.12);
+
+  /* Brand Accents */
+  --color-accent: #f0b90b;     /* Vàng Binance / Apex Gold */
+  --color-accent-mint: #00f2ad;/* Xanh Mint công nghệ */
+  --color-accent-bg: rgba(240, 185, 11, 0.12);
+
+  /* Depth & Orderbook Bars */
+  --depth-bid-bar: rgba(14, 203, 129, 0.15);
+  --depth-ask-bar: rgba(246, 70, 93, 0.15);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] {
+  /* ☀️ LIGHT MODE */
+  --bg-app: #ffffff;
+  --bg-card: #f4f5f7;
+  --bg-card-sub: #eaecef;
+  --bg-input: #ffffff;
+  --bg-input-focus: #eaecef;
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --border-color: #e6e8ea;
+  --border-light: rgba(0, 0, 0, 0.08);
+
+  /* Typography */
+  --text-primary: #1e2329;
+  --text-secondary: #707a8a;
+  --text-muted: #929aa5;
+  --text-disabled: #b7bdc6;
+
+  /* Trading Colors */
+  --color-buy: #0ecb81;
+  --color-buy-bg: rgba(14, 203, 129, 0.12);
+  --color-sell: #f6465d;
+  --color-sell-bg: rgba(246, 70, 93, 0.12);
+
+  /* Brand Accents */
+  --color-accent: #f0b90b;
+  --color-accent-mint: #00c98f;
+  --color-accent-bg: rgba(240, 185, 11, 0.12);
+
+  /* Depth & Orderbook Bars */
+  --depth-bid-bar: rgba(14, 203, 129, 0.15);
+  --depth-ask-bar: rgba(246, 70, 93, 0.15);
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Base Typographic Tokens */
+:root {
+  --font-family-base: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --header-height: 60px;
+}

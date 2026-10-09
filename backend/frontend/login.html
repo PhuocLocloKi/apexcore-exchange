@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexCore Exchange — Đăng Nhập</title>
+  
+  <style>
+    :root {
+      --bg-studio: #0b0e14;
+      --card-bg: rgba(18, 22, 30, 0.82);
+      --card-border: rgba(255, 255, 255, 0.18);
+      --text-title: #ffffff;
+      --text-sub: #94a3b8;
+      --input-border: rgba(255, 255, 255, 0.22);
+      --btn-black: #fcd535;
+      --btn-text: #000000;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body {
+      background-color: var(--bg-studio);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      perspective: 1200px;
+    }
+    /* KHÔNG GIAN 3D CHỨA CÁC KHỐI LẬP PHƯƠNG */
+    .scene-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* KHỐI LẬP PHƯƠNG 3D (CUBE) */
+    .cube-wrap {
+      position: absolute;
+      transform-style: preserve-3d;
+      pointer-events: none;
+      transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .cube {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: floatMotion 6s ease-in-out infinite alternate;
+    }
+    .face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.45);
+    }
+    /* Đổ bóng nhám Matte kim loại đen đa góc */
+    .face.front  { background: #1c1f24; transform: translateZ(var(--depth)); }
+    .face.back   { background: #0f1114; transform: rotateY(180deg) translateZ(var(--depth)); }
+    .face.right  { background: #262a30; transform: rotateY(90deg) translateZ(var(--depth)); }
+    .face.left   { background: #15171a; transform: rotateY(-90deg) translateZ(var(--depth)); }
+    .face.top    { background: #323842; transform: rotateX(90deg) translateZ(var(--depth)); }
+    .face.bottom { background: #0a0b0d; transform: rotateX(-90deg) translateZ(var(--depth)); }
+    /* Vị trí và kích thước từng khối */
+    .c1 { width: 140px; height: 140px; --depth: 70px; top: 10%; right: 26%; z-index: 1; animation-duration: 7s; }
+    .c2 { width: 110px; height: 110px; --depth: 55px; bottom: 12%; left: 28%; z-index: 10; animation-duration: 6.2s; animation-delay: -2s; }
+    .c3 { width: 85px;  height: 85px;  --depth: 42px; bottom: 18%; right: 26%; z-index: 10; animation-duration: 5.8s; animation-delay: -1s; }
+    .c4 { width: 75px;  height: 75px;  --depth: 37px; top: 40%; left: 20%; z-index: 10; animation-duration: 6.5s; animation-delay: -3s; }
+    .c5 { width: 55px;  height: 55px;  --depth: 27px; top: 28%; right: 22%; z-index: 2; animation-duration: 8s; }
+    .c6 { width: 45px;  height: 45px;  --depth: 22px; top: 16%; left: 30%; z-index: 2; animation-duration: 5.5s; }
+    .c7 { width: 35px;  height: 35px;  --depth: 17px; bottom: 22%; right: 20%; z-index: 10; animation-duration: 7.2s; }
+    @keyframes floatMotion {
+      0%   { transform: rotateX(25deg) rotateY(35deg) translateY(0px) rotateZ(0deg); }
+      50%  { transform: rotateX(20deg) rotateY(45deg) translateY(-22px) rotateZ(3deg); }
+      100% { transform: rotateX(30deg) rotateY(25deg) translateY(12px) rotateZ(-3deg); }
+    }
+    /* THẺ ĐĂNG NHẬP THỦY TINH MỜ (FROSTED GLASS CARD) */
+    .glass-card {
+      position: relative;
+      z-index: 25;
+      width: 430px;
+      max-width: calc(100vw - 32px);
+      padding: 44px 38px 40px;
+      background: var(--card-bg);
+      backdrop-filter: blur(28px) saturate(180%);
+      -webkit-backdrop-filter: blur(28px) saturate(180%);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 1px 1px rgba(255, 255, 255, 0.08);
+      color: var(--text-title);
+    }
+    .brand-back-btn {
+      position: absolute;
+      top: 18px;
+      left: 20px;
+      color: var(--text-sub);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .brand-back-btn:hover { color: #fcd535; }
+    .title {
+      font-size: 26px;
+      font-weight: 800;
+      color: var(--text-title);
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+      margin-top: 8px;
+    }
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-sub);
+      font-weight: 500;
+      margin-bottom: 28px;
+    }
+    /* FORM INPUT DẠNG UNDERLINE TỐI GIẢN */
+    .field-group {
+      margin-bottom: 22px;
+      position: relative;
+    }
+    .field-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-sub);
+      display: block;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .field-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px solid var(--input-border);
+      padding: 8px 0;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .field-input:focus {
+      border-bottom-color: #fcd535;
+    }
+    .pwd-toggle {
+      position: absolute;
+      right: 0;
+      bottom: 8px;
+      cursor: pointer;
+      color: #94a3b8;
+    }
+    /* NÚT BẤM CAO CẤP */
+    .btn-submit {
+      width: 100%;
+      height: 48px;
+      background: var(--btn-black);
+      color: var(--btn-text);
+      border: none;
+      border-radius: 24px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.2s ease;
+      box-shadow: 0 10px 25px rgba(252, 213, 53, 0.25);
+    }
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(252, 213, 53, 0.35);
+      background: #fde068;
+    }
+    /* PHẦN ĐĂNG NHẬP GOOGLE & APPLE */
+    .auth-sep {
+      display: flex;
+      align-items: center;
+      margin: 22px 0 16px;
+      color: #94a3b8;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .auth-sep::before, .auth-sep::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .auth-sep span { padding: 0 12px; }
+    .social-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .btn-icon-auth {
+      height: 42px;
+      border-radius: 21px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #ffffff;
+      transition: all 0.2s;
+    }
+    .btn-icon-auth:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.35);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+  <div class="scene-container" id="scene">
+    <!-- CÁC KHỐI LẬP PHƯƠNG 3D BỒNG BỀNH -->
+    <div class="cube-wrap c1"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+    <div class="cube-wrap c2"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+    <div class="cube-wrap c3"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+    <div class="cube-wrap c4"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+    <div class="cube-wrap c5"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+    <div class="cube-wrap c6"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+    <div class="cube-wrap c7"><div class="cube"><div class="face front"></div><div class="face back"></div><div class="face right"></div><div class="face left"></div><div class="face top"></div><div class="face bottom"></div></div></div>
+
+    <!-- THẺ KÍNH MỜ CHÍNH GIỮA -->
+    <div class="glass-card">
+      <a href="/" class="brand-back-btn">← Quay lại Sàn</a>
+      <h1 class="title">Welcome Back!</h1>
+      <p class="subtitle">Đăng nhập để vào buồng lái ApexCore Pro</p>
+
+      <div class="social-row">
+        <button class="btn-icon-auth" onclick="loginWithGoogleOAuth()">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+          Google
+        </button>
+        <button class="btn-icon-auth" onclick="loginWithAppleOAuth()">
+          <svg width="16" height="16" viewBox="0 0 170 170" fill="currentColor"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.66-7.74-11.89-14.1-6.73-10.14-12.02-21.65-15.88-34.52-3.86-12.87-5.8-24.97-5.8-36.31 0-15.03 3.73-27.53 11.2-37.52 7.46-9.98 16.9-15.08 28.3-15.3 4.8.12 10.23 1.34 16.29 3.67 6.06 2.33 10.05 3.63 11.97 3.9 2.45-.48 6.64-1.94 12.56-4.39 5.92-2.44 11.05-3.53 15.39-3.26 13.68.79 24.59 5.86 32.72 15.2-11.96 7.27-17.8 17.2-17.52 29.8.27 9.87 4.09 18.23 11.45 25.07 7.37 6.84 16.14 10.58 26.31 11.23-2.17 6.3-4.8 12.44-7.89 18.42m-33.3-107.01c0 7.82-2.9 15.17-8.69 22.06-6.84 8.04-15.22 12.63-24.6 11.85-.27-1.19-.41-2.38-.41-3.57 0-7.59 3.03-15.25 9.09-22.97 3.03-3.86 6.78-7.06 11.25-9.6 4.47-2.54 8.78-4.04 12.93-4.51.3 2.29.43 4.54.43 6.74z"/></svg>
+          Apple
+        </button>
+      </div>
+
+      <div class="auth-sep"><span>hoặc bằng Email</span></div>
+
+      <form onsubmit="handleLogin(event)">
+        <div class="field-group">
+          <label class="field-label">Email hoặc Tên đăng nhập</label>
+          <input type="text" class="field-input" placeholder="nguyenphuocloc010306@gmail.com" id="userInput" required>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Mật khẩu</label>
+          <input type="password" class="field-input" placeholder="••••••••••••" id="passInput" required>
+          <span class="pwd-toggle" onclick="togglePass()">👁</span>
+        </div>
+
+        <button type="submit" class="btn-submit">Log In ➔</button>
+
+        <div style="text-align:center; font-size:12px; color:var(--text-sub); margin-top:18px;">
+          Chưa có tài khoản? <a href="/register.html" style="color:#fcd535; font-weight:700; text-decoration:none;">Đăng ký ngay</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // HIỆU ỨNG PARALLAX 3D TƯƠNG TÁC THEO CHUỘT
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX - window.innerWidth / 2) / 35;
+      const y = (e.clientY - window.innerHeight / 2) / 35;
+      document.querySelectorAll('.cube-wrap').forEach((cube, index) => {
+        const speed = (index + 1) * 0.4;
+        cube.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+      });
+    });
+
+    function togglePass() {
+      const p = document.getElementById('passInput');
+      p.type = p.type === 'password' ? 'text' : 'password';
+    }
+
+    function handleLogin(e) {
+      if (e) e.preventDefault();
+      const u = document.getElementById('userInput').value || "NGUYỄN PHƯỚC LỘC";
+      const isFounder = u.includes('nguyenphuocloc') || u.includes('Lộc') || u.includes('loc');
+      const userObj = {
+        name: isFounder ? "NGUYỄN PHƯỚC LỘC" : u.split('@')[0],
+        email: u.includes('@') ? u : u + "@apexcore.io",
+        role: isFounder ? "ADMIN" : "USER"
+      };
+      localStorage.setItem("apex_auth", JSON.stringify(userObj));
+      localStorage.setItem("apex_user", JSON.stringify(userObj));
+      localStorage.setItem("apex_token", "token_" + Date.now());
+      alert("🎉 Chúc mừng " + userObj.name + "! Đang chuyển vào Sàn Giao Dịch...");
+      window.location.href = "/";
+    }
+
+    // Google OAuth 2.0
+    function loginWithGoogleOAuth() {
+      const clientId = "459445903377-iefegjgl1rpi81m5keicj3r44s7lsuod.apps.googleusercontent.com";
+      const redirectUri = window.location.origin;
+      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=email%20profile%20openid&prompt=select_account`;
+      const w = 500, h = 650;
+      const left = (window.screen.width - w) / 2;
+      const top = (window.screen.height - h) / 2;
+      const win = window.open(authUrl, 'GoogleLogin', `width=${w},height=${h},top=${top},left=${left}`);
+      if (!win || win.closed) {
+        window.location.href = authUrl;
+      }
+    }
+
+    // Apple OAuth
+    function loginWithAppleOAuth() {
+      const email = prompt("🍎 Đăng nhập Apple ID:\nNhập Email iCloud của bạn:", "nguyenphuocloc010306@gmail.com");
+      if (email && email.trim()) {
+        const isFounder = email.includes('nguyenphuocloc') || email.includes('loc');
+        const userObj = {
+          name: isFounder ? "NGUYỄN PHƯỚC LỘC" : email.split('@')[0],
+          email: email.trim(),
+          role: isFounder ? "ADMIN" : "USER",
+          avatar: "https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/auth.png"
+        };
+        localStorage.setItem("apex_auth", JSON.stringify(userObj));
+        localStorage.setItem("apex_user", JSON.stringify(userObj));
+        localStorage.setItem("apex_token", "apple_token_" + Date.now());
+        alert("🎉 Đăng nhập Apple ID thành công!");
+        window.location.href = "/";
+      }
+    }
+  </script>
+</body>
+</html>

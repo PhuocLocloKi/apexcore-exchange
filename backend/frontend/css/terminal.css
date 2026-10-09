@@ -1,0 +1,776 @@
+/* ========================================================
+   APEXCORE PRO — TERMINAL CSS (css/terminal.css)
+   MASTER V9.0 — Bố Cục Buồng Lái Giao Dịch Chuẩn Binance Pro
+   Founder & CTO: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
+   ======================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.terminal-body {
+  background-color: var(--bg-main, #0b0e14);
+  color: var(--text-primary, #eaecef);
+  font-family: var(--font-base, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 1. TOP STICKY HEADER */
+.terminal-header {
+  height: 56px;
+  background: var(--bg-card, #181a20);
+  border-bottom: 1px solid var(--border-color, #2b313a);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.terminal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand-logo-svg {
+  width: 26px;
+  height: 26px;
+}
+
+.brand-name {
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: var(--text-primary, #fff);
+}
+
+.brand-badge {
+  background: var(--color-yellow, #fcd535);
+  color: #000;
+  font-size: 9px;
+  font-weight: 900;
+  padding: 2px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+
+.header-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.header-nav-link {
+  color: var(--text-secondary, #848e9c);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.header-nav-link:hover, .header-nav-link.active {
+  color: var(--text-primary, #fff);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.header-nav-link.active {
+  color: var(--color-yellow, #fcd535);
+}
+
+/* 8 ACTION ICONS ON TOP RIGHT */
+.terminal-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-btn-header {
+  background: none;
+  border: none;
+  color: var(--text-secondary, #848e9c);
+  cursor: pointer;
+  padding: 7px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  position: relative;
+  transition: all 0.15s ease;
+}
+
+.icon-btn-header:hover {
+  color: var(--text-primary, #fff);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-deposit-gold {
+  background: var(--color-yellow, #fcd535);
+  color: #000;
+  font-size: 12px;
+  font-weight: 800;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+
+.btn-deposit-gold:hover {
+  background: #f0b90b;
+  transform: translateY(-1px);
+}
+
+.user-header-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color, #2b313a);
+  padding: 4px 10px 4px 5px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.user-header-chip:hover {
+  border-color: var(--color-yellow, #fcd535);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.avatar-circle-sm {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-yellow, #fcd535);
+  color: #000;
+  font-weight: 800;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-chip-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  text-align: left;
+}
+
+.user-chip-name {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary, #fff);
+}
+
+.user-chip-role {
+  font-size: 9px;
+  color: var(--color-yellow, #fcd535);
+  font-weight: 800;
+}
+
+/* 2. SUB-TICKER BAR */
+.ticker-sub-bar {
+  background: var(--bg-card, #181a20);
+  border-bottom: 1px solid var(--border-color, #2b313a);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  gap: 16px;
+  overflow-x: auto;
+}
+
+.ticker-pair-picker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.ticker-pair-title {
+  font-size: 17px;
+  font-weight: 800;
+  font-family: var(--font-mono, monospace);
+  color: var(--text-primary, #fff);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ticker-pair-tag {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-secondary, #848e9c);
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.ticker-price-huge {
+  font-size: 18px;
+  font-weight: 800;
+  font-family: var(--font-mono, monospace);
+}
+
+.text-green { color: var(--color-green, #0ecb81) !important; }
+.text-red { color: var(--color-red, #f6465d) !important; }
+.text-yellow { color: var(--color-yellow, #fcd535) !important; }
+
+.ticker-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 11px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-lbl {
+  color: var(--text-secondary, #848e9c);
+}
+
+.stat-val {
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+}
+
+/* 3. MAIN TERMINAL GRID (3 COLUMNS) */
+.terminal-main-grid {
+  display: grid;
+  grid-template-columns: 290px 1fr 310px;
+  gap: 1px;
+  background: var(--border-color, #2b313a);
+  flex: 1;
+  min-height: calc(100vh - 100px);
+}
+
+/* CỘT TRÁI: ORDER BOOK */
+.col-orderbook {
+  background: var(--bg-card, #181a20);
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-color, #2b313a);
+}
+
+.panel-header-sm {
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color, #2b313a);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ob-view-filters {
+  display: flex;
+  gap: 4px;
+}
+
+.ob-view-btn {
+  background: none;
+  border: 1px solid transparent;
+  padding: 2px 4px;
+  border-radius: 3px;
+  cursor: pointer;
+  color: var(--text-secondary, #848e9c);
+  font-size: 11px;
+}
+
+.ob-view-btn.active {
+  border-color: var(--border-color, #2b313a);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ob-table-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 6px 14px;
+  font-size: 10px;
+  color: var(--text-secondary, #848e9c);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.ob-list-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ob-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 3px 14px;
+  font-size: 11px;
+  font-family: var(--font-mono, monospace);
+  position: relative;
+  cursor: pointer;
+}
+
+.ob-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ob-depth-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.ob-depth-ask { background: var(--color-red, #f6465d); }
+.ob-depth-bid { background: var(--color-green, #0ecb81); }
+
+.ob-mid-price {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border-top: 1px solid var(--border-color, #2b313a);
+  border-bottom: 1px solid var(--border-color, #2b313a);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ob-mid-num {
+  font-size: 15px;
+  font-weight: 800;
+  font-family: var(--font-mono, monospace);
+}
+
+/* CỘT GIỮA: CHART & ORDER FORM & ANALYSIS */
+.col-center-workspace {
+  background: var(--bg-main, #0b0e14);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.chart-card-box {
+  background: var(--bg-card, #181a20);
+  border-bottom: 1px solid var(--border-color, #2b313a);
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border-color, #2b313a);
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.tf-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.tf-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary, #848e9c);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.tf-btn:hover {
+  color: var(--text-primary, #fff);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.tf-btn.active {
+  color: var(--color-yellow, #fcd535);
+  background: rgba(252, 213, 53, 0.12);
+}
+
+.chart-canvas-wrapper {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  background: var(--bg-card, #181a20);
+  cursor: crosshair;
+  user-select: none;
+}
+
+#apex-interactive-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.chart-y-axis-drag-hint {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 70px;
+  cursor: ns-resize;
+  z-index: 10;
+}
+
+.canvas-live-flag {
+  position: absolute;
+  right: 0;
+  padding: 2px 8px;
+  border-radius: 3px 0 0 3px;
+  font-size: 11px;
+  font-weight: 800;
+  font-family: var(--font-mono, monospace);
+  color: #fff;
+  z-index: 15;
+  transition: top 0.08s ease, background 0.15s ease;
+  pointer-events: none;
+}
+
+/* ORDER FORM PARALLEL DUAL */
+.terminal-order-form {
+  background: var(--bg-card, #181a20);
+  border-bottom: 1px solid var(--border-color, #2b313a);
+  padding: 16px;
+}
+
+.order-tabs-mode {
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-color, #2b313a);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+
+.ot-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary, #848e9c);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+}
+
+.ot-btn.active {
+  color: var(--color-yellow, #fcd535);
+}
+
+.ot-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -11px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-yellow, #fcd535);
+}
+
+.order-sides-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.order-field-row {
+  margin-bottom: 10px;
+}
+
+.of-label {
+  font-size: 11px;
+  color: var(--text-secondary, #848e9c);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.of-input-box {
+  display: flex;
+  align-items: center;
+  background: var(--bg-input, #2b313a);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 6px 10px;
+  transition: border-color 0.15s;
+}
+
+.of-input-box:focus-within {
+  border-color: var(--color-yellow, #fcd535);
+}
+
+.of-input {
+  background: none;
+  border: none;
+  color: var(--text-primary, #fff);
+  font-size: 13px;
+  font-family: var(--font-mono, monospace);
+  width: 100%;
+  outline: none;
+}
+
+.of-unit {
+  font-size: 11px;
+  color: var(--text-secondary, #848e9c);
+  font-weight: 700;
+}
+
+.btn-order-buy {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  background: var(--color-green, #0ecb81);
+  color: #fff;
+  border: none;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  margin-top: 10px;
+}
+
+.btn-order-buy:hover { opacity: 0.9; }
+
+.btn-order-sell {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  background: var(--color-red, #f6465d);
+  color: #fff;
+  border: none;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  margin-top: 10px;
+}
+
+.btn-order-sell:hover { opacity: 0.9; }
+
+/* 4. CỤM 5 TAB PHÂN TÍCH CHUYÊN SÂU */
+.analysis-workspace-card {
+  background: var(--bg-card, #181a20);
+  border-bottom: 1px solid var(--border-color, #2b313a);
+}
+
+.analysis-nav-bar {
+  display: flex;
+  border-bottom: 1px solid var(--border-color, #2b313a);
+  padding: 0 16px;
+  overflow-x: auto;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.an-tab-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary, #848e9c);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 12px 16px;
+  cursor: pointer;
+  position: relative;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.an-tab-btn:hover { color: var(--text-primary, #fff); }
+
+.an-tab-btn.active {
+  color: var(--color-yellow, #fcd535);
+}
+
+.an-tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  background: var(--color-yellow, #fcd535);
+}
+
+.analysis-body-content {
+  padding: 18px 20px;
+}
+
+/* CỘT PHẢI: MARKET WATCH & RECENT TRADES */
+.col-right-market {
+  background: var(--bg-card, #181a20);
+  border-left: 1px solid var(--border-color, #2b313a);
+  display: flex;
+  flex-direction: column;
+}
+
+.market-search-input {
+  width: 100%;
+  background: var(--bg-input, #2b313a);
+  border: 1px solid var(--border-color, #2b313a);
+  color: var(--text-primary, #fff);
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  outline: none;
+}
+
+.market-coin-list {
+  max-height: 280px;
+  overflow-y: auto;
+  border-bottom: 1px solid var(--border-color, #2b313a);
+}
+
+.mc-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+  transition: background 0.1s;
+}
+
+.mc-item-row:hover { background: rgba(255, 255, 255, 0.05); }
+
+.recent-trades-list {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 11px;
+  font-family: var(--font-mono, monospace);
+}
+
+.rt-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 4px 12px;
+}
+
+/* MODALS & OVERLAYS */
+.modal-overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.modal-card-center {
+  background: var(--bg-card, #181a20);
+  border: 1px solid var(--border-color, #2b313a);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85);
+  width: 90%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 24px;
+  position: relative;
+}
+
+/* PROFILE DRAWER (RIGHT SLIDE) */
+.profile-drawer-slide {
+  position: fixed;
+  top: 56px;
+  right: 0;
+  bottom: 0;
+  width: 360px;
+  background: var(--bg-card, #181a20);
+  border-left: 1px solid var(--border-color, #2b313a);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  animation: slideInRight 0.2s ease-out;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* WALLET DROPDOWN */
+.wallet-dropdown-menu {
+  position: absolute;
+  top: 50px;
+  right: 180px;
+  width: 280px;
+  background: var(--bg-card, #181a20);
+  border: 1px solid var(--border-color, #2b313a);
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.85);
+  z-index: 10000;
+  padding: 8px 0;
+  display: none;
+}
+
+.wallet-item-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  color: var(--text-primary, #fff);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background 0.1s;
+}
+
+.wallet-item-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-yellow, #fcd535);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .terminal-main-grid {
+    grid-template-columns: 260px 1fr;
+  }
+  .col-right-market { display: none; }
+}
+
+@media (max-width: 800px) {
+  .terminal-main-grid {
+    grid-template-columns: 1fr;
+  }
+  .col-orderbook { display: none; }
+}

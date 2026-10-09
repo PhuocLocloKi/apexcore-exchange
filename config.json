@@ -1,0 +1,22 @@
+{
+  "system_name": "APEXCORE SOVEREIGN FINANCIAL EXCHANGE",
+  "version": "17.0.0",
+  "founder": {
+    "name": "NGUYỄN PHƯỚC LỘC",
+    "uid": 1107519625,
+    "email": "nguyenphuocloc010306@gmail.com"
+  },
+  "api": {
+    "port": 5000,
+    "host": "0.0.0.0",
+    "cors_origins": ["*"]
+  },
+  "markets": [
+    { "symbol": "BTC/USDT", "type": "CRYPTO", "base_price": 85450.90 },
+    { "symbol": "ETH/USDT", "type": "CRYPTO", "base_price": 2619.95 },
+    { "symbol": "BNB/USDT", "type": "CRYPTO", "base_price": 780.35 },
+    { "symbol": "FPT/VND", "type": "STOCKS", "base_price": 135200.00 },
+    { "symbol": "AAPL/USD", "type": "STOCKS", "base_price": 232.80 },
+    { "symbol": "XAU/USD", "type": "COMMODITIES", "base_price": 2745.50 }
+  ]
+}

@@ -1,0 +1,686 @@
+/* ========================================================
+   APEXCORE SOVEREIGN EXCHANGE — UNIFIED TERMINAL LAYOUT
+   (assets/css/terminal.css)
+   Bố Cục Chuẩn 1 Sàn Duy Nhất: Order Book | TradingView Chart & Order Form | Market Watch
+   Founder & Chief Architect: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
+   ======================================================== */
+
+.terminal-body {
+  margin: 0;
+  padding: 0;
+  background-color: #0b0e11;
+  color: #eaecef;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-theme="light"] .terminal-body {
+  background-color: #fafafa;
+  color: #181a20;
+}
+
+/* 1. SUB-TICKER BAR */
+.ticker-sub-bar {
+  height: 52px;
+  background: #14171f;
+  border-bottom: 1px solid #2b313a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+[data-theme="light"] .ticker-sub-bar {
+  background: #ffffff;
+  border-bottom: 1px solid #eaecef;
+}
+
+.ticker-pair-picker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.ticker-pair-picker:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="light"] .ticker-pair-picker:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.ticker-pair-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+[data-theme="light"] .ticker-pair-title {
+  color: #181a20;
+}
+
+.ticker-pair-tag {
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(252, 213, 53, 0.15);
+  color: #fcd535;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.ticker-price-huge {
+  font-size: 17px;
+  font-weight: 800;
+  font-family: 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+}
+
+.ticker-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-lbl {
+  font-size: 10.5px;
+  color: #848e9c;
+  font-weight: 500;
+}
+
+.stat-val {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+  color: #eaecef;
+}
+
+[data-theme="light"] .stat-val {
+  color: #181a20;
+}
+
+/* 2. CHẾ ĐỘ GIAO DỊCH TRÊN TICKER BAR (SPOT / STOCKS / MARGIN / BOT) */
+.market-mode-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #181c24;
+  padding: 3px;
+  border-radius: 6px;
+  border: 1px solid #2b313a;
+}
+
+[data-theme="light"] .market-mode-pills {
+  background: #f0f2f5;
+  border-color: #e6e8ea;
+}
+
+.mode-pill-btn {
+  font-size: 12px;
+  font-weight: 700;
+  color: #848e9c;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mode-pill-btn:hover {
+  color: #eaecef;
+}
+
+[data-theme="light"] .mode-pill-btn:hover {
+  color: #181a20;
+}
+
+.mode-pill-btn.active {
+  background: #2b313a;
+  color: #fcd535;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] .mode-pill-btn.active {
+  background: #ffffff;
+  color: #f0b90b;
+}
+
+/* 3. MAIN TERMINAL GRID (3 CỘT ĐỒNG BỘ TUYỆT ĐỐI) */
+.terminal-main-grid {
+  display: grid;
+  grid-template-columns: 310px 1fr 310px;
+  gap: 1px;
+  background-color: #2b313a; /* Đường kẻ viền phân chia thanh lịch */
+  flex: 1;
+  min-height: calc(100vh - 64px - 52px - 60px);
+}
+
+[data-theme="light"] .terminal-main-grid {
+  background-color: #eaecef;
+}
+
+/* CỘT TRÁI: ORDER BOOK */
+.col-orderbook {
+  background: #14171f;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+[data-theme="light"] .col-orderbook {
+  background: #ffffff;
+}
+
+.panel-header-sm {
+  height: 38px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #2b313a;
+  font-size: 12px;
+  font-weight: 700;
+  color: #eaecef;
+}
+
+[data-theme="light"] .panel-header-sm {
+  border-bottom: 1px solid #eaecef;
+  color: #181a20;
+}
+
+.ob-view-filters {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ob-view-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #848e9c;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  transition: all 0.15s ease;
+}
+
+.ob-view-btn:hover, .ob-view-btn.active {
+  background: #202630;
+  color: #eaecef;
+  border-color: #2b313a;
+}
+
+.ob-table-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 6px 14px;
+  font-size: 10.5px;
+  color: #848e9c;
+  font-weight: 600;
+  user-select: none;
+}
+
+.ob-list-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+}
+
+.ob-row-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 3px 14px;
+  font-size: 11px;
+  font-family: 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+.ob-row-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ob-depth-bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+  opacity: 0.15;
+  transition: width 0.2s ease;
+}
+
+.ob-depth-bar.ask { background: #f6465d; }
+.ob-depth-bar.bid { background: #0ecb81; }
+
+.ob-mid-price {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  background: #181c24;
+  border-top: 1px solid #2b313a;
+  border-bottom: 1px solid #2b313a;
+}
+
+[data-theme="light"] .ob-mid-price {
+  background: #f8f9fa;
+  border-color: #eaecef;
+}
+
+.ob-mid-num {
+  font-size: 15px;
+  font-weight: 800;
+  font-family: 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+}
+
+/* CỘT GIỮA: TRADING WORKSPACE & FORM ĐẶT LỆNH */
+.col-center-workspace {
+  background: #0e1118;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+[data-theme="light"] .col-center-workspace {
+  background: #f8f9fa;
+}
+
+.chart-card-box {
+  background: #14171f;
+  border-bottom: 1px solid #2b313a;
+  display: flex;
+  flex-direction: column;
+  height: 460px;
+  position: relative;
+}
+
+[data-theme="light"] .chart-card-box {
+  background: #ffffff;
+  border-bottom: 1px solid #eaecef;
+}
+
+.chart-toolbar {
+  height: 38px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #2b313a;
+  user-select: none;
+}
+
+[data-theme="light"] .chart-toolbar {
+  border-bottom: 1px solid #eaecef;
+}
+
+.tf-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tf-btn {
+  background: transparent;
+  border: none;
+  color: #848e9c;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tf-btn:hover {
+  color: #eaecef;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.tf-btn.active {
+  color: #fcd535;
+  background: #202630;
+}
+
+.chart-canvas-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+#apex-interactive-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.chart-y-axis-drag-hint {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 70px;
+  cursor: ns-resize;
+  z-index: 5;
+}
+
+.canvas-live-flag {
+  position: absolute;
+  right: 4px;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 800;
+  font-family: 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+  background: #fcd535;
+  color: #000000;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 6;
+  transform: translateY(-50%);
+  display: none;
+}
+
+/* FORM ĐẶT LỆNH ĐỒNG BỘ SPOT / MARGIN / BOT */
+.terminal-order-form {
+  background: #14171f;
+  border-bottom: 1px solid #2b313a;
+  padding: 16px;
+}
+
+[data-theme="light"] .terminal-order-form {
+  background: #ffffff;
+  border-bottom: 1px solid #eaecef;
+}
+
+.order-tabs-mode {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #2b313a;
+  padding-bottom: 10px;
+}
+
+.ot-btn {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  color: #848e9c;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+}
+
+.ot-btn:hover {
+  color: #eaecef;
+}
+
+.ot-btn.active {
+  color: #fcd535;
+  border-bottom: 2px solid #fcd535;
+  border-radius: 0;
+}
+
+/* MARGIN LEVERAGE BAR */
+.margin-leverage-bar {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: rgba(252, 213, 53, 0.08);
+  border: 1px solid rgba(252, 213, 53, 0.25);
+  border-radius: 6px;
+  margin-bottom: 14px;
+}
+
+.margin-leverage-bar.active {
+  display: flex;
+}
+
+.lev-btn {
+  background: #202630;
+  border: 1px solid #2b313a;
+  color: #eaecef;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.lev-btn.active {
+  background: #fcd535;
+  color: #000000;
+  border-color: #fcd535;
+}
+
+/* GRID BOT BAR */
+.grid-bot-settings-panel {
+  display: none;
+  background: #181c24;
+  border: 1px solid #2b313a;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 14px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.grid-bot-settings-panel.active {
+  display: grid;
+}
+
+.order-sides-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.order-field-row {
+  margin-bottom: 10px;
+}
+
+.of-label {
+  display: block;
+  font-size: 11px;
+  color: #848e9c;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.of-input-box {
+  display: flex;
+  align-items: center;
+  background: #1e232d;
+  border: 1px solid #2b313a;
+  border-radius: 4px;
+  padding: 0 10px;
+  height: 36px;
+  transition: border-color 0.15s ease;
+}
+
+[data-theme="light"] .of-input-box {
+  background: #f0f2f5;
+  border-color: #d0d5dd;
+}
+
+.of-input-box:focus-within {
+  border-color: #fcd535;
+}
+
+.of-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #eaecef;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+}
+
+[data-theme="light"] .of-input {
+  color: #181a20;
+}
+
+.of-unit {
+  font-size: 11px;
+  color: #848e9c;
+  font-weight: 700;
+}
+
+.btn-order-buy {
+  width: 100%;
+  height: 40px;
+  background: #0ecb81;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-order-buy:hover {
+  background: #0bb572;
+  box-shadow: 0 4px 12px rgba(14, 203, 129, 0.3);
+}
+
+.btn-order-sell {
+  width: 100%;
+  height: 40px;
+  background: #f6465d;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-order-sell:hover {
+  background: #e03a50;
+  box-shadow: 0 4px 12px rgba(246, 70, 93, 0.3);
+}
+
+/* CỘT PHẢI: MARKET WATCH & TRADES */
+.col-right-market {
+  background: #14171f;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+[data-theme="light"] .col-right-market {
+  background: #ffffff;
+}
+
+.market-search-input {
+  width: 100%;
+  background: #1e232d;
+  border: 1px solid #2b313a;
+  border-radius: 4px;
+  padding: 6px 10px;
+  color: #eaecef;
+  font-size: 12px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+[data-theme="light"] .market-search-input {
+  background: #f0f2f5;
+  border-color: #d0d5dd;
+  color: #181a20;
+}
+
+.market-category-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 6px 12px;
+  border-bottom: 1px solid #2b313a;
+}
+
+.mcat-btn {
+  background: transparent;
+  border: none;
+  color: #848e9c;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.mcat-btn.active {
+  background: #202630;
+  color: #fcd535;
+}
+
+.market-coin-list {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 280px;
+}
+
+.mc-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.mc-item-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.recent-trades-list {
+  flex: 1;
+  overflow-y: hidden;
+}
+
+.trade-row-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 3px 14px;
+  font-size: 11px;
+  font-family: 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace;
+}
+
+/* MÀU SẮC CHUẨN */
+.text-green { color: #0ecb81 !important; }
+.text-red { color: #f6465d !important; }
+.text-yellow { color: #fcd535 !important; }
+.font-mono { font-family: 'SF Mono', 'Roboto Mono', Menlo, Consolas, monospace !important; }
