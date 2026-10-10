@@ -153,3 +153,63 @@
   --shadow-glow-ruby: 0 0 12px var(--laser-ruby-glow);
   --shadow-glow-cyan: 0 0 12px var(--cyber-cyan-glow);
 }
+
+/* ========================================================
+   3 BẢNG MÀU HOÀNG GIA ĐỘC QUYỀN FOUNDER (CUSTOM THEMES)
+   ======================================================== */
+
+/* THEME 1: QUANTUM OBSIDIAN (Chuẩn ATS Matrix Mặc Định) */
+[data-theme="obsidian"] {
+  --bg-void: #030712;
+  --bg-app: #030712;
+  --bg-card: #0b1120;
+  --card-glass: rgba(11, 17, 32, 0.85);
+  --sovereign-gold: #FFD700;
+  --sovereign-gold-glow: rgba(255, 215, 0, 0.45);
+  --neon-emerald: #00FFA3;
+  --neon-emerald-glow: rgba(0, 255, 163, 0.40);
+  --laser-ruby: #FF3366;
+  --laser-ruby-glow: rgba(255, 51, 102, 0.40);
+  --cyber-cyan: #00F0FF;
+  --cyber-cyan-glow: rgba(0, 240, 255, 0.40);
+  --border-grid: rgba(30, 41, 59, 0.55);
+}
+
+/* THEME 2: SOVEREIGN GOLD (Hoàng Gia Tối Thượng - Dành Riêng Cho Lộc) */
+[data-theme="sovereign-gold"] {
+  --bg-void: #07040d;
+  --bg-app: #07040d;
+  --bg-card: #150a24;
+  --card-glass: rgba(21, 10, 36, 0.88);
+  --sovereign-gold: #FFE600;
+  --sovereign-gold-glow: rgba(255, 230, 0, 0.60);
+  --sovereign-gold-bg: rgba(255, 230, 0, 0.18);
+  --neon-emerald: #10B981;
+  --neon-emerald-glow: rgba(16, 185, 129, 0.45);
+  --laser-ruby: #F43F5E;
+  --laser-ruby-glow: rgba(244, 63, 94, 0.45);
+  --cyber-cyan: #38BDF8;
+  --cyber-cyan-glow: rgba(56, 189, 248, 0.45);
+  --neon-purple: #C084FC;
+  --border-grid: rgba(255, 215, 0, 0.25);
+  --border-grid-gold: rgba(255, 230, 0, 0.55);
+}
+
+/* THEME 3: CYBER EMERALD (Ma Trận Ngọc Lục Bảo Siêu Máy Tính) */
+[data-theme="cyber-emerald"] {
+  --bg-void: #02120e;
+  --bg-app: #02120e;
+  --bg-card: #04251b;
+  --card-glass: rgba(4, 37, 27, 0.88);
+  --sovereign-gold: #34D399;
+  --sovereign-gold-glow: rgba(52, 211, 153, 0.50);
+  --neon-emerald: #00FFB2;
+  --neon-emerald-glow: rgba(0, 255, 178, 0.60);
+  --neon-emerald-bg: rgba(0, 255, 178, 0.18);
+  --laser-ruby: #FB7185;
+  --laser-ruby-glow: rgba(251, 113, 133, 0.45);
+  --cyber-cyan: #2DD4BF;
+  --cyber-cyan-glow: rgba(45, 212, 191, 0.45);
+  --border-grid: rgba(0, 255, 178, 0.22);
+  --border-grid-bright: rgba(45, 212, 191, 0.45);
+}

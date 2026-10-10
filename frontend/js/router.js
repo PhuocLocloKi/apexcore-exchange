@@ -64,14 +64,10 @@ class HashRouter {
       targetPage = this.pages.markets;
       activeNav = 'markets';
       targetPage.mount(this.container);
-    } else if (mainRoute === 'trade') {
-      targetPage = this.pages.trade;
-      activeNav = 'trade';
-      targetPage.mount(this.container, { symbol: param || 'BNB_USDT' });
-    } else if (mainRoute === 'futures') {
-      targetPage = this.pages.futures;
-      activeNav = 'futures';
-      targetPage.mount(this.container, { symbol: param || 'BTC_USDT' });
+    } else if (mainRoute === 'trade' || mainRoute === 'futures') {
+      const sym = (param || 'BTC_USDT').replace('_', '/');
+      window.location.href = `trade.html?symbol=${encodeURIComponent(sym)}`;
+      return;
     } else if (mainRoute === 'earn') {
       targetPage = this.pages.earn;
       activeNav = 'earn';

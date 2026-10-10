@@ -136,8 +136,8 @@ export class HomePage {
             </div>
 
             <div id="home-market-rows">
-              <!-- BTC (ĐÃ KHÓA KÍCH THƯỚC 24x24) -->
-              <div class="market-coin-row" onclick="window.location.hash='#/trade/BTC_USDT'">
+              <!-- BTC -->
+              <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
                 <div class="coin-left-info">
                   <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
                     <circle cx="16" cy="16" r="16" fill="#F7931A"/>
@@ -145,12 +145,12 @@ export class HomePage {
                   </svg>
                   <div><span class="coin-symbol">BTC</span> <span class="coin-desc">Bitcoin</span></div>
                 </div>
-                <div class="coin-price-num" id="pBtc">$85,450.90</div>
-                <div class="coin-change-pill c-green">+2.45%</div>
+                <div class="coin-price-num" id="pBtc">$86,887.00</div>
+                <div class="coin-change-pill c-green">+2.84%</div>
               </div>
 
               <!-- ETH -->
-              <div class="market-coin-row" onclick="window.location.hash='#/trade/ETH_USDT'">
+              <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=ETH/USDT'">
                 <div class="coin-left-info">
                   <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
                     <circle cx="16" cy="16" r="16" fill="#627EEA"/>
@@ -163,12 +163,12 @@ export class HomePage {
                   </svg>
                   <div><span class="coin-symbol">ETH</span> <span class="coin-desc">Ethereum</span></div>
                 </div>
-                <div class="coin-price-num" id="pEth">$2,619.95</div>
-                <div class="coin-change-pill c-red">-1.20%</div>
+                <div class="coin-price-num" id="pEth">$2,985.40</div>
+                <div class="coin-change-pill c-green">+3.12%</div>
               </div>
 
               <!-- BNB -->
-              <div class="market-coin-row" onclick="window.location.hash='#/trade/BNB_USDT'">
+              <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BNB/USDT'">
                 <div class="coin-left-info">
                   <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
                     <circle cx="16" cy="16" r="16" fill="#F3BA2F"/>
@@ -176,22 +176,22 @@ export class HomePage {
                   </svg>
                   <div><span class="coin-symbol">BNB</span> <span class="coin-desc">BNB</span></div>
                 </div>
-                <div class="coin-price-num" id="pBnb">$768.38</div>
-                <div class="coin-change-pill c-green">+0.85%</div>
+                <div class="coin-price-num" id="pBnb">$615.20</div>
+                <div class="coin-change-pill c-green">+1.45%</div>
               </div>
 
-              <!-- SPACEX -->
-              <div class="market-coin-row" onclick="window.location.hash='#/trade/BNB_USDT'">
+              <!-- SOL -->
+              <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=SOL/USDT'">
                 <div class="coin-left-info">
-                  <span style="font-size: 20px;">🚀</span>
-                  <div><span class="coin-symbol">SPCXB</span> <span class="coin-desc">SpaceX (bStocks)</span></div>
+                  <span style="font-size: 20px;">🟣</span>
+                  <div><span class="coin-symbol">SOL</span> <span class="coin-desc">Solana</span></div>
                 </div>
-                <div class="coin-price-num">$168.96</div>
-                <div class="coin-change-pill c-green">+1.38%</div>
+                <div class="coin-price-num">$188.65</div>
+                <div class="coin-change-pill c-green">+5.60%</div>
               </div>
 
               <!-- NVIDIA -->
-              <div class="market-coin-row" onclick="window.location.hash='#/trade/FPT_VND'">
+              <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
                 <div class="coin-left-info">
                   <span style="font-size: 20px;">⚡</span>
                   <div><span class="coin-symbol">NVDAB</span> <span class="coin-desc">NVIDIA (bStocks)</span></div>
@@ -299,7 +299,7 @@ export class HomePage {
 
     if (tab === 'popular') {
       container.innerHTML = `
-        <div class="market-coin-row" onclick="window.location.hash='#/trade/BTC_USDT'">
+        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
           <div class="coin-left-info">
             <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
               <circle cx="16" cy="16" r="16" fill="#F7931A"/>
@@ -307,10 +307,10 @@ export class HomePage {
             </svg>
             <div><span class="coin-symbol">BTC</span> <span class="coin-desc">Bitcoin</span></div>
           </div>
-          <div class="coin-price-num" id="pBtc">$85,450.90</div>
-          <div class="coin-change-pill c-green">+2.45%</div>
+          <div class="coin-price-num" id="pBtc">$86,887.00</div>
+          <div class="coin-change-pill c-green">+2.84%</div>
         </div>
-        <div class="market-coin-row" onclick="window.location.hash='#/trade/ETH_USDT'">
+        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=ETH/USDT'">
           <div class="coin-left-info">
             <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
               <circle cx="16" cy="16" r="16" fill="#627EEA"/>
@@ -323,10 +323,10 @@ export class HomePage {
             </svg>
             <div><span class="coin-symbol">ETH</span> <span class="coin-desc">Ethereum</span></div>
           </div>
-          <div class="coin-price-num" id="pEth">$2,619.95</div>
-          <div class="coin-change-pill c-red">-1.20%</div>
+          <div class="coin-price-num" id="pEth">$2,985.40</div>
+          <div class="coin-change-pill c-green">+3.12%</div>
         </div>
-        <div class="market-coin-row" onclick="window.location.hash='#/trade/BNB_USDT'">
+        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BNB/USDT'">
           <div class="coin-left-info">
             <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
               <circle cx="16" cy="16" r="16" fill="#F3BA2F"/>
@@ -334,13 +334,13 @@ export class HomePage {
             </svg>
             <div><span class="coin-symbol">BNB</span> <span class="coin-desc">BNB</span></div>
           </div>
-          <div class="coin-price-num" id="pBnb">$768.38</div>
-          <div class="coin-change-pill c-green">+0.85%</div>
+          <div class="coin-price-num" id="pBnb">$615.20</div>
+          <div class="coin-change-pill c-green">+1.45%</div>
         </div>
       `;
     } else if (tab === 'stocks') {
       container.innerHTML = `
-        <div class="market-coin-row" onclick="window.location.hash='#/trade/FPT_VND'">
+        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=SOL/USDT'">
           <div class="coin-left-info">
             <span style="font-size: 20px;">⚡</span>
             <div><span class="coin-symbol">NVDAB</span> <span class="coin-desc">NVIDIA (bStocks)</span></div>
@@ -348,7 +348,7 @@ export class HomePage {
           <div class="coin-price-num">$239.84</div>
           <div class="coin-change-pill c-green">+0.17%</div>
         </div>
-        <div class="market-coin-row" onclick="window.location.hash='#/trade/FPT_VND'">
+        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=ETH/USDT'">
           <div class="coin-left-info">
             <svg class="icon-coin" width="24" height="24" viewBox="0 0 170 170" fill="currentColor" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
               <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.66-7.74-11.89-14.1-6.73-10.14-12.02-21.65-15.88-34.52-3.86-12.87-5.8-24.97-5.8-36.31 0-15.03 3.73-27.53 11.2-37.52 7.46-9.98 16.9-15.08 28.3-15.3 4.8.12 10.23 1.34 16.29 3.67 6.06 2.33 10.05 3.63 11.97 3.9 2.45-.48 6.64-1.94 12.56-4.39 5.92-2.44 11.05-3.53 15.39-3.26 13.68.79 24.59 5.86 32.72 15.2-11.96 7.27-17.8 17.2-17.52 29.8.27 9.87 4.09 18.23 11.45 25.07 7.37 6.84 16.14 10.58 26.31 11.23-2.17 6.3-4.8 12.44-7.89 18.42m-33.3-107.01c0 7.82-2.9 15.17-8.69 22.06-6.84 8.04-15.22 12.63-24.6 11.85-.27-1.19-.41-2.38-.41-3.57 0-7.59 3.03-15.25 9.09-22.97 3.03-3.86 6.78-7.06 11.25-9.6 4.47-2.54 8.78-4.04 12.93-4.51.3 2.29.43 4.54.43 6.74z"/>
@@ -358,7 +358,7 @@ export class HomePage {
           <div class="coin-price-num">$231.50</div>
           <div class="coin-change-pill c-green">+0.42%</div>
         </div>
-        <div class="market-coin-row" onclick="window.location.hash='#/trade/FPT_VND'">
+        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
           <div class="coin-left-info">
             <span style="font-size: 20px;">🏢</span>
             <div><span class="coin-symbol">FPT_VND</span> <span class="coin-desc">FPT Corporation</span></div>
@@ -369,7 +369,7 @@ export class HomePage {
       `;
     } else if (tab === 'commodities') {
       container.innerHTML = `
-        <div class="market-coin-row" onclick="window.location.hash='#/trade/BNB_USDT'">
+        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
           <div class="coin-left-info">
             <span style="font-size: 20px;">🥇</span>
             <div><span class="coin-symbol">XAU_USD</span> <span class="coin-desc">Vàng Giao Ngay (Gold)</span></div>
@@ -377,7 +377,7 @@ export class HomePage {
           <div class="coin-price-num">$2,654.80</div>
           <div class="coin-change-pill c-green">+0.64%</div>
         </div>
-        <div class="market-coin-row" onclick="window.location.hash='#/trade/BNB_USDT'">
+        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=ETH/USDT'">
           <div class="coin-left-info">
             <span style="font-size: 20px;">🥈</span>
             <div><span class="coin-symbol">XAG_USD</span> <span class="coin-desc">Bạc Giao Ngay (Silver)</span></div>
@@ -388,7 +388,7 @@ export class HomePage {
       `;
     } else {
       container.innerHTML = `
-        <div class="market-coin-row" onclick="window.location.hash='#/trade/BNB_USDT'">
+        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=SOL/USDT'">
           <div class="coin-left-info">
             <span style="font-size: 20px;">✨</span>
             <div><span class="coin-symbol">SUI</span> <span class="coin-desc">Sui Network</span></div>
@@ -396,7 +396,7 @@ export class HomePage {
           <div class="coin-price-num">$1.84</div>
           <div class="coin-change-pill c-green">+12.4%</div>
         </div>
-        <div class="market-coin-row" onclick="window.location.hash='#/trade/BNB_USDT'">
+        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BNB/USDT'">
           <div class="coin-left-info">
             <span style="font-size: 20px;">🌟</span>
             <div><span class="coin-symbol">APT</span> <span class="coin-desc">Aptos</span></div>

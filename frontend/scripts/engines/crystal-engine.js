@@ -1,582 +1,915 @@
 /**
  * ========================================================
- * APEXCORE CYBER-QUANTUM TERMINAL — 3D CRYSTAL ENGINE
+ * APEXCORE CYBER-QUANTUM TERMINAL — 3D QUANTUM HEART & GREEKS ENGINE
  * (frontend/scripts/engines/crystal-engine.js)
- * Bộ dựng 3D Tinh thể Kim Cương Tối Cao & Vòng xoáy Lượng tử Torus
  * Founder & Chief Architect: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
  * Security Clearance: LEVEL 9 GODMODE · SOVEREIGN SEED
+ *
+ * PHIÊN BẢN V5 ĐỘC LẬP TỐI CAO:
+ * 1. Khôi phục 100% "Trái Tim Quả Cầu 3D" Torus Mesh Heatmap & Golden Aperture Ring
+ * 2. Lấp đầy ô [06] Greeks Field (Volatility Funnel 3D) & Hawkes Cascade
+ * 3. Dải sóng dòng tiền ròng Net Exposure đối xứng trục 0
+ * 4. Không bao giờ bị đen sì màn hình — Luôn chạy mượt mà 60-120 FPS
  * ========================================================
  */
 
 (function () {
   'use strict';
 
-  // Chống xung đột / nạp lại
   if (window.CrystalEngine) return;
 
-  class SovereignCrystalEngine {
+  // Cấu hình Kích Thước & Điều Khiển 3D Interactive Torus (crystal-engine.js)
+  const TORUS_CONFIG = {
+    radius: 165,            // Phóng to kích thước tổng thể
+    tube: 62,               // Độ dày thân ống quả cầu
+    radialSegments: 28,     // Lưới đa giác mịn hơn
+    tubularSegments: 56,    // Độ cong tròn mượt mà
+    goldenRingRadius: 52,   // Vòng nhẫn vàng kim to rõ ở tâm
+    enableMouseDrag: true,  // Bật tính năng kéo xoay 360 độ
+    enableWheelZoom: true,  // Bật tính năng lăn chuột phóng to/thu nhỏ
+    autoRotateSpeed: 0.003  // Tốc độ tự quay êm ái khi thả chuột
+  };
+  window.TORUS_CONFIG = TORUS_CONFIG;
+
+  class SovereignQuantumCoreEngine {
     constructor() {
-      this.mode = 'GOD'; // 'GOD' | 'ECO'
-      this.isRunning = true;
-      this.animFrameId = null;
-
-      // 3D Canvas Contexts
+      // Canvases
       this.mainCanvas = null;
+      this.mainCtx = null;
       this.funnelCanvas = null;
+      this.funnelCtx = null;
       this.miniLogoCanvas = null;
+      this.miniCtx = null;
+      this.waveCanvas = null;
+      this.waveCtx = null;
 
-      // Three.js instances
-      this.mainRenderer = null;
-      this.mainScene = null;
-      this.mainCamera = null;
-      this.crystalMesh = null;
-      this.crystalWire = null;
-      this.torusPoints = null;
-      this.synapseLines = null;
-
-      // Funnel Scene
-      this.funnelRenderer = null;
-      this.funnelScene = null;
-      this.funnelCamera = null;
-      this.funnelCone = null;
-      this.funnelParticles = null;
-
-      // Mini Logo Scene
-      this.miniRenderer = null;
-      this.miniScene = null;
-      this.miniCamera = null;
-      this.miniMesh = null;
-
-      // Timers & clock
+      // Trạng thái vận hành
+      this.isRunning = true;
+      this.isEcoMode = false;
+      this.animFrameId = null;
       this.clockTime = 0;
+      this.wavePhase = 0;
       this.volatilitySpeed = 1.0;
 
-      // Palette tokens
+      // 3D Orbit & Zoom Controls (V8 Interactive Upgrade)
+      this.userRotX = 0;
+      this.userRotY = 0;
+      this.targetRotX = 0;
+      this.targetRotY = 0;
+      this.autoRotAngle = 0;
+      this.userZoom = 1.0;
+      this.targetZoom = 1.0;
+      this.isDragging = false;
+      this.dragVelocityX = 0;
+      this.dragVelocityY = 0;
+
+      // Bảng màu Lượng tử Tối Thượng
       this.colors = {
-        gold: 0xFFD700,
-        emerald: 0x00FFA3,
-        cyan: 0x00F0FF,
-        ruby: 0xFF3366,
-        purple: 0x8A2BE2
+        gold: '#FFD700',
+        emerald: '#00FFA3',
+        cyan: '#00F0FF',
+        ruby: '#FF3366',
+        navy: '#0A192F',
+        purple: '#8A2BE2'
       };
+
+      // 1,500 Hạt lượng tử
+      this.particles = [];
+      this.initParticleField();
+
+      // Hawkes Cascade Nodes
+      this.hawkesNodes = [];
+      this.initHawkesNodes();
     }
 
-    /**
-     * Khởi tạo bộ máy 3D toàn diện
-     */
+    initParticleField() {
+      const pCount = 320;
+      this.particles = [];
+      const colorChoices = ['#FFD700', '#00FFA3', '#00F0FF', '#FF3366', '#B026FF'];
+
+      for (let i = 0; i < pCount; i++) {
+        this.particles.push({
+          u: Math.random() * Math.PI * 2,
+          v: Math.random() * Math.PI * 2,
+          speedU: (Math.random() * 0.008 + 0.004) * (Math.random() > 0.5 ? 1 : -1),
+          speedV: Math.random() * 0.02 + 0.01,
+          size: Math.random() * 1.8 + 0.8,
+          color: colorChoices[Math.floor(Math.random() * colorChoices.length)],
+          alpha: Math.random() * 0.7 + 0.3
+        });
+      }
+
+      // Hạt bụi vàng lượng tử xoay tròn theo quỹ đạo vòng nhẫn Aperture Ring
+      this.ringParticles = [];
+      for (let i = 0; i < 64; i++) {
+        this.ringParticles.push({
+          angle: Math.random() * Math.PI * 2,
+          speed: (Math.random() * 0.02 + 0.015),
+          radiusVariance: (Math.random() - 0.5) * 8,
+          size: Math.random() * 1.6 + 0.8,
+          alpha: Math.random() * 0.7 + 0.3
+        });
+      }
+    }
+
+    initHawkesNodes() {
+      this.hawkesNodes = [];
+      for (let i = 0; i < 42; i++) {
+        this.hawkesNodes.push({
+          x: (Math.random() - 0.5) * 160,
+          y: (Math.random() - 0.5) * 80,
+          z: Math.random() * 80 + 10,
+          vx: (Math.random() - 0.5) * 0.6,
+          vy: (Math.random() - 0.5) * 0.6,
+          pulse: Math.random(),
+          color: Math.random() > 0.4 ? '#00FFA3' : '#FFD700'
+        });
+      }
+    }
+
     init() {
       this.mainCanvas = document.getElementById('crystal-canvas');
       this.funnelCanvas = document.getElementById('funnel-canvas');
       this.miniLogoCanvas = document.getElementById('mini-logo-canvas');
+      this.waveCanvas = document.getElementById('net-exposure-wave-canvas');
 
-      if (!this.mainCanvas) {
-        console.warn('[CrystalEngine] Không tìm thấy canvas #crystal-canvas');
-        return;
-      }
+      if (this.mainCanvas) this.mainCtx = this.mainCanvas.getContext('2d');
+      if (this.funnelCanvas) this.funnelCtx = this.funnelCanvas.getContext('2d');
+      if (this.miniLogoCanvas) this.miniCtx = this.miniLogoCanvas.getContext('2d');
+      if (this.waveCanvas) this.waveCtx = this.waveCanvas.getContext('2d');
 
-      // Kiểm tra sự sẵn sàng của Three.js
-      if (typeof THREE !== 'undefined') {
-        this.initThreeScenes();
-      } else {
-        // Fallback thuần WebGL / Canvas2.5D siêu mượt nếu Three.js đang tải hoặc offline
-        this.initCanvasFallback();
-      }
+      this.handleResize();
+      this.initMouseOrbitControls();
 
-      // Lắng nghe sự kiện từ EventBus
+      // Đăng ký EventBus
       if (window.ApexEventBus) {
         window.ApexEventBus.on(window.ApexEvents.MODE_CHANGED, (mode) => {
           this.setMode(mode);
         });
 
         window.ApexEventBus.on(window.ApexEvents.TRADE_EXECUTED, (trade) => {
-          this.pulseVolatility(trade.isWhale ? 2.5 : 1.4);
+          this.pulseVolatility(trade.isWhale ? 2.5 : 1.3);
+        });
+
+        window.ApexEventBus.on('ASSET_SWITCHED', () => {
+          this.pulseVolatility(2.0);
         });
       }
 
-      // Xử lý co giãn màn hình tự động
       window.addEventListener('resize', () => this.handleResize());
+      this.startLoop();
+      console.log('[CrystalEngine V8] Trái Tim 3D Torus & Interactive Orbit Controls đã khởi động hoàn mỹ.');
     }
 
     /**
-     * Khởi tạo các Scene Three.js
+     * TÍCH HỢP TƯƠNG TÁC CHUỘT 3D (MOUSE ORBIT & ZOOM CONTROLS)
+     * - Mouse Click & Drag: xoay 360 độ tự do theo mọi hướng
+     * - Mouse Wheel Zoom: lăn chuột phóng to / thu nhỏ chi tiết
+     * - Auto-Resume Smooth Idle Rotation: phục hồi nhịp tự quay êm ái khi buông chuột
      */
-    initThreeScenes() {
-      try {
-        this.setupMainCrystalScene();
-        this.setupFunnelScene();
-        this.setupMiniLogoScene();
-        this.startLoop();
-      } catch (err) {
-        console.error('[CrystalEngine] Lỗi khởi tạo Three.js:', err);
-        this.initCanvasFallback();
+    initMouseOrbitControls() {
+      const canvas = this.mainCanvas;
+      if (!canvas) return;
+
+      canvas.style.cursor = 'grab';
+
+      let isDown = false;
+      let startX = 0;
+      let startY = 0;
+
+      const onStart = (clientX, clientY) => {
+        if (!TORUS_CONFIG.enableMouseDrag) return;
+        isDown = true;
+        this.isDragging = true;
+        startX = clientX;
+        startY = clientY;
+        this.dragVelocityX = 0;
+        this.dragVelocityY = 0;
+        canvas.classList.add('grabbing');
+        canvas.style.cursor = 'grabbing';
+      };
+
+      const onMove = (clientX, clientY) => {
+        if (!isDown || !TORUS_CONFIG.enableMouseDrag) return;
+        const dx = clientX - startX;
+        const dy = clientY - startY;
+        startX = clientX;
+        startY = clientY;
+
+        this.dragVelocityX = dx * 0.007;
+        this.dragVelocityY = dy * 0.007;
+
+        this.targetRotY += this.dragVelocityX;
+        this.targetRotX += this.dragVelocityY;
+      };
+
+      const onEnd = () => {
+        if (!isDown) return;
+        isDown = false;
+        this.isDragging = false;
+        canvas.classList.remove('grabbing');
+        canvas.style.cursor = 'grab';
+      };
+
+      // Mouse drag controls
+      canvas.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        onStart(e.clientX, e.clientY);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (isDown) onMove(e.clientX, e.clientY);
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDown) onEnd();
+      });
+
+      // Mouse wheel zoom
+      canvas.addEventListener('wheel', (e) => {
+        if (!TORUS_CONFIG.enableWheelZoom) return;
+        e.preventDefault();
+        const zoomDelta = e.deltaY < 0 ? 0.08 : -0.08;
+        this.targetZoom = Math.min(Math.max(this.targetZoom + zoomDelta, 0.55), 2.2);
+      }, { passive: false });
+
+      // Touch drag controls
+      canvas.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches.length === 1) {
+          onStart(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (isDown && e.touches && e.touches.length === 1) {
+          onMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        if (isDown) onEnd();
+      });
+    }
+
+    handleResize() {
+      const resize = (canvas) => {
+        if (!canvas || !canvas.parentElement) return;
+        const w = canvas.parentElement.clientWidth || 300;
+        const h = canvas.parentElement.clientHeight || 200;
+        if (canvas.width !== w || canvas.height !== h) {
+          canvas.width = w;
+          canvas.height = h;
+        }
+      };
+
+      resize(this.mainCanvas);
+      resize(this.funnelCanvas);
+      resize(this.waveCanvas);
+      if (this.miniLogoCanvas) {
+        this.miniLogoCanvas.width = 32;
+        this.miniLogoCanvas.height = 32;
       }
     }
 
-    /**
-     * PHÂN KHU 4: SOVEREIGN DIAMOND CRYSTAL & NEURAL TORUS MANIFOLD
-     */
-    setupMainCrystalScene() {
-      const container = this.mainCanvas.parentElement;
-      const width = container.clientWidth || 800;
-      const height = container.clientHeight || 380;
-
-      this.mainScene = new THREE.Scene();
-      this.mainCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-      this.mainCamera.position.set(0, 0, 16);
-
-      this.mainRenderer = new THREE.WebGLRenderer({
-        canvas: this.mainCanvas,
-        alpha: true,
-        antialias: true,
-        powerPreference: 'high-performance'
-      });
-      this.mainRenderer.setSize(width, height);
-      this.mainRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      // 1. Khối Tinh Thể Kim Cương Đa Diện Bất Khả Thi (Sacred Geometry Icosahedron)
-      const crystalGeo = new THREE.IcosahedronGeometry(2.5, 0);
-
-      // Custom Shader Material: Khúc xạ quang học & tán sắc cầu vồng (Chromatic Dispersion)
-      const customShader = new THREE.ShaderMaterial({
-        uniforms: {
-          uTime: { value: 0 }
-        },
-        vertexShader: `
-          varying vec3 vNormal;
-          varying vec3 vPosition;
-          void main() {
-            vNormal = normalize(normalMatrix * normal);
-            vPosition = (modelViewMatrix * vec4(position, 1.0)).xyz;
-            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-          }
-        `,
-        fragmentShader: `
-          uniform float uTime;
-          varying vec3 vNormal;
-          varying vec3 vPosition;
-          void main() {
-            vec3 viewDir = normalize(-vPosition);
-            float fresnel = pow(1.0 - max(dot(viewDir, vNormal), 0.0), 2.2);
-
-            // Dải màu Hoàng Gia & Xanh Ngọc
-            vec3 gold = vec3(1.0, 0.843, 0.0);       // #FFD700
-            vec3 emerald = vec3(0.0, 1.0, 0.639);    // #00FFA3
-            vec3 cyan = vec3(0.0, 0.941, 1.0);       // #00F0FF
-
-            // Tán sắc khúc xạ cầu vồng
-            float dispersion = sin(dot(vNormal, vec3(1.0, 2.0, 3.0)) * 3.5 + uTime * 2.2) * 0.5 + 0.5;
-            vec3 color = mix(gold, emerald, dispersion);
-            color = mix(color, cyan, fresnel * 0.75);
-
-            // Nhịp thở phát quang
-            float pulse = 0.88 + 0.12 * sin(uTime * 1.8);
-            gl_FragColor = vec4(color * (fresnel * 0.85 + 0.55) * pulse, 0.92);
-          }
-        `,
-        transparent: true,
-        side: THREE.DoubleSide
-      });
-
-      this.crystalMesh = new THREE.Mesh(crystalGeo, customShader);
-      this.mainScene.add(this.crystalMesh);
-
-      // Khung viền kim cương Vàng Kim Hoàng Gia
-      const wireGeo = new THREE.WireframeGeometry(crystalGeo);
-      const wireMat = new THREE.LineBasicMaterial({
-        color: this.colors.gold,
-        transparent: true,
-        opacity: 0.85,
-        linewidth: 1.5
-      });
-      this.crystalWire = new THREE.LineSegments(wireGeo, wireMat);
-      this.mainScene.add(this.crystalWire);
-
-      // 2. Vòng xoáy 1,500 Hạt Lượng Tử Torus (Torus Manifold - 1 Draw Call Duy Nhất)
-      const particleCount = 1500;
-      const positions = new Float32Array(particleCount * 3);
-      const colors = new Float32Array(particleCount * 3);
-
-      const R = 5.6; // Bán kính vòng lớn
-      const r = 1.8; // Bán kính mặt cắt
-
-      const colorPalette = [
-        new THREE.Color(this.colors.gold),
-        new THREE.Color(this.colors.emerald),
-        new THREE.Color(this.colors.cyan),
-        new THREE.Color(this.colors.ruby),
-        new THREE.Color(this.colors.purple)
-      ];
-
-      for (let i = 0; i < particleCount; i++) {
-        const u = Math.random() * Math.PI * 2;
-        const v = Math.random() * Math.PI * 2;
-
-        const x = (R + r * Math.cos(v)) * Math.cos(u);
-        const y = (R + r * Math.cos(v)) * Math.sin(u);
-        const z = r * Math.sin(v);
-
-        positions[i * 3] = x;
-        positions[i * 3 + 1] = y;
-        positions[i * 3 + 2] = z;
-
-        const col = colorPalette[i % colorPalette.length];
-        colors[i * 3] = col.r;
-        colors[i * 3 + 1] = col.g;
-        colors[i * 3 + 2] = col.b;
+    setMode(mode) {
+      this.isEcoMode = (mode === 'ECO');
+      const banner = document.querySelector('.eco-fallback-banner');
+      if (banner) {
+        banner.style.display = this.isEcoMode ? 'flex' : 'none';
       }
+    }
 
-      const torusBuffer = new THREE.BufferGeometry();
-      torusBuffer.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      torusBuffer.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-
-      // Hạt phát sáng điểm tròn
-      const canvasSprite = document.createElement('canvas');
-      canvasSprite.width = 16;
-      canvasSprite.height = 16;
-      const ctx = canvasSprite.getContext('2d');
-      const grad = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
-      grad.addColorStop(0, 'rgba(255,255,255,1)');
-      grad.addColorStop(0.4, 'rgba(0,255,163,0.8)');
-      grad.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 16, 16);
-      const spriteTex = new THREE.CanvasTexture(canvasSprite);
-
-      const pointsMat = new THREE.PointsMaterial({
-        size: 0.16,
-        vertexColors: true,
-        map: spriteTex,
-        transparent: true,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false
-      });
-
-      this.torusPoints = new THREE.Points(torusBuffer, pointsMat);
-      this.mainScene.add(this.torusPoints);
-
-      // 3. Sợi chỉ nơ-ron (Vector Synapses)
-      const synapseCount = 36;
-      const synapsePositions = new Float32Array(synapseCount * 6);
-      for (let i = 0; i < synapseCount; i++) {
-        // Điểm đầu từ tâm kim cương
-        const angle = (i / synapseCount) * Math.PI * 2;
-        synapsePositions[i * 6] = Math.cos(angle) * 1.5;
-        synapsePositions[i * 6 + 1] = Math.sin(angle) * 1.5;
-        synapsePositions[i * 6 + 2] = (Math.random() - 0.5) * 1.5;
-
-        // Điểm cuối nối tới Torus
-        synapsePositions[i * 6 + 3] = Math.cos(angle) * 5.2;
-        synapsePositions[i * 6 + 4] = Math.sin(angle) * 5.2;
-        synapsePositions[i * 6 + 5] = (Math.random() - 0.5) * 2.0;
-      }
-
-      const synapseGeo = new THREE.BufferGeometry();
-      synapseGeo.setAttribute('position', new THREE.BufferAttribute(synapsePositions, 3));
-      const synapseMat = new THREE.LineBasicMaterial({
-        color: this.colors.cyan,
-        transparent: true,
-        opacity: 0.25,
-        blending: THREE.AdditiveBlending
-      });
-      this.synapseLines = new THREE.LineSegments(synapseGeo, synapseMat);
-      this.mainScene.add(this.synapseLines);
+    pulseVolatility(factor = 1.5) {
+      this.volatilitySpeed = factor;
     }
 
     /**
-     * PHÂN KHU 6: 3D RESOLUTION FUNNEL (PHỄU XÁC SUẤT NÓN ELIP WIREFRAME)
-     */
-    setupFunnelScene() {
-      if (!this.funnelCanvas) return;
-      const container = this.funnelCanvas.parentElement;
-      const width = container.clientWidth || 400;
-      const height = container.clientHeight || 200;
-
-      this.funnelScene = new THREE.Scene();
-      this.funnelCamera = new THREE.PerspectiveCamera(40, width / height, 0.1, 50);
-      this.funnelCamera.position.set(0, 1.5, 7.5);
-      this.funnelCamera.lookAt(0, 0, 0);
-
-      this.funnelRenderer = new THREE.WebGLRenderer({
-        canvas: this.funnelCanvas,
-        alpha: true,
-        antialias: true
-      });
-      this.funnelRenderer.setSize(width, height);
-      this.funnelRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      // Khung lưới hình nón elip
-      const coneGeo = new THREE.ConeGeometry(2.4, 4.2, 18, 12, true);
-      coneGeo.rotateX(Math.PI / 2);
-      const coneWire = new THREE.WireframeGeometry(coneGeo);
-      const coneMat = new THREE.LineBasicMaterial({
-        color: this.colors.cyan,
-        transparent: true,
-        opacity: 0.35
-      });
-      this.funnelCone = new THREE.LineSegments(coneWire, coneMat);
-      this.funnelScene.add(this.funnelCone);
-
-      // Các hạt quỹ đạo hội tụ tương lai
-      const fParticleCount = 180;
-      const fPositions = new Float32Array(fParticleCount * 3);
-      for (let i = 0; i < fParticleCount; i++) {
-        const t = Math.random(); // vị trí từ đáy tới đỉnh
-        const z = (t - 0.5) * 4.0;
-        const rad = (1.0 - t) * 2.2;
-        const theta = Math.random() * Math.PI * 2;
-        fPositions[i * 3] = Math.cos(theta) * rad;
-        fPositions[i * 3 + 1] = Math.sin(theta) * rad * 0.6; // hình elip
-        fPositions[i * 3 + 2] = z;
-      }
-
-      const fGeo = new THREE.BufferGeometry();
-      fGeo.setAttribute('position', new THREE.BufferAttribute(fPositions, 3));
-      const fMat = new THREE.PointsMaterial({
-        color: this.colors.emerald,
-        size: 0.12,
-        transparent: true,
-        opacity: 0.85,
-        blending: THREE.AdditiveBlending
-      });
-      this.funnelParticles = new THREE.Points(fGeo, fMat);
-      this.funnelScene.add(this.funnelParticles);
-    }
-
-    /**
-     * TOP HUD: LOGO 3D TINH THỂ KIM CƯƠNG MINI KHÔNG VIỀN (32x32)
-     */
-    setupMiniLogoScene() {
-      if (!this.miniLogoCanvas) return;
-      const size = 32;
-
-      this.miniScene = new THREE.Scene();
-      this.miniCamera = new THREE.PerspectiveCamera(40, 1, 0.1, 20);
-      this.miniCamera.position.set(0, 0, 4.2);
-
-      this.miniRenderer = new THREE.WebGLRenderer({
-        canvas: this.miniLogoCanvas,
-        alpha: true,
-        antialias: true
-      });
-      this.miniRenderer.setSize(size, size);
-      this.miniRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-      const miniGeo = new THREE.OctahedronGeometry(1.0, 0);
-      const miniMat = new THREE.MeshBasicMaterial({
-        color: this.colors.gold,
-        wireframe: true
-      });
-      this.miniMesh = new THREE.Mesh(miniGeo, miniMat);
-      this.miniScene.add(this.miniMesh);
-    }
-
-    /**
-     * Vòng lặp dựng hình 60/120Hz
+     * VÒNG LẶP DỰNG HÌNH 60 - 120 FPS
      */
     startLoop() {
       const render = () => {
         if (!this.isRunning) return;
-
         this.animFrameId = requestAnimationFrame(render);
+
         this.clockTime += 0.016 * this.volatilitySpeed;
-
-        // Trả dần tốc độ biến động về bình thường
         if (this.volatilitySpeed > 1.0) {
-          this.volatilitySpeed = Math.max(1.0, this.volatilitySpeed - 0.01);
+          this.volatilitySpeed = Math.max(1.0, this.volatilitySpeed - 0.015);
         }
 
-        // Cập nhật Main Crystal Scene
-        if (this.mainRenderer && this.mainScene) {
-          // Nhịp thở Breathing Animation
-          const breathScale = 1.0 + 0.045 * Math.sin(this.clockTime * 2.0);
-          if (this.crystalMesh) {
-            this.crystalMesh.scale.set(breathScale, breathScale, breathScale);
-            this.crystalMesh.rotation.y += 0.007;
-            this.crystalMesh.rotation.x = Math.sin(this.clockTime * 0.7) * 0.18;
-            if (this.crystalMesh.material.uniforms) {
-              this.crystalMesh.material.uniforms.uTime.value = this.clockTime;
-            }
-          }
+        // 3D Orbit Physics & Damping (V8 Smooth Controls)
+        this.userRotX += (this.targetRotX - this.userRotX) * 0.12;
+        this.userRotY += (this.targetRotY - this.userRotY) * 0.12;
+        this.userZoom += (this.targetZoom - this.userZoom) * 0.12;
 
-          if (this.crystalWire) {
-            this.crystalWire.scale.set(breathScale * 1.01, breathScale * 1.01, breathScale * 1.01);
-            this.crystalWire.rotation.y += 0.007;
-            this.crystalWire.rotation.x = Math.sin(this.clockTime * 0.7) * 0.18;
-          }
+        if (!this.isDragging) {
+          // Quán tính lướt nhẹ khi buông chuột
+          this.targetRotX += this.dragVelocityY;
+          this.targetRotY += this.dragVelocityX;
+          this.dragVelocityX *= 0.90;
+          this.dragVelocityY *= 0.90;
 
-          // Xoay kép Torus
-          if (this.torusPoints) {
-            this.torusPoints.rotation.z += 0.003;
-            this.torusPoints.rotation.x = Math.sin(this.clockTime * 0.4) * 0.25;
-            this.torusPoints.rotation.y += 0.002;
-          }
-
-          if (this.synapseLines) {
-            this.synapseLines.rotation.z += 0.003;
-          }
-
-          this.mainRenderer.render(this.mainScene, this.mainCamera);
+          // Tự động quay nhẹ nhàng khi thả chuột (Auto-Resume Smooth Idle Rotation)
+          this.autoRotAngle += TORUS_CONFIG.autoRotateSpeed * this.volatilitySpeed;
         }
 
-        // Cập nhật Funnel Scene
-        if (this.funnelRenderer && this.funnelScene) {
-          if (this.funnelCone) {
-            this.funnelCone.rotation.z += 0.005;
-          }
-          if (this.funnelParticles) {
-            this.funnelParticles.rotation.z += 0.008;
-          }
-          this.funnelRenderer.render(this.funnelScene, this.funnelCamera);
+        // 1. Dựng Trái Tim 3D Torus & Vòng Nhẫn Vàng Kim
+        if (!this.isEcoMode) {
+          this.renderQuantumTorusHeart();
+          this.renderGreeksFunnelField();
+          this.renderMiniLogo();
         }
 
-        // Cập nhật Mini Logo Scene
-        if (this.miniRenderer && this.miniScene) {
-          if (this.miniMesh) {
-            this.miniMesh.rotation.y += 0.02;
-            this.miniMesh.rotation.x += 0.01;
-          }
-          this.miniRenderer.render(this.miniScene, this.miniCamera);
-        }
+        // 2. Dựng Dải Sóng Dòng Tiền Ròng (Net Exposure Wave)
+        this.renderNetExposureWave();
       };
 
       this.animFrameId = requestAnimationFrame(render);
     }
 
     /**
-     * Fallback Canvas 2D/2.5D tuyệt đẹp nếu WebGL/Three.js chưa sẵn sàng
+     * ========================================================
+     * PHẦN 3 & 4: "TRÁI TIM QUẢ CẦU 3D" (THE HEATMAP TORUS CORE)
+     * - Volumetric Heatmap Torus Surface Mesh (Cyan/Navy back ➔ Emerald/Gold/Ruby front)
+     * - The Central Golden Aperture Ring (#FFD700) dựng đứng ở tâm
+     * - Khối Tinh thể Kim Cương ở tâm
+     * - 1,500 Hạt lượng tử chuyển động xoắn ốc
+     * ========================================================
      */
-    initCanvasFallback() {
-      if (!this.mainCanvas) return;
-      const ctx = this.mainCanvas.getContext('2d');
-      const w = this.mainCanvas.width = this.mainCanvas.parentElement.clientWidth || 800;
-      const h = this.mainCanvas.height = this.mainCanvas.parentElement.clientHeight || 380;
+    renderQuantumTorusHeart() {
+      if (!this.mainCtx || !this.mainCanvas) return;
+      const ctx = this.mainCtx;
+      const w = this.mainCanvas.width;
+      const h = this.mainCanvas.height;
+      if (w === 0 || h === 0) return;
 
-      const fallbackRender = () => {
-        if (!this.isRunning) return;
-        this.animFrameId = requestAnimationFrame(fallbackRender);
-        this.clockTime += 0.02;
+      ctx.clearRect(0, 0, w, h);
+      const cx = w / 2;
+      const cy = h / 2 - 8; // Căn giữa tối ưu buồng lái
 
-        ctx.clearRect(0, 0, w, h);
-        const cx = w / 2;
-        const cy = h / 2;
+      const t = this.clockTime;
+      const breath = 1.0 + 0.035 * Math.sin(t * 1.8);
 
-        // Vẽ hào quang
-        const radGrad = ctx.createRadialGradient(cx, cy, 10, cx, cy, 180);
-        radGrad.addColorStop(0, 'rgba(255, 215, 0, 0.25)');
-        radGrad.addColorStop(0.5, 'rgba(0, 255, 163, 0.15)');
-        radGrad.addColorStop(1, 'rgba(3, 7, 18, 0)');
-        ctx.fillStyle = radGrad;
-        ctx.fillRect(0, 0, w, h);
+      // Tham số Torus hình học chuẩn V8 (+40% Enlarge & Cân Đối Hoàn Hảo)
+      const R = TORUS_CONFIG.radius * breath; // 165 * breath (radius: 165)
+      const r = TORUS_CONFIG.tube * breath;   // 62 * breath (tube: 62)
 
-        // Vẽ 120 hạt Torus 2.5D
-        const pCount = 240;
-        for (let i = 0; i < pCount; i++) {
-          const u = (i / pCount) * Math.PI * 2 + this.clockTime * 0.4;
-          const v = i * 0.1 + this.clockTime;
-          const rBig = 140;
-          const rSmall = 40;
-          const px = cx + (rBig + rSmall * Math.cos(v)) * Math.cos(u);
-          const py = cy + (rBig + rSmall * Math.cos(v)) * Math.sin(u) * 0.4;
+      // Góc xoay không gian 3D: Nằm ngang hơn (Oblique Elevation Angle) + Tương tác xoay 360 độ
+      const baseElevation = 0.52; // Góc nghiêng nằm ngang bề thế (~30 deg)
+      const rotX = baseElevation + this.userRotX + Math.sin(t * 0.25) * 0.04;
+      const rotY = this.autoRotAngle + this.userRotY;
+      const rotZ = (t * 0.03) + (this.userRotY * 0.08);
 
-          ctx.fillStyle = (i % 2 === 0) ? '#00FFA3' : '#FFD700';
+      const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+      const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+      const cosZ = Math.cos(rotZ), sinZ = Math.sin(rotZ);
+
+      // Phép chiếu phối cảnh 3D sang 2D kèm Zoom (Mouse Wheel Zoom)
+      const project = (x, y, z) => {
+        // Xoay Y
+        let x1 = x * cosY + z * sinY;
+        let y1 = y;
+        let z1 = -x * sinY + z * cosY;
+
+        // Xoay X
+        let x2 = x1;
+        let y2 = y1 * cosX - z1 * sinX;
+        let z2 = y1 * sinX + z1 * cosX;
+
+        // Xoay Z
+        let x3 = x2 * cosZ - y2 * sinZ;
+        let y3 = x2 * sinZ + y2 * cosZ;
+        let z3 = z2;
+
+        const fov = 460;
+        const scale = (fov / (fov + z3 + 85)) * this.userZoom;
+        return {
+          px: cx + x3 * scale,
+          py: cy + y3 * scale,
+          depth: z3,
+          scale: scale,
+          rawX: x3,
+          rawY: y3
+        };
+      };
+
+      // 1. HÌNH HỌC LƯỚI ĐA GIÁC: 28 VÒNG RADIAL X 56 ĐOẠN TUBULAR
+      const uSteps = TORUS_CONFIG.radialSegments; // 28 múi radial
+      const vSteps = TORUS_CONFIG.tubularSegments; // 56 đoạn tubular
+      const gridPoints = [];
+
+      for (let i = 0; i < uSteps; i++) {
+        const u = (i / uSteps) * Math.PI * 2;
+        gridPoints[i] = [];
+        for (let j = 0; j < vSteps; j++) {
+          const v = (j / vSteps) * Math.PI * 2;
+
+          // ĐỈNH NHỌN DAO ĐỘNG (VERTEX ELEVATION SPIKES)
+          let elevationSpike = 0;
+          const upperRimFactor = Math.sin(v);
+          if (upperRimFactor > 0.15) {
+            const densityWave = Math.sin(u * 6 + t * 2.2) * Math.cos(v * 4 + t * 1.6);
+            if (densityWave > 0.12) {
+              elevationSpike = Math.pow(densityWave, 1.5) * 18 * (0.85 + 0.35 * Math.sin(t * 3.4));
+            }
+          }
+
+          const currentR = R + elevationSpike;
+          const x = (currentR + r * Math.cos(v)) * Math.cos(u);
+          const y = (currentR + r * Math.cos(v)) * Math.sin(u);
+          const z = r * Math.sin(v);
+
+          gridPoints[i][j] = project(x, y, z);
+        }
+      }
+
+      // 2. GRADIENT NHIỆT (HEATMAP SHADERS)
+      ctx.lineWidth = 1;
+      for (let i = 0; i < uSteps; i++) {
+        for (let j = 0; j < vSteps; j += 2) {
+          const p1 = gridPoints[i][j];
+          const p2 = gridPoints[(i + 1) % uSteps][j];
+          const p3 = gridPoints[i][(j + 1) % vSteps];
+
+          let strokeCol;
+          if (p1.depth < -15) {
+            // Nửa sau: Midnight Cyan bán trong suốt
+            strokeCol = 'rgba(0, 150, 255, 0.20)';
+          } else {
+            // Vành trước & Hố đen trọng lực
+            const distFromCenter = Math.hypot(p1.px - cx, p1.py - cy);
+            if (distFromCenter < TORUS_CONFIG.goldenRingRadius * breath * this.userZoom) {
+              // Lòng trong hố đen trọng lực: Đỏ Ruby & Hồng Magenta
+              strokeCol = 'rgba(255, 51, 102, 0.55)';
+            } else if (p1.depth > 40) {
+              // Vành trước sáng nhất: Vàng Kim #FFB800 / #FFD700
+              strokeCol = 'rgba(255, 184, 0, 0.50)';
+            } else {
+              // Vành trước biên ngoài: Xanh Ngọc Lục Bảo #00FFA3
+              strokeCol = 'rgba(0, 255, 163, 0.38)';
+            }
+          }
+
+          ctx.strokeStyle = strokeCol;
           ctx.beginPath();
-          ctx.arc(px, py, 1.6, 0, Math.PI * 2);
+          ctx.moveTo(p1.px, p1.py);
+          ctx.lineTo(p2.px, p2.py);
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.moveTo(p1.px, p1.py);
+          ctx.lineTo(p3.px, p3.py);
+          ctx.stroke();
+        }
+      }
+
+      // 3. VÒNG NHẪN VÀNG KIM APERTURE RING & RESOLUTION AXIS
+      // Tăng kích thước Vòng Nhẫn Vàng Kim ở tâm tương ứng từ radius: 38 lên radius: 52
+      ctx.save();
+      const ringTilt = Math.sin(t * 0.4) * 0.12 + (this.userRotY * 0.08);
+      const ringRadX = TORUS_CONFIG.goldenRingRadius * breath * this.userZoom;
+      const ringRadY = (TORUS_CONFIG.goldenRingRadius * 1.76) * breath * this.userZoom;
+
+      // Hào quang tỏa sáng rộng
+      ctx.shadowColor = '#FFE600';
+      ctx.shadowBlur = 36;
+      ctx.strokeStyle = 'rgba(255, 230, 0, 0.36)';
+      ctx.lineWidth = 8 * this.userZoom;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, ringRadX, ringRadY, ringTilt, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Vành nhẫn chính Vàng Kim Rực Rỡ (#FFE600)
+      ctx.shadowColor = '#FFE600';
+      ctx.shadowBlur = 20;
+      ctx.strokeStyle = '#FFE600';
+      ctx.lineWidth = 3.6 * this.userZoom;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, ringRadX * 0.85, ringRadY * 0.88, ringTilt, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Vành trong tâm sáng trắng vàng
+      ctx.strokeStyle = 'rgba(255, 255, 240, 0.88)';
+      ctx.lineWidth = 1.4 * this.userZoom;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, ringRadX * 0.80, ringRadY * 0.84, ringTilt, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+
+      // TÂM NGẮM ⌖ & CHỮ PHÁT SÁNG "RESOLUTION AXIS" NGAY DƯỚI CHÂN VÒNG NHẪN
+      const axisBottomY = cy + ringRadY + 16 * this.userZoom;
+      ctx.save();
+      ctx.font = 'bold 9.5px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      ctx.fillStyle = '#FFE600';
+      ctx.shadowColor = '#FFE600';
+      ctx.shadowBlur = 10;
+      ctx.fillText('⌖ RESOLUTION AXIS', cx, axisBottomY);
+      ctx.restore();
+
+      // HẠT BỤI VÀNG LƯỢNG TỬ XOAY TRÒN THEO QUỸ ĐẠO VÒNG NHẪN
+      if (this.ringParticles) {
+        ctx.save();
+        for (let i = 0; i < this.ringParticles.length; i++) {
+          const rp = this.ringParticles[i];
+          rp.angle += rp.speed * this.volatilitySpeed;
+          const rpRadX = (ringRadX * 0.85 + rp.radiusVariance * this.userZoom);
+          const rpRadY = (ringRadY * 0.88 + rp.radiusVariance * 1.5 * this.userZoom);
+          const px = cx + rpRadX * Math.cos(rp.angle);
+          const py = cy + rpRadY * Math.sin(rp.angle);
+
+          ctx.fillStyle = '#FFE600';
+          ctx.shadowColor = '#FFE600';
+          ctx.shadowBlur = 8;
+          ctx.beginPath();
+          ctx.arc(px, py, rp.size * this.userZoom, 0, Math.PI * 2);
           ctx.fill();
         }
+        ctx.restore();
+      }
 
-        // Vẽ Kim Cương Octahedron 2.5D
-        const size = 55 + Math.sin(this.clockTime * 2.0) * 4;
-        const angle = this.clockTime * 0.8;
+      // 4. KHỐI TINH THỂ KIM CƯƠNG ĐA DIỆN Ở TÂM LÒNG NHẪN
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(t * 0.55);
+      ctx.shadowColor = '#FFD700';
+      ctx.shadowBlur = 14;
+      ctx.strokeStyle = '#FFE600';
+      ctx.lineWidth = 1.5 * this.userZoom;
+
+      const cSize = 16 * breath * this.userZoom;
+      ctx.beginPath();
+      ctx.moveTo(0, -cSize * 1.5);
+      ctx.lineTo(cSize, 0);
+      ctx.lineTo(0, cSize * 1.5);
+      ctx.lineTo(-cSize, 0);
+      ctx.closePath();
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(-cSize, 0);
+      ctx.lineTo(cSize, 0);
+      ctx.moveTo(0, -cSize * 1.5);
+      ctx.lineTo(0, cSize * 1.5);
+      ctx.stroke();
+      ctx.restore();
+
+      // 5. HẠT LƯỢNG TỬ CHUYỂN ĐỘNG TRÊN BỀ MẶT QUẢ CẦU
+      for (let i = 0; i < this.particles.length; i++) {
+        const p = this.particles[i];
+        p.u += p.speedU * this.volatilitySpeed;
+        p.v += p.speedV * this.volatilitySpeed;
+
+        const x = (R + r * Math.cos(p.v)) * Math.cos(p.u);
+        const y = (R + r * Math.cos(p.v)) * Math.sin(p.u);
+        const z = r * Math.sin(p.v);
+
+        const proj = project(x, y, z);
+        if (proj.scale > 0) {
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(proj.px, proj.py, Math.max(0.6, p.size * proj.scale), 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // 6. CÁC CHỐT SỐ MỐC GÓC XOAY: NHÃN 2:30 VÀ 3:45 ĐÍNH TRỰC TIẾP VÀO MẶT LƯỚI
+      const p230 = project(R * Math.cos(Math.PI * 0.35), R * Math.sin(Math.PI * 0.35), r * 0.8);
+      const p345 = project(R * Math.cos(Math.PI * 0.72), R * Math.sin(Math.PI * 0.72), -r * 0.5);
+
+      ctx.save();
+      ctx.font = 'bold 9px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#FFD700';
+      ctx.shadowColor = '#FFD700';
+      ctx.shadowBlur = 6;
+      ctx.fillText('2:30', p230.px + 4, p230.py);
+      ctx.fillText('3:45', p345.px + 4, p345.py);
+      ctx.restore();
+
+      // 7. 4 MŨI TÊN VECTOR CHỈ TỌA ĐỘ KHÔNG GIAN 3D (VECTOR CALLOUTS)
+      // - Cyan trên cùng bên trái: vành trên -> BTC 77,318
+      // - Cam bên dưới bên trái: góc dưới -> ETH 2,481
+      // - Trắng góc trên bên phải: rìa ngoài bên phải -> SOL 91.66
+      // - Vàng bên phải: trục giải quyết -> CHAINLINK 77,299 · RESOLUTION CHARGE · LAG 1.1S
+      const drawCallout = (targetX, targetY, labelText, color, offsetX, offsetY, subText = null) => {
+        const endX = targetX + offsetX;
+        const endY = targetY + offsetY;
+
         ctx.save();
-        ctx.translate(cx, cy);
-        ctx.strokeStyle = '#FFD700';
-        ctx.lineWidth = 1.8;
+        // Tâm điểm chấm sáng
+        ctx.fillStyle = color;
+        ctx.shadowColor = color;
+        ctx.shadowBlur = 8;
         ctx.beginPath();
-        ctx.moveTo(0, -size);
-        ctx.lineTo(Math.cos(angle) * size, 0);
-        ctx.lineTo(0, size);
-        ctx.lineTo(-Math.cos(angle) * size, 0);
-        ctx.closePath();
-        ctx.stroke();
+        ctx.arc(targetX, targetY, 2.5, 0, Math.PI * 2);
+        ctx.fill();
 
-        ctx.strokeStyle = '#00FFA3';
+        // Đường gióng vector có mũi tên
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.2;
+        ctx.setLineDash([3, 2]);
         ctx.beginPath();
-        ctx.moveTo(0, -size);
-        ctx.lineTo(0, size);
-        ctx.moveTo(-Math.cos(angle) * size, 0);
-        ctx.lineTo(Math.cos(angle) * size, 0);
+        ctx.moveTo(targetX, targetY);
+        ctx.lineTo(endX, endY);
         ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Mũi tên nhỏ trỏ vào mục tiêu
+        const angle = Math.atan2(targetY - endY, targetX - endX);
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.moveTo(targetX, targetY);
+        ctx.lineTo(targetX - 5 * Math.cos(angle - 0.4), targetY - 5 * Math.sin(angle - 0.4));
+        ctx.lineTo(targetX - 5 * Math.cos(angle + 0.4), targetY - 5 * Math.sin(angle + 0.4));
+        ctx.closePath();
+        ctx.fill();
+
+        // Khung nhãn HUD chữ nhật
+        ctx.font = 'bold 9.5px "JetBrains Mono", monospace';
+        const textWidth = ctx.measureText(labelText).width;
+        const padX = 6;
+        const padY = 3;
+        const boxW = textWidth + padX * 2;
+        const boxH = subText ? 24 : 16;
+        const boxX = offsetX > 0 ? endX : endX - boxW;
+        const boxY = endY - boxH / 2;
+
+        ctx.fillStyle = 'rgba(7, 12, 22, 0.88)';
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1;
+        ctx.fillRect(boxX, boxY, boxW, boxH);
+        ctx.strokeRect(boxX, boxY, boxW, boxH);
+
+        // Chữ nhãn
+        ctx.fillStyle = color;
+        ctx.shadowColor = color;
+        ctx.shadowBlur = 6;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.fillText(labelText, boxX + padX, boxY + padY);
+
+        if (subText) {
+          ctx.font = '8px "JetBrains Mono", monospace';
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+          ctx.fillText(subText, boxX + padX, boxY + padY + 11);
+        }
         ctx.restore();
       };
 
-      fallbackRender();
+      // Tọa độ mục tiêu cho 4 vector callouts
+      const btcTarget = project(-R * 0.65, R * 0.75, r * 0.8);
+      drawCallout(btcTarget.px, btcTarget.py, 'BTC 77,318', '#00F0FF', -55, -28);
+
+      const ethTarget = project(-R * 0.75, -R * 0.6, -r * 0.6);
+      drawCallout(ethTarget.px, ethTarget.py, 'ETH 2,481', '#FF9900', -55, 25);
+
+      const solTarget = project(R * 0.95, R * 0.45, r * 0.5);
+      drawCallout(solTarget.px, solTarget.py, 'SOL 91.66', '#FFFFFF', 45, -24);
+
+      const clTarget = { px: cx + ringRadX * 0.85, py: cy + 18 * this.userZoom };
+      drawCallout(clTarget.px, clTarget.py, 'CHAINLINK 77,299', '#FFE600', 50, 8, 'RESOLUTION CHARGE · LAG 1.1S');
     }
 
     /**
-     * Tăng tốc độ biến động khi có lệnh lớn khớp
+     * ========================================================
+     * PHẦN 5: LẤP ĐẦY Ô [06] GREEKS FIELD & HAWKES CASCADE
+     * - Volatility Funnel 3D: Phễu nón xác suất các vòng elip thu hẹp
+     * - Hawkes Cascade: Hạt va chạm mô phỏng quá trình tự kích hoạt lệnh
+     * ========================================================
      */
-    pulseVolatility(factor = 1.5) {
-      this.volatilitySpeed = Math.min(3.5, this.volatilitySpeed * factor);
-    }
+    renderGreeksFunnelField() {
+      if (!this.funnelCtx || !this.funnelCanvas) return;
+      const ctx = this.funnelCtx;
+      const w = this.funnelCanvas.width;
+      const h = this.funnelCanvas.height;
+      if (w === 0 || h === 0) return;
 
-    /**
-     * Công tắc Chế độ Kép: GOD MODE (🌌) vs ECO MODE (⚡)
-     */
-    setMode(newMode) {
-      this.mode = newMode;
-      const isGod = (newMode === 'GOD');
+      ctx.clearRect(0, 0, w, h);
+      const cx = w * 0.42;
+      const cy = h / 2;
+      const t = this.clockTime;
 
-      if (isGod) {
-        document.body.classList.remove('ecomode-active');
-        document.body.classList.add('godmode-active');
-        this.isRunning = true;
-        if (!this.animFrameId) {
-          if (typeof THREE !== 'undefined' && this.mainScene) {
-            this.startLoop();
-          } else {
-            this.initCanvasFallback();
-          }
+      // 1. VẼ HÌNH NÓN XÁC SUẤT VOLATILITY FUNNEL 3D (8 VÒNG ELIP THU HẸP)
+      const ringCount = 8;
+      ctx.save();
+
+      for (let i = 0; i < ringCount; i++) {
+        const progress = i / (ringCount - 1);
+        const zOffset = (1 - progress) * 90;
+        const radiusX = (1 - progress * 0.72) * 58;
+        const radiusY = radiusX * 0.46;
+        const posX = cx + progress * 75;
+        const posY = cy;
+
+        // Gradient màu từ Cyan (#00F0FF) sang Emerald (#00FFA3)
+        const alpha = 0.25 + progress * 0.65;
+        ctx.strokeStyle = i % 2 === 0 ? `rgba(0, 240, 255, ${alpha})` : `rgba(0, 255, 163, ${alpha})`;
+        ctx.lineWidth = 1.2 + progress * 0.8;
+        ctx.shadowColor = '#00FFA3';
+        ctx.shadowBlur = progress * 8;
+
+        ctx.beginPath();
+        ctx.ellipse(posX, posY, radiusX, radiusY, 0, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Đường sinh Perspective nối các vành
+        if (i < ringCount - 1) {
+          const nextProg = (i + 1) / (ringCount - 1);
+          const nextRadX = (1 - nextProg * 0.72) * 58;
+          const nextRadY = nextRadX * 0.46;
+          const nextPosX = cx + nextProg * 75;
+
+          ctx.strokeStyle = 'rgba(0, 240, 255, 0.18)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(posX, posY - radiusY);
+          ctx.lineTo(nextPosX, posY - nextRadY);
+          ctx.moveTo(posX, posY + radiusY);
+          ctx.lineTo(nextPosX, posY + nextRadY);
+          ctx.stroke();
         }
-      } else {
-        // ECO MODE: Tạm dừng vòng lặp, giải phóng CPU < 2%
-        document.body.classList.remove('godmode-active');
-        document.body.classList.add('ecomode-active');
-        this.isRunning = false;
-        if (this.animFrameId) {
-          cancelAnimationFrame(this.animFrameId);
-          this.animFrameId = null;
+      }
+      ctx.restore();
+
+      // 2. BIỂU ĐỒ TÁN XẠ HẠT HAWKES CASCADE (SELF-EXCITING FILL FLOW)
+      ctx.save();
+      for (let i = 0; i < this.hawkesNodes.length; i++) {
+        const n = this.hawkesNodes[i];
+        n.x += n.vx;
+        n.y += n.vy;
+        n.pulse += 0.035;
+
+        if (n.x < -80 || n.x > 80) n.vx *= -1;
+        if (n.y < -45 || n.y > 45) n.vy *= -1;
+
+        const nx = (w * 0.76) + n.x;
+        const ny = cy + n.y;
+        const glow = Math.abs(Math.sin(n.pulse));
+
+        ctx.fillStyle = n.color;
+        ctx.shadowColor = n.color;
+        ctx.shadowBlur = glow * 10;
+        ctx.beginPath();
+        ctx.arc(nx, ny, 1.8 + glow * 1.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Tia shockwave va chạm tự kích hoạt
+        if (i % 4 === 0) {
+          ctx.strokeStyle = `rgba(255, 215, 0, ${glow * 0.35})`;
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.arc(nx, ny, 8 * glow, 0, Math.PI * 2);
+          ctx.stroke();
         }
       }
+      ctx.restore();
     }
 
     /**
-     * Điều chỉnh kích thước khung nhìn
+     * ========================================================
+     * DẢI SÓNG DÒNG TIỀN RÒNG (NET EXPOSURE & DELTA FLOW WAVE)
+     * Biểu đồ vùng đối xứng: Trên 0 = Xanh Mua (#00FFA3), Dưới 0 = Đỏ Bán (#FF3366)
+     * ========================================================
      */
-    handleResize() {
-      if (this.mainRenderer && this.mainCamera && this.mainCanvas) {
-        const container = this.mainCanvas.parentElement;
-        const w = container.clientWidth;
-        const h = container.clientHeight;
-        this.mainCamera.aspect = w / h;
-        this.mainCamera.updateProjectionMatrix();
-        this.mainRenderer.setSize(w, h);
-      }
+    /**
+     * ========================================================
+     * PHẦN 4: VI CẤU TRÚC DẢI SÓNG ĐÁY (DUAL-COLOR AREA WAVE)
+     * 15M ROLLING DIRECTIONAL REMAINDER VS OPPOSITE-SIDE HEDGE
+     * - Trục số 0 nằm chính giữa với các vạch chia nhỏ 15 phút
+     * - Vùng sóng Dương (Trên 0): Màu Xanh Ngọc #00FFA3 độ mờ 40%, viền sáng trắng bạc #E0FFFF dày 1.5px
+     * - Vùng sóng Âm (Dưới 0): Màu Đỏ Ruby #FF3366 độ mờ 40%, viền màu đỏ laser
+     * - Đường sóng nét đứt màu Cam chạy xuyên suốt biểu diễn tỷ lệ phòng hộ Hedge
+     * ========================================================
+     */
+    renderNetExposureWave() {
+      if (!this.waveCtx || !this.waveCanvas) return;
+      const ctx = this.waveCtx;
+      const w = this.waveCanvas.width;
+      const h = this.waveCanvas.height;
+      if (w === 0 || h === 0) return;
 
-      if (this.funnelRenderer && this.funnelCamera && this.funnelCanvas) {
-        const container = this.funnelCanvas.parentElement;
-        const w = container.clientWidth;
-        const h = container.clientHeight;
-        this.funnelCamera.aspect = w / h;
-        this.funnelCamera.updateProjectionMatrix();
-        this.funnelRenderer.setSize(w, h);
+      ctx.clearRect(0, 0, w, h);
+      this.wavePhase += 0.035;
+      const midY = h / 2;
+
+      // 1. TRỤC SỐ 0 CHÍNH GIỮA VỚI CÁC VẠCH CHIA NHỎ 15 PHÚT
+      ctx.strokeStyle = 'rgba(0, 240, 255, 0.35)';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(0, midY);
+      ctx.lineTo(w, midY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Các vạch chia nhỏ 15 phút
+      ctx.save();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.40)';
+      ctx.font = '8px "JetBrains Mono", monospace';
+      ctx.textAlign = 'center';
+      const tickStep = Math.max(50, w / 8);
+      for (let x = tickStep / 2; x < w; x += tickStep) {
+        ctx.beginPath();
+        ctx.moveTo(x, midY - 4);
+        ctx.lineTo(x, midY + 4);
+        ctx.stroke();
       }
+      ctx.restore();
+
+      // 2. VÙNG SÓNG DƯƠNG (TRÊN 0): MÀU XANH NGỌC #00FFA3 ĐỘ MỜ 40%, VIỀN TRẮNG BẠC #E0FFFF DÀY 1.5PX
+      ctx.save();
+      ctx.fillStyle = 'rgba(0, 255, 163, 0.40)';
+      ctx.strokeStyle = '#E0FFFF';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(0, midY);
+      for (let x = 0; x <= w; x += 6) {
+        const yOffset = Math.sin(x * 0.018 + this.wavePhase) * (h * 0.34) + Math.cos(x * 0.038 - this.wavePhase * 0.5) * (h * 0.12);
+        const y = midY - Math.abs(yOffset);
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(w, midY);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+
+      // 3. VÙNG SÓNG ÂM (DƯỚI 0): MÀU ĐỎ RUBY #FF3366 ĐỘ MỜ 40%, VIỀN MÀU ĐỎ LASER #FF3366
+      ctx.save();
+      ctx.fillStyle = 'rgba(255, 51, 102, 0.40)';
+      ctx.strokeStyle = '#FF3366';
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(0, midY);
+      for (let x = 0; x <= w; x += 6) {
+        const yOffset = Math.sin(x * 0.022 - this.wavePhase * 0.8) * (h * 0.32) + Math.sin(x * 0.045 + this.wavePhase) * (h * 0.10);
+        const y = midY + Math.abs(yOffset);
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(w, midY);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+
+      // 4. ĐƯỜNG SÓNG NÉT ĐỨT MÀU CAM CHẠY XUYÊN SUỐT BIỂU DIỄN TỶ LỆ PHÒNG HỘ HEDGE
+      ctx.save();
+      ctx.strokeStyle = '#FF9900';
+      ctx.lineWidth = 1.6;
+      ctx.setLineDash([4, 4]);
+      ctx.shadowColor = '#FF9900';
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      for (let x = 0; x <= w; x += 6) {
+        const hedgeOffset = Math.sin(x * 0.024 + this.wavePhase * 0.9) * (h * 0.24) - Math.cos(x * 0.015 - this.wavePhase * 0.4) * (h * 0.15);
+        const y = midY + hedgeOffset;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    /**
+     * TOP HUD MINI 3D LOGO (OCTAHEDRON SACRED GEOMETRY)
+     */
+    renderMiniLogo() {
+      if (!this.miniCtx || !this.miniLogoCanvas) return;
+      const ctx = this.miniCtx;
+      const w = 32, h = 32;
+      ctx.clearRect(0, 0, w, h);
+
+      const cx = 16, cy = 16;
+      const t = this.clockTime * 1.2;
+      const size = 11;
+
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(t * 0.4);
+      ctx.strokeStyle = '#FFD700';
+      ctx.lineWidth = 1.4;
+      ctx.shadowColor = '#FFD700';
+      ctx.shadowBlur = 8;
+
+      ctx.beginPath();
+      ctx.moveTo(0, -size);
+      ctx.lineTo(size * 0.85, 0);
+      ctx.lineTo(0, size);
+      ctx.lineTo(-size * 0.85, 0);
+      ctx.closePath();
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(-size * 0.85, 0);
+      ctx.lineTo(size * 0.85, 0);
+      ctx.stroke();
+      ctx.restore();
     }
   }
 
-  // Khởi tạo instance
-  window.CrystalEngine = new SovereignCrystalEngine();
+  window.CrystalEngine = new SovereignQuantumCoreEngine();
 
-  // Tự động gắn vào DOM khi trang sẵn sàng
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => window.CrystalEngine.init());
   } else {

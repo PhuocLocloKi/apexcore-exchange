@@ -90,7 +90,7 @@ export class MarketsPage {
   renderMiniRow(item) {
     const isUp = item.change24h >= 0;
     return `
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; font-size:12px; cursor:pointer;" onclick="window.ApexRouter.navigate('/trade/${item.id}')">
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:4px 0; font-size:12px; cursor:pointer;" onclick="window.location.href='trade.html?symbol=${encodeURIComponent(item.symbol)}'">
         <div style="display:flex; align-items:center; gap:6px;">
           <span class="asset-vector-logo" style="width:16px; height:16px;">${getLogo(item.symbol)}</span>
           <strong>${item.symbol}</strong>
@@ -131,7 +131,7 @@ export class MarketsPage {
           ${list.map(item => {
             const isUp = item.change24h >= 0;
             return `
-              <tr>
+              <tr style="cursor:pointer;" onclick="window.location.href='trade.html?symbol=${encodeURIComponent(item.symbol)}'">
                 <td>
                   <div class="table-asset-badge">
                     <span class="asset-vector-logo">${getLogo(item.symbol)}</span>
@@ -148,7 +148,7 @@ export class MarketsPage {
                 <td class="text-right num-tabular text-sub">$${item.low24h.toLocaleString('en-US', { minimumFractionDigits: item.precision })}</td>
                 <td class="text-right num-tabular text-sub">${item.volume24h}</td>
                 <td class="text-center">
-                  <button class="btn-trade-sm" onclick="window.ApexRouter.navigate('/trade/${item.id}')">Giao Dịch</button>
+                  <button class="btn-trade-sm" onclick="event.stopPropagation(); window.location.href='trade.html?symbol=${encodeURIComponent(item.symbol)}'">Giao Dịch</button>
                 </td>
               </tr>
             `;
