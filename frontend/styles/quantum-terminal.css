@@ -1,0 +1,9 @@
+/* ========================================================
+   APEXCORE CYBER-QUANTUM TERMINAL — MASTER CSS BUNDLE
+   (frontend/styles/quantum-terminal.css)
+   Founder & Chief Architect: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
+   ======================================================== */
+
+@import url('./theme-tokens.css');
+@import url('./quantum-grid.css');
+@import url('./crystal-effects.css');

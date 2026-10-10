@@ -1,0 +1,853 @@
+/* ========================================================
+   APEXCORE CYBER-QUANTUM TERMINAL — QUANTUM GRID LAYOUT
+   (frontend/styles/quantum-grid.css)
+   Bố cục giải phẫu 6 phân khu chuẩn quốc tế cấp Quỹ Định Lượng
+   Founder & Chief Architect: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
+   Tuân thủ nghiêm ngặt Single Source of Truth: Dùng var(--...)
+   ======================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-void);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================================
+   TOP BAR: HUD VỆ TINH (44px HEIGHT)
+   ======================================================== */
+.quantum-top-hud {
+  height: var(--header-height);
+  background: var(--card-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-grid);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.hud-left-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hud-logo-3d-box {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+}
+
+.hud-brand-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.hud-brand-title .system-name {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: var(--sovereign-gold);
+  font-family: var(--font-code);
+  text-shadow: 0 0 10px var(--sovereign-gold-glow);
+}
+
+.hud-brand-title .telemetry-tag {
+  font-size: 10px;
+  color: var(--cyber-cyan);
+  font-family: var(--font-code);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pulsar-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background-color: var(--neon-emerald);
+  box-shadow: 0 0 8px var(--neon-emerald-glow);
+  animation: pulsarBreath 1.2s infinite ease-in-out;
+}
+
+.hud-center-ticker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-code);
+  font-size: 12px;
+}
+
+.ticker-symbol-name {
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.ticker-price-active {
+  color: var(--neon-emerald);
+  font-weight: 800;
+  font-size: 13px;
+  text-shadow: 0 0 8px var(--neon-emerald-glow);
+}
+
+.ticker-change-positive {
+  color: var(--neon-emerald);
+  font-size: 11px;
+}
+
+.hud-utc-clock {
+  color: var(--text-secondary);
+  font-size: 11px;
+}
+
+.hud-right-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.founder-id-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--sovereign-gold-bg);
+  border: 1px solid var(--border-grid-gold);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-family: var(--font-code);
+  font-size: 11px;
+  color: var(--sovereign-gold);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.founder-id-badge:hover {
+  background: var(--sovereign-gold);
+  color: var(--bg-void);
+  box-shadow: 0 0 12px var(--sovereign-gold-glow);
+}
+
+.hud-pill-btn {
+  background: var(--bg-input);
+  border: 1px solid var(--border-grid);
+  color: var(--text-secondary);
+  font-family: var(--font-code);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.hud-pill-btn:hover {
+  border-color: var(--cyber-cyan);
+  color: var(--cyber-cyan);
+}
+
+.hud-pill-btn.active-god {
+  border-color: var(--sovereign-gold);
+  color: var(--sovereign-gold);
+  background: var(--sovereign-gold-bg);
+  box-shadow: 0 0 10px var(--sovereign-gold-glow);
+}
+
+/* ========================================================
+   QUANTUM MAIN WORKSPACE: 6 PHÂN KHU
+   ======================================================== */
+.quantum-terminal-container {
+  width: 100%;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* --- TẦNG 1: 3 PHÂN KHU ĐẦU TIÊN (PNL | MICROSTRUCTURE | LATENCY) --- */
+.quantum-row-top {
+  display: grid;
+  grid-template-columns: 1.15fr 1.6fr 1.25fr;
+  gap: 10px;
+}
+
+/* --- TẦNG 2: PHÂN KHU 4 TRÁI TIM 3D TRUNG TÂM --- */
+.quantum-row-center {
+  width: 100%;
+  position: relative;
+}
+
+/* --- TẦNG 3: 2 PHÂN KHU DƯỚI (EXECUTION TAPE | RESOLUTION FUNNEL) --- */
+.quantum-row-bottom {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 10px;
+}
+
+/* --- TẦNG 4: PRO COCKPIT DƯỚI ĐÁY --- */
+.quantum-cockpit-bar {
+  background: var(--card-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-grid);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* ========================================================
+   CARD PHÂN KHU CHUNG (GLASSMORPHISM + VIỀN KỸ THUẬT 1PX)
+   ======================================================== */
+.quantum-card {
+  background: var(--card-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-grid);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.quantum-card:hover {
+  border-color: var(--border-grid-bright);
+}
+
+.quantum-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border-grid);
+  font-family: var(--font-code);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.quantum-card-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.quantum-card-title .tag-num {
+  color: var(--cyber-cyan);
+}
+
+.card-status-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--bg-input);
+  border: 1px solid var(--border-grid);
+  color: var(--text-muted);
+}
+
+.card-status-badge.live {
+  color: var(--neon-emerald);
+  border-color: var(--neon-emerald-glow);
+  background: var(--neon-emerald-bg);
+}
+
+/* ========================================================
+   PHÂN KHU 1: PNL & PERFORMANCE COCKPIT
+   ======================================================== */
+.pnl-huge-amount {
+  font-size: 30px;
+  font-weight: 800;
+  font-family: var(--font-code);
+  color: var(--neon-emerald);
+  text-shadow: 0 0 16px var(--neon-emerald-glow);
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+.pnl-sub-today {
+  font-size: 12px;
+  font-family: var(--font-code);
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.winrate-bar-container {
+  margin-bottom: 12px;
+}
+
+.winrate-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-family: var(--font-code);
+  margin-bottom: 4px;
+  color: var(--text-secondary);
+}
+
+.winrate-label-row .winrate-percent {
+  color: var(--neon-emerald);
+  font-weight: 700;
+}
+
+.winrate-track {
+  width: 100%;
+  height: 6px;
+  background: var(--bg-input);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 1px solid var(--border-grid);
+}
+
+.winrate-progress {
+  height: 100%;
+  width: 82.2%;
+  background: linear-gradient(90deg, var(--neon-emerald), var(--cyber-cyan));
+  box-shadow: 0 0 10px var(--neon-emerald-glow);
+  transition: width 0.4s ease;
+}
+
+.pnl-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.pnl-stat-cell {
+  background: var(--bg-input);
+  border: 1px solid var(--border-grid);
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+}
+
+.pnl-stat-cell .stat-k {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-code);
+  display: block;
+}
+
+.pnl-stat-cell .stat-v {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-code);
+  color: var(--text-primary);
+}
+
+.pnl-sparkline-box {
+  width: 100%;
+  height: 38px;
+  position: relative;
+}
+
+/* ========================================================
+   PHÂN KHU 2: MICROSTRUCTURE & PRICE LADDER
+   ======================================================== */
+.microstructure-wrap {
+  display: flex;
+  gap: 12px;
+  height: 190px;
+}
+
+.micro-chart-pane {
+  flex: 1.2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.micro-chart-canvas-box {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ladder-table-pane {
+  flex: 0.95;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--border-grid);
+  padding-left: 10px;
+  font-family: var(--font-code);
+  font-size: 11px;
+}
+
+.ladder-table-header {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted);
+  font-size: 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border-grid);
+  margin-bottom: 4px;
+}
+
+.ladder-rows-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+}
+
+.ladder-row-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 2px 4px;
+  border-radius: var(--radius-xs);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.ladder-row-item:hover {
+  background: var(--bg-hover);
+}
+
+.ladder-depth-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  pointer-events: none;
+  opacity: 0.25;
+  transition: width 0.2s ease;
+}
+
+.ladder-depth-fill.bid {
+  background-color: var(--neon-emerald);
+}
+
+.ladder-depth-fill.ask {
+  background-color: var(--laser-ruby);
+}
+
+.ladder-row-item.ask .ladder-p {
+  color: var(--laser-ruby);
+}
+
+.ladder-row-item.bid .ladder-p {
+  color: var(--neon-emerald);
+}
+
+.ladder-row-item.current {
+  background: var(--bg-input-focus);
+  font-weight: 700;
+  border-left: 2px solid var(--sovereign-gold);
+}
+
+/* ========================================================
+   PHÂN KHU 3: FEED LATENCY & WIRE INSPECTOR
+   ======================================================== */
+.feed-telemetry-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-family: var(--font-code);
+}
+
+.oscillograph-canvas-box {
+  width: 100%;
+  height: 60px;
+  background: var(--bg-input);
+  border: 1px solid var(--border-grid);
+  border-radius: var(--radius-sm);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.wire-hex-feed {
+  width: 100%;
+  height: 75px;
+  background: var(--bg-void);
+  border: 1px solid var(--border-grid);
+  border-radius: var(--radius-sm);
+  padding: 6px 8px;
+  font-family: var(--font-code);
+  font-size: 10px;
+  color: var(--cyber-cyan);
+  overflow: hidden;
+  line-height: 1.35;
+  text-shadow: 0 0 6px var(--cyber-cyan-glow);
+}
+
+.feed-stat-line {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-family: var(--font-code);
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+.feed-stat-line strong {
+  color: var(--text-primary);
+}
+
+/* ========================================================
+   PHÂN KHU 4: TRÁI TIM 3D TRUNG TÂM
+   (SOVEREIGN DIAMOND CRYSTAL & NEURAL TORUS MANIFOLD)
+   ======================================================== */
+.crystal-center-section {
+  width: 100%;
+  height: 380px;
+  background: transparent;
+  border: 1px solid var(--border-grid);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.crystal-center-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  display: block;
+  z-index: 1;
+}
+
+/* MẠNG VI MẠCH KHẮC CHÌM ĐỊNH DANH SOVEREIGN WATERMARK */
+.sovereign-watermark-overlay {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  z-index: 5;
+  pointer-events: none;
+  font-family: var(--font-code);
+}
+
+.watermark-founder {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--sovereign-gold);
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 10px var(--sovereign-gold-glow);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.watermark-clearance {
+  font-size: 9.5px;
+  color: var(--cyber-cyan);
+  letter-spacing: 1.2px;
+  opacity: 0.85;
+  margin-top: 2px;
+}
+
+/* CHIP SỐ LIỆU TRÔI NỔI (FLOATING HUD CHIPS) */
+.floating-hud-chips-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.floating-chip {
+  position: absolute;
+  background: var(--card-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-grid-bright);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px;
+  font-family: var(--font-code);
+  font-size: 11px;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  animation: floatChip 4s ease-in-out infinite alternate;
+}
+
+.floating-chip .chip-label {
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.floating-chip .chip-val {
+  font-weight: 700;
+}
+
+.floating-chip.chip-1 {
+  top: 48px;
+  right: 28px;
+  border-color: var(--neon-emerald-glow);
+}
+.floating-chip.chip-1 .chip-val {
+  color: var(--neon-emerald);
+}
+
+.floating-chip.chip-2 {
+  bottom: 48px;
+  left: 28px;
+  border-color: var(--laser-ruby-glow);
+  animation-delay: -1.5s;
+}
+.floating-chip.chip-2 .chip-val {
+  color: var(--laser-ruby);
+}
+
+.floating-chip.chip-3 {
+  top: 60px;
+  left: 36%;
+  border-color: var(--cyber-cyan-glow);
+  animation-delay: -2.7s;
+}
+.floating-chip.chip-3 .chip-val {
+  color: var(--cyber-cyan);
+}
+
+.floating-chip.chip-4 {
+  bottom: 45px;
+  right: 18%;
+  border-color: var(--sovereign-gold-glow);
+  animation-delay: -0.8s;
+}
+.floating-chip.chip-4 .chip-val {
+  color: var(--sovereign-gold);
+}
+
+/* ========================================================
+   PHÂN KHU 5: EXECUTION TAPE (TIME & SALES LIVE)
+   ======================================================== */
+.tape-table-container {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-code);
+}
+
+.tape-table-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 4px 6px;
+  font-size: 10px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-grid);
+}
+
+.tape-scroll-zone {
+  height: 145px;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Fade out at top */
+.tape-scroll-zone::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  background: linear-gradient(180deg, var(--bg-void) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.tape-row-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  padding: 3px 6px;
+  font-size: 11px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+  transition: background-color 0.15s ease;
+}
+
+.tape-row-item.buy {
+  color: var(--neon-emerald);
+}
+
+.tape-row-item.sell {
+  color: var(--laser-ruby);
+}
+
+.tape-footer-stats {
+  padding-top: 6px;
+  margin-top: 4px;
+  border-top: 1px solid var(--border-grid);
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+/* ========================================================
+   PHÂN KHU 6: RESOLUTION FUNNEL 3D
+   ======================================================== */
+.funnel-canvas-container {
+  width: 100%;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.funnel-3d-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: transparent;
+}
+
+.funnel-legend-overlay {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-code);
+  font-size: 10px;
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+/* ========================================================
+   PRO COCKPIT DƯỚI ĐÁY & HFT HOTKEYS
+   ======================================================== */
+.cockpit-hotkeys-hud {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-code);
+  font-size: 11px;
+}
+
+.hotkey-badge {
+  background: var(--bg-input);
+  border: 1px solid var(--border-grid);
+  border-radius: var(--radius-xs);
+  padding: 2px 7px;
+  color: var(--sovereign-gold);
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.cockpit-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-cockpit-buy {
+  background: var(--neon-emerald);
+  color: var(--bg-void);
+  border: none;
+  font-weight: 800;
+  font-family: var(--font-code);
+  font-size: 12px;
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  box-shadow: 0 0 14px var(--neon-emerald-glow);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-cockpit-buy:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px var(--neon-emerald-glow);
+}
+
+.btn-cockpit-sell {
+  background: var(--laser-ruby);
+  color: var(--text-primary);
+  border: none;
+  font-weight: 800;
+  font-family: var(--font-code);
+  font-size: 12px;
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  box-shadow: 0 0 14px var(--laser-ruby-glow);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-cockpit-sell:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 20px var(--laser-ruby-glow);
+}
+
+.cockpit-modes-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ========================================================
+   RESPONSIVE QUẢN TRỊ MÀN HÌNH NHỎ
+   ======================================================== */
+@media (max-width: 1280px) {
+  .quantum-row-top {
+    grid-template-columns: 1fr 1fr;
+  }
+  .quantum-row-top > :nth-child(3) {
+    grid-column: span 2;
+  }
+  .quantum-row-bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 860px) {
+  .quantum-row-top {
+    grid-template-columns: 1fr;
+  }
+  .quantum-row-top > :nth-child(3) {
+    grid-column: span 1;
+  }
+  .crystal-center-section {
+    height: 300px;
+  }
+  .quantum-cockpit-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .cockpit-hotkeys-hud {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

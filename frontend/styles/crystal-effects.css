@@ -1,0 +1,268 @@
+/* ========================================================
+   APEXCORE CYBER-QUANTUM TERMINAL — CRYSTAL EFFECTS & NEON
+   (frontend/styles/crystal-effects.css)
+   Khúc xạ Tinh thể Kim cương 3D, Hào quang Caustics & Định danh Tối Thượng
+   Founder & Chief Architect: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
+   Security Clearance: LEVEL 9 GODMODE · SOVEREIGN SEED
+   ======================================================== */
+
+/* ========================================================
+   1. KEYFRAME ANIMATIONS: BREATHING, CAUSTICS, PULSAR
+   ======================================================== */
+@keyframes pulsarBreath {
+  0%, 100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+    box-shadow: 0 0 6px var(--neon-emerald-glow);
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+    box-shadow: 0 0 14px var(--neon-emerald);
+  }
+}
+
+@keyframes crystalBreathingGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 25px var(--sovereign-gold-glow))
+            drop-shadow(0 0 45px var(--neon-emerald-glow));
+  }
+  50% {
+    filter: drop-shadow(0 0 40px var(--sovereign-gold))
+            drop-shadow(0 0 70px var(--neon-emerald));
+  }
+}
+
+@keyframes floatChip {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.4deg);
+  }
+  100% {
+    transform: translateY(2px) rotate(-0.3deg);
+  }
+}
+
+@keyframes causticsShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes scanlineGlitch {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(1000%);
+  }
+}
+
+@keyframes orderFlashGreen {
+  0% {
+    background-color: var(--neon-emerald-glow);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes orderFlashRed {
+  0% {
+    background-color: var(--laser-ruby-glow);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+/* ========================================================
+   2. KHỐI TINH THỂ KIM CƯƠNG TỐI CAO 3D (THE SOVEREIGN DIAMOND)
+   ======================================================== */
+.crystal-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1200px;
+}
+
+#crystal-canvas {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  animation: crystalBreathingGlow 5s infinite ease-in-out;
+  transition: opacity 0.4s ease;
+}
+
+/* HIỆU ỨNG CẦU VỒNG PHÂN CỰC ÁNH SÁNG (CHROMATIC DISPERSION AURA) */
+.chromatic-aura {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  border-radius: var(--radius-full);
+  background: radial-gradient(circle, 
+    var(--sovereign-gold-bg) 0%, 
+    var(--neon-emerald-bg) 35%, 
+    var(--cyber-cyan-bg) 70%, 
+    transparent 100%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.65;
+  mix-blend-mode: screen;
+}
+
+/* ========================================================
+   3. DẤU ẤN ĐỊNH DANH TỐI THƯỢNG (SOVEREIGN WATERMARK & HUD)
+   ======================================================== */
+.sovereign-hud-circuit {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  z-index: 15;
+  pointer-events: none;
+  font-family: var(--font-code);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+}
+
+.sovereign-hud-circuit .gold-badge-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--sovereign-gold);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+}
+
+.sovereign-hud-circuit .gold-badge-line .godmode-pill {
+  background: var(--sovereign-gold-bg);
+  border: 1px solid var(--border-grid-gold);
+  color: var(--sovereign-gold);
+  padding: 1px 6px;
+  border-radius: var(--radius-xs);
+  font-size: 9px;
+  letter-spacing: 0.5px;
+}
+
+.sovereign-hud-circuit .circuit-subline {
+  color: var(--cyber-cyan);
+  font-size: 9.5px;
+  letter-spacing: 0.8px;
+  margin-top: 3px;
+  opacity: 0.85;
+}
+
+/* ========================================================
+   4. CHẾ ĐỘ KÉP: GOD MODE (🌌) vs ECO MODE (⚡)
+   ======================================================== */
+body.ecomode-active #crystal-canvas {
+  opacity: 0.15;
+  filter: none;
+  animation: none;
+}
+
+body.ecomode-active .chromatic-aura {
+  display: none;
+}
+
+body.ecomode-active .eco-fallback-banner {
+  display: flex !important;
+}
+
+.eco-fallback-banner {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--card-glass);
+  border: 1px solid var(--border-grid);
+  border-radius: var(--radius-md);
+  padding: 12px 24px;
+  font-family: var(--font-code);
+  font-size: 12px;
+  color: var(--cyber-cyan);
+  z-index: 20;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+
+body.godmode-active #crystal-canvas {
+  opacity: 1;
+}
+
+/* ========================================================
+   5. HIỆU ỨNG ĐẶT LỆNH SIÊU TỐC HFT FEEDBACK FLASH
+   ======================================================== */
+.flash-buy-trigger {
+  animation: orderFlashGreen 0.4s ease-out;
+}
+
+.flash-sell-trigger {
+  animation: orderFlashRed 0.4s ease-out;
+}
+
+/* TOAST THÔNG BÁO LƯỢNG TỬ */
+.quantum-toast {
+  position: fixed;
+  bottom: 60px;
+  right: 24px;
+  background: var(--card-glass-bright);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-grid-bright);
+  border-radius: var(--radius-sm);
+  padding: 10px 18px;
+  font-family: var(--font-code);
+  font-size: 12px;
+  color: var(--text-primary);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transform: translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.quantum-toast.active {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.quantum-toast.buy-toast {
+  border-color: var(--neon-emerald);
+  box-shadow: 0 0 20px var(--neon-emerald-glow);
+}
+
+.quantum-toast.sell-toast {
+  border-color: var(--laser-ruby);
+  box-shadow: 0 0 20px var(--laser-ruby-glow);
+}
+
+.quantum-toast.gold-toast {
+  border-color: var(--sovereign-gold);
+  box-shadow: 0 0 20px var(--sovereign-gold-glow);
+}
