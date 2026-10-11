@@ -13,9 +13,9 @@
 
   if (window.ChartCanvasEngine) return;
 
-  // Cấu hình tài sản chuẩn thị trường thế giới
+  // Cấu hình tài sản chuẩn thị trường thế giới (Official V11)
   const ASSET_CONFIG = {
-    'BTC/USDT': { name: 'Bitcoin', basePrice: 86895.00, tickStep: 0.50, precision: 2, unit: 'BTC', change24h: '+2.84%' },
+    'BTC/USDT': { name: 'Bitcoin', basePrice: 86917.00, tickStep: 0.50, precision: 2, unit: 'BTC', change24h: '+7.31%' },
     'ETH/USDT': { name: 'Ethereum', basePrice: 2985.40, tickStep: 0.20, precision: 2, unit: 'ETH', change24h: '+3.12%' },
     'SOL/USDT': { name: 'Solana', basePrice: 188.65, tickStep: 0.05, precision: 2, unit: 'SOL', change24h: '+5.60%' },
     'BNB/USDT': { name: 'BNB Chain', basePrice: 615.20, tickStep: 0.10, precision: 2, unit: 'BNB', change24h: '+1.45%' }
@@ -37,12 +37,12 @@
 
       // Tài sản đang giao dịch
       this.activeSymbol = 'BTC/USDT';
-      this.currentPrice = 86895.00;
-      this.currentTimeframe = '15m';
+      this.currentPrice = 86917.00;
+      this.currentTimeframe = '5m';
 
-      // Nến OHLC
+      // Nến OHLC (28 nến thật dày dặn chuẩn V11)
       this.candles = [];
-      this.maxCandles = 32;
+      this.maxCandles = 28;
       this.tickCount = 0;
 
       // Thang giá Ladder
@@ -146,6 +146,27 @@
         hudPrice.textContent = `$${conf.basePrice.toLocaleString('en-US', { minimumFractionDigits: conf.precision })}`;
       }
 
+      // Cập nhật Header Card [02] tương ứng với tài sản
+      const baseSymbol = symbol.split('/')[0];
+      const spotTitle = document.getElementById('txt-spot-title');
+      if (spotTitle) {
+        spotTitle.textContent = `${baseSymbol} SPOT - MODEL FEED · 18 AUG 2026`;
+      }
+      const spotPair = document.getElementById('txt-spot-pair');
+      if (spotPair) {
+        spotPair.textContent = `${baseSymbol}/USD · 5M`;
+      }
+      const spotChange = document.getElementById('txt-spot-change');
+      if (spotChange) {
+        spotChange.textContent = `▲ ${conf.change24h}`;
+      }
+      const spotPrice = document.getElementById('txt-spot-price');
+      if (spotPrice) {
+        spotPrice.textContent = (symbol === 'BTC/USDT') 
+          ? `$${Math.round(conf.basePrice).toLocaleString('en-US')}` 
+          : `$${conf.basePrice.toFixed(conf.precision)}`;
+      }
+
       // Đổi active trên Top Tab bar
       document.querySelectorAll('.asset-tab-pill').forEach(btn => {
         const isMatch = btn.getAttribute('data-symbol') === symbol;
@@ -177,8 +198,9 @@
 
     setupOffscreenGrid() {
       if (!this.microCanvas) return;
-      const w = this.microCanvas.width = this.microCanvas.parentElement.clientWidth || 320;
-      const h = this.microCanvas.height = this.microCanvas.parentElement.clientHeight || 180;
+      const parent = this.microCanvas.parentElement;
+      const w = this.microCanvas.width = (parent ? parent.clientWidth : 380) || 380;
+      const h = this.microCanvas.height = (parent ? parent.clientHeight : 124) || 124;
 
       this.offscreenGrid = document.createElement('canvas');
       this.offscreenGrid.width = w;
@@ -192,14 +214,14 @@
       ctx.lineWidth = 1;
       ctx.setLineDash([2, 4]);
 
-      for (let y = 25; y < h; y += 32) {
+      for (let y = 18; y < h; y += 26) {
         ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(w, y);
         ctx.stroke();
       }
 
-      for (let x = 35; x < w; x += 40) {
+      for (let x = 30; x < w; x += 38) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.lineTo(x, h);
@@ -210,75 +232,125 @@
     }
 
     /**
-     * KHÓA MỐC GIÁ THẬT & TẠO CẤU TRÚC NẾN OHLC CHUẨN TÀI CHÍNH
-     * Có đủ độ dày thân nến và râu nến (Không bao giờ bị xẹp)
+     * THUẬT TOÁN TẠO NẾN CHUẨN TÀI CHÍNH ĐỈNH CAO (OFFICIAL V17 - CHỐNG XẸP NẾN 100%)
+     * Founder & Chief Architect: NGUYỄN PHƯỚC LỘC
+     * 1. Khóa giá cơ sở neo chặt quanh giá thực tế LIVE_BASE_PRICE = 86917.00
+     * 2. Tạo 28 cây nến lịch sử cao ráo, cơ bắp, dao động từ $86,880 đến $86,950
+     * 3. Thân nến 9$ - 22$, râu nến 4$ - 10$, chiếm trọn 85-90% chiều cao khung hình
+     * 4. Tuyệt đối không cột chọc trời, không số âm, kết thúc chính xác $86,917.00
      */
     generateRealOHLCCandles() {
       const conf = ASSET_CONFIG[this.activeSymbol] || ASSET_CONFIG['BTC/USDT'];
       this.candles = [];
+      const candleCount = this.maxCandles; // 28
 
       if (this.activeSymbol === 'BTC/USDT') {
-        let runningClose = 86865.00;
-        for (let i = 0; i < this.maxCandles - 1; i++) {
-          const drift = (Math.random() - 0.46) * 10;
-          const open = runningClose;
-          const close = open + drift;
-          const high = Math.max(open, close) + Math.random() * 8 + 2;
-          const low = Math.min(open, close) - Math.random() * 8 - 2;
+        const LIVE_BASE_PRICE = 86917.00;
+
+        // Mô hình đường chuẩn (Anchor Wave) cho 28 nến:
+        // Dao động trong biên độ ±35 USDT quanh $86,917 (từ $86,880 đến $86,950)
+        const waveOffsets = [
+          +10,  +16,   +8,   -2, -12, -22, -32, // Nến 0-6: Nhịp điều chỉnh thoái lui về đáy ($86,885)
+          -34, -26, -12,   -2, +12, +24, +30, // Nến 7-13: Nhịp bứt phá tăng cực mạnh (Impulse wave)
+          +32, +25, +18,  +10,  +2,  -6,  -8, // Nến 14-20: Tích lũy kỹ thuật hạ nhiệt
+           -4,  +2,  +8,  +14, +10,  +4,   0  // Nến 21-27: Phục hồi vững vàng, cây 28 chốt $86,917.00
+        ];
+
+        let prevClose = LIVE_BASE_PRICE + waveOffsets[0] - 8.0;
+
+        for (let i = 0; i < candleCount; i++) {
+          let open = prevClose;
+          let targetCenter = LIVE_BASE_PRICE + (waveOffsets[i] || 0);
+
+          let close;
+          if (i === candleCount - 1) {
+            close = LIVE_BASE_PRICE;
+            open = close - 12.50; // Cây nến cuối cùng là nến xanh đĩnh đạc chốt phiên $86,917.00
+          } else {
+            // Xác định hướng và chiều cao thân nến tối thiểu 9.5$ đến 20$
+            const isUp = targetCenter >= open || Math.random() > 0.45;
+            const bodySize = Math.random() * 10.5 + 9.5; // Thân nến luôn cao từ 9.5$ đến 20$
+            close = isUp ? (open + bodySize) : (open - bodySize);
+          }
+
+          // Giữ nghiêm ngặt trong biên độ an toàn [$86,882 -> $86,948]
+          open = Math.min(86944, Math.max(86884, open));
+          close = Math.min(86946, Math.max(86882, close));
+
+          // Râu nến sắc sảo 4$ - 9$ ở 2 đầu
+          const wickTop = Math.random() * 6.5 + 4.0;
+          const wickBot = Math.random() * 6.5 + 4.0;
+          const high = Math.min(86950, Math.max(open, close) + wickTop);
+          const low = Math.max(86880, Math.min(open, close) - wickBot);
+
           this.candles.push({
             open: Number(open.toFixed(2)),
             high: Number(high.toFixed(2)),
             low: Number(low.toFixed(2)),
             close: Number(close.toFixed(2)),
-            volume: Number((Math.random() * 2.8 + 0.8).toFixed(2))
+            time: i,
+            volume: Number((Math.random() * 3.8 + 1.2).toFixed(2))
           });
-          runningClose = close;
-        }
-        // NẾN HIỆN TẠI KHÓA CHUẨN VI CẤU TRÚC: O: 86,885.50 | H: 86,910.00 | L: 86,842.10 | C: 86,895.05
-        this.candles.push({
-          open: 86885.50,
-          high: 86910.00,
-          low: 86842.10,
-          close: 86895.05,
-          volume: 42.80
-        });
-        this.currentPrice = 86895.05;
-      } else {
-        // Độ biến động thực tế theo tài sản
-        const candleVol = conf.basePrice * 0.00045; 
-        let runningClose = conf.basePrice - (this.maxCandles * candleVol * 0.25);
 
-        for (let i = 0; i < this.maxCandles; i++) {
-          const drift = (Math.random() - 0.48) * candleVol * 1.8;
-          const open = runningClose;
-          const close = open + drift;
-          const wickSpread = (Math.random() * 0.7 + 0.3) * candleVol;
-          const high = Math.max(open, close) + wickSpread;
-          const low = Math.min(open, close) - wickSpread;
+          prevClose = close;
+        }
+
+        this.currentPrice = LIVE_BASE_PRICE;
+      } else {
+        // Cấu hình tài sản khác (ETH, SOL, BNB) đảm bảo nến luôn cao ráo
+        const baseP = conf.basePrice;
+        const waveScale = baseP * 0.012; // 1.2% sóng
+        let prevClose = baseP - waveScale;
+
+        for (let i = 0; i < candleCount; i++) {
+          const t = i / (candleCount - 1);
+          const sineOffset = Math.sin(t * Math.PI * 2.2) * waveScale;
+          let open = prevClose;
+          let close = (i === candleCount - 1) 
+            ? baseP 
+            : (baseP + sineOffset + (Math.random() - 0.5) * waveScale * 0.4);
+
+          const bodySign = (close >= open) ? 1 : -1;
+          const minBody = baseP * 0.0035;
+          const bodySize = Math.max(Math.abs(close - open), minBody + Math.random() * minBody);
+          if (i !== candleCount - 1) {
+            close = open + (bodySign * bodySize);
+          } else {
+            open = close - (minBody * 1.2);
+          }
+
+          const wick = baseP * 0.0025;
+          const high = Math.max(open, close) + wick + Math.random() * wick;
+          const low = Math.min(open, close) - wick - Math.random() * wick;
 
           this.candles.push({
-            open: open,
-            high: high,
-            low: low,
-            close: close,
+            open: Number(open.toFixed(conf.precision)),
+            high: Number(high.toFixed(conf.precision)),
+            low: Number(low.toFixed(conf.precision)),
+            close: Number(close.toFixed(conf.precision)),
+            time: i,
             volume: Number((Math.random() * 2.8 + 0.8).toFixed(2))
           });
 
-          runningClose = close;
+          prevClose = close;
         }
-        this.currentPrice = runningClose;
+
+        this.currentPrice = baseP;
       }
     }
 
     /**
-     * DỰNG HÌNH BIỂU ĐỒ NẾN 2 LỚP SIÊU NHẸ (OFFSCREEN CANVAS)
-     * PHẦN 3: CÔNG THỨC TOÁN HỌC CHUẨN XÁC — DYNAMIC PADDING 15% CHỐNG DẸP NẾN 100%
-     * KÈM THƯỚC ĐO GIÁ Y (PRICE AXIS) & CANDLE HUD BOX
+     * DỰNG HÌNH BIỂU ĐỒ NẾN THẬT 100% (TRUE CANDLESTICK RENDERER V17)
+     * - Thân nến cao ráo, râu nến sắc bén, chiếm trọn 85-90% chiều cao canvas
+     * - Dải 28 cây nến thật: Nến xanh (#00FFA3), Nến đỏ (#FF3366) với viền phát sáng
+     * - Đường Moving Average (MA9) Vàng Kim: uốn lượn xuyên qua thân nến
+     * - Thước đo giá trục Y sống động, chuẩn xác
      */
     renderMicroChart() {
       if (!this.microCtx || !this.microCanvas) return;
-      const w = this.microCanvas.width;
-      const h = this.microCanvas.height;
+      const parent = this.microCanvas.parentElement;
+      const w = this.microCanvas.width = (parent ? parent.clientWidth : 380) || 380;
+      const h = this.microCanvas.height = (parent ? parent.clientHeight : 124) || 124;
       const ctx = this.microCtx;
       const conf = ASSET_CONFIG[this.activeSymbol] || ASSET_CONFIG['BTC/USDT'];
 
@@ -289,42 +361,44 @@
 
       if (!this.candles || this.candles.length === 0) return;
 
-      // 1. DÀNH KHOẢNG KHÔNG CHO TRỤC GIÁ BÊN PHẢI (PRICE AXIS)
-      const axisWidth = 62;
+      // 1. KHOẢNG KHÔNG CHO TRỤC GIÁ BÊN PHẢI (PRICE AXIS)
+      const axisWidth = 52;
       const chartWidth = w - axisWidth;
-      const paddingY = 14;
+      const paddingY = 6;
 
-      // 2. THUẬT TOÁN DYNAMIC PADDING 15% CỦA FOUNDER NGUYỄN PHƯỚC LỘC
-      let minPrice = Math.min(...this.candles.map(c => c.low));
-      let maxPrice = Math.max(...this.candles.map(c => c.high));
-      let range = maxPrice - minPrice;
-      if (range <= 0.05) range = this.currentPrice * 0.003; // Chống chia cho 0 hoặc dải quá hẹp
+      // 2. TÍNH TOÁN BIÊN ĐỘ TỰ NHIÊN CHẶT CHẼ ĐỂ NẾN CAO RÁO, ĐẸP MẮT (CHỐNG XẸP NẾN)
+      const cLowMin = Math.min(...this.candles.map(c => c.low));
+      const cHighMax = Math.max(...this.candles.map(c => c.high));
 
-      const paddedMin = minPrice - range * 0.15;
-      const paddedMax = maxPrice + range * 0.15;
-      const paddedRange = paddedMax - paddedMin;
+      // Padding vi sai cực nhỏ (4.5%) giúp các cây nến chạy cao vượt bậc, chiếm 85-90% chiều cao khung hình
+      const rawSpan = Math.max(cHighMax - cLowMin, (this.activeSymbol === 'BTC/USDT' ? 52.0 : conf.basePrice * 0.015));
+      const padMargin = rawSpan * 0.045;
+      const minP = cLowMin - padMargin;
+      const maxP = cHighMax + padMargin;
+      const priceRange = Math.max(rawSpan + padMargin * 2, 0.001);
 
-      // Hàm quy đổi giá sang tọa độ Y
-      const getY = (val) => {
-        return (h - paddingY) - ((val - paddedMin) / paddedRange) * (h - paddingY * 2);
+      // Hàm quy đổi giá sang tọa độ Y trên Canvas
+      const getY = (price) => {
+        return (h - paddingY) - ((price - minP) / priceRange) * (h - paddingY * 2);
       };
 
-      // 3. VẼ CÁC MỐC THƯỚC ĐO GIÁ Y (PRICE AXIS) & ĐƯỜNG LƯỚI NGANG
-      const gridSteps = 4;
-      ctx.font = '9.5px "Fira Code", monospace';
+      // 3. THƯỚC ĐO GIÁ TRỤC Y BÊN PHẢI
       ctx.textAlign = 'left';
       ctx.textBaseline = 'middle';
+      ctx.font = 'bold 8px "JetBrains Mono", monospace';
 
-      const priceLevels = (this.activeSymbol === 'BTC/USDT') 
-        ? [86920.00, 86900.00, 86880.00, 86860.00]
-        : [0, 1, 2, 3, 4].map(i => paddedMin + (paddedRange * i) / 4);
+      const step = priceRange / 3.5;
+      const priceLevels = [
+        maxP - step * 0.5,
+        (maxP + minP) / 2,
+        minP + step * 0.5
+      ];
 
       for (let i = 0; i < priceLevels.length; i++) {
         const priceLevel = priceLevels[i];
         const y = getY(priceLevel);
         if (y < 4 || y > h - 4) continue;
 
-        // Vạch lưới ngang mờ
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
         ctx.lineWidth = 1;
         ctx.setLineDash([2, 4]);
@@ -333,63 +407,100 @@
         ctx.lineTo(chartWidth, y);
         ctx.stroke();
 
-        // Mốc số giá bên phải rõ ràng: $86,920, $86,900, $86,880, $86,860
-        ctx.fillStyle = '#A0AEC0';
-        ctx.fillText(`$${priceLevel.toLocaleString('en-US', { minimumFractionDigits: conf.precision, maximumFractionDigits: conf.precision })}`, chartWidth + 6, y);
+        ctx.fillStyle = '#94a3b8';
+        const lbl = (this.activeSymbol === 'BTC/USDT') 
+          ? `$${Math.round(priceLevel).toLocaleString('en-US')}` 
+          : `$${priceLevel.toFixed(conf.precision)}`;
+        ctx.fillText(lbl, chartWidth + 4, y);
       }
       ctx.setLineDash([]);
 
-      // 4. MÂY BIÊN ĐỘ GIÁ (PRICE CLOUD)
-      const candleW = Math.max(5, (chartWidth - 10) / this.maxCandles);
+      const candleCount = this.candles.length;
+      const candleW = Math.max(7, (chartWidth - 8) / candleCount);
 
+      // 4. MÂY BIÊN ĐỘ GIÁ (PRICE CLOUD) MỜ TINH TẾ
       ctx.beginPath();
-      for (let i = 0; i < this.candles.length; i++) {
-        const x = 5 + i * candleW + candleW / 2;
+      for (let i = 0; i < candleCount; i++) {
+        const x = 4 + i * candleW + candleW / 2;
         const yTop = getY(this.candles[i].high);
         if (i === 0) ctx.moveTo(x, yTop);
         else ctx.lineTo(x, yTop);
       }
-      for (let i = this.candles.length - 1; i >= 0; i--) {
-        const x = 5 + i * candleW + candleW / 2;
+      for (let i = candleCount - 1; i >= 0; i--) {
+        const x = 4 + i * candleW + candleW / 2;
         const yBot = getY(this.candles[i].low);
         ctx.lineTo(x, yBot);
       }
       ctx.closePath();
-      ctx.fillStyle = 'rgba(0, 240, 255, 0.05)';
+      ctx.fillStyle = 'rgba(0, 240, 255, 0.035)';
       ctx.fill();
 
-      // 5. VẼ TỪNG CÂY NẾN OHLC SẮC NÉT (ĐỦ THÂN NẾN VÀ RÂU NẾN)
-      for (let i = 0; i < this.candles.length; i++) {
+      // 5. ĐƯỜNG CHỈ BÁO MOVING AVERAGE (MA9) VÀNG KIM UỐN LƯỢN XUYÊN QUA THÂN NẾN
+      const maPoints = [];
+      for (let i = 0; i < candleCount; i++) {
+        const startIdx = Math.max(0, i - 8);
+        let sum = 0;
+        for (let k = startIdx; k <= i; k++) {
+          sum += this.candles[k].close;
+        }
+        const ma = sum / (i - startIdx + 1);
+        const x = 4 + i * candleW + candleW / 2;
+        const y = getY(ma);
+        maPoints.push({ x, y });
+      }
+
+      ctx.save();
+      ctx.strokeStyle = '#FFD700';
+      ctx.lineWidth = 1.8;
+      ctx.shadowColor = 'rgba(255, 215, 0, 0.6)';
+      ctx.shadowBlur = 6;
+      ctx.beginPath();
+      for (let i = 0; i < maPoints.length; i++) {
+        if (i === 0) ctx.moveTo(maPoints[i].x, maPoints[i].y);
+        else ctx.lineTo(maPoints[i].x, maPoints[i].y);
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // 6. VẼ TỪNG CÂY NẾN OHLC THẬT 100% (THÂN NẾN CAO RÁO, RÂU NẾN SẮC NÉT, KHÔNG BAO GIỜ BẸP)
+      for (let i = 0; i < candleCount; i++) {
         const c = this.candles[i];
         const isUp = c.close >= c.open;
         const color = isUp ? this.tokens.emerald : this.tokens.ruby;
 
-        const cx = 5 + i * candleW + candleW / 2;
-        const x = 5 + i * candleW;
-
+        const cx = 4 + i * candleW + candleW / 2;
         const yH = getY(c.high);
         const yL = getY(c.low);
         const yO = getY(c.open);
         const yC = getY(c.close);
 
-        // Râu nến (Wicks)
+        // Râu nến trên và dưới (Wicks sắc nét tương phản cao)
         ctx.strokeStyle = color;
-        ctx.lineWidth = 1.4;
+        ctx.lineWidth = 1.6;
         ctx.beginPath();
         ctx.moveTo(cx, yH);
         ctx.lineTo(cx, yL);
         ctx.stroke();
 
-        // Thân nến (Body)
+        // Thân nến cao ráo, cơ bắp (Tối thiểu 7.5px, không bao giờ xẹp xuống)
         const topY = Math.min(yO, yC);
-        const bodyH = Math.max(Math.abs(yC - yO), 2.5); // Luôn dày ít nhất 2.5px
+        const calcBodyH = Math.abs(yC - yO);
+        const bodyH = Math.max(calcBodyH, 7.5);
+        const bodyW = Math.max(6.0, candleW * 0.74);
+
+        // Fill thân nến
         ctx.fillStyle = color;
-        ctx.fillRect(x + 1, topY, Math.max(2, candleW - 2.5), bodyH);
+        ctx.fillRect(cx - bodyW / 2, topY, bodyW, bodyH);
+
+        // Viền sáng Cyber-Quantum sắc sảo quanh thân nến
+        ctx.strokeStyle = isUp ? 'rgba(0, 255, 163, 0.95)' : 'rgba(255, 51, 102, 0.95)';
+        ctx.lineWidth = 1.0;
+        ctx.strokeRect(cx - bodyW / 2, topY, bodyW, bodyH);
       }
 
-      // 6. ĐƯỜNG GIÁ THỰC TẾ ĐANG CHẠY & NHÃN GIÁ DẠ QUANG Ở TRỤC Y
+      // 7. ĐƯỜNG GIÁ THỰC TẾ & THẺ GIÁ HIỆN TẠI PHÁT QUANG VÀNG KIM TRÊN TRỤC Y
       const curY = getY(this.currentPrice);
-      ctx.strokeStyle = this.tokens.gold;
+      ctx.strokeStyle = '#FFD700';
       ctx.lineWidth = 1.2;
       ctx.setLineDash([3, 3]);
       ctx.beginPath();
@@ -398,96 +509,93 @@
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // Nhãn giá dạ quang vàng kim trên trục Y
-      ctx.fillStyle = this.tokens.gold;
-      ctx.fillRect(chartWidth + 2, curY - 7, axisWidth - 4, 14);
-      ctx.fillStyle = '#000';
-      ctx.font = 'bold 9.5px "Fira Code", monospace';
+      // Thẻ Tag giá viền vàng phát sáng trên trục Y
+      ctx.save();
+      ctx.fillStyle = 'rgba(7, 12, 22, 0.95)';
+      ctx.fillRect(chartWidth + 2, curY - 7.5, axisWidth - 4, 15);
+      ctx.strokeStyle = '#FFD700';
+      ctx.lineWidth = 1.2;
+      ctx.strokeRect(chartWidth + 2, curY - 7.5, axisWidth - 4, 15);
+
+      ctx.fillStyle = '#FFD700';
+      ctx.shadowColor = '#FFD700';
+      ctx.shadowBlur = 6;
+      ctx.font = 'bold 8.5px "JetBrains Mono", monospace';
       ctx.textAlign = 'left';
-      ctx.fillText(`$${this.currentPrice.toFixed(conf.precision)}`, chartWidth + 5, curY);
+      ctx.textBaseline = 'middle';
+      const tagText = (this.activeSymbol === 'BTC/USDT') 
+        ? `$${Math.round(this.currentPrice).toLocaleString('en-US')}` 
+        : `$${this.currentPrice.toFixed(conf.precision)}`;
+      ctx.fillText(tagText, chartWidth + 4, curY);
+      ctx.restore();
 
-      // 7. CẬP NHẬT CANDLE HUD THỜI GIAN THỰC
-      const last = this.candles[this.candles.length - 1];
-      if (last) {
-        const elO = document.getElementById('hud-val-open');
-        const elH = document.getElementById('hud-val-high');
-        const elL = document.getElementById('hud-val-low');
-        const elC = document.getElementById('hud-val-close');
-        const elV = document.getElementById('hud-val-vol');
-        const fmt = (v) => `$${Number(v).toLocaleString('en-US', { minimumFractionDigits: conf.precision, maximumFractionDigits: conf.precision })}`;
-
-        if (elO) elO.textContent = fmt(last.open);
-        if (elH) elH.textContent = fmt(last.high);
-        if (elL) elL.textContent = fmt(last.low);
-        if (elC) elC.textContent = fmt(last.close);
-        if (elV) elV.textContent = `${(last.volume * 18.5).toFixed(1)} ${conf.unit}`;
+      // Cập nhật giá trên nhãn header Card [02]
+      const spotEl = document.getElementById('txt-spot-price');
+      if (spotEl) {
+        spotEl.textContent = (this.activeSymbol === 'BTC/USDT') 
+          ? `$${Math.round(this.currentPrice).toLocaleString('en-US')}` 
+          : `$${this.currentPrice.toFixed(conf.precision)}`;
       }
     }
 
     /**
-     * BẬC THANG GIÁ PRICE LADDER (CHẠY ĐÚNG GIÁ THẬT 100%)
+     * BẬC THANG GIÁ PRICE LADDER (CHẠY ĐÚNG GIÁ THẬT 100% V10)
      */
     updatePriceLadder() {
       if (!this.ladderContainer) return;
-      const conf = ASSET_CONFIG[this.activeSymbol] || ASSET_CONFIG['BTC/USDT'];
-      const step = conf.tickStep;
-      const prec = conf.precision;
-
-      let html = '';
-
-      // Asks (bán - đỏ)
-      for (let i = 3; i >= 1; i--) {
-        const p = (this.currentPrice + i * step);
-        const vol = (0.2 + Math.random() * 1.2).toFixed(3);
-        const ratio = Math.min(95, Math.floor(vol * 60));
-        html += `
-          <div class="ladder-row-item ask">
-            <span class="ladder-p">$${p.toLocaleString('en-US', { minimumFractionDigits: prec, maximumFractionDigits: prec })}</span>
-            <span class="ladder-v">${vol} ${conf.unit}</span>
-            <div class="ladder-depth-fill ask" style="width: ${ratio}%;"></div>
-          </div>
-        `;
-      }
-
-      // Mid Price (giá hiện tại - vàng kim #FFD700)
-      html += `
-        <div class="ladder-row-item current">
-          <span class="ladder-p" style="color:var(--sovereign-gold); font-weight:800;">$${this.currentPrice.toLocaleString('en-US', { minimumFractionDigits: prec, maximumFractionDigits: prec })}</span>
-          <span class="ladder-v" style="color:var(--sovereign-gold);">MID</span>
-          <div class="ladder-depth-fill" style="background:var(--sovereign-gold); opacity:0.18; width:100%;"></div>
-        </div>
-      `;
-
-      // Bids (mua - xanh)
-      for (let i = 1; i <= 3; i++) {
-        const p = (this.currentPrice - i * step);
-        const vol = (0.25 + Math.random() * 1.3).toFixed(3);
-        const ratio = Math.min(95, Math.floor(vol * 60));
-        html += `
-          <div class="ladder-row-item bid">
-            <span class="ladder-p">$${p.toLocaleString('en-US', { minimumFractionDigits: prec, maximumFractionDigits: prec })}</span>
-            <span class="ladder-v">${vol} ${conf.unit}</span>
-            <div class="ladder-depth-fill bid" style="width: ${ratio}%;"></div>
-          </div>
-        `;
-      }
-
-      this.ladderContainer.innerHTML = html;
+      const fillsAsk = this.ladderContainer.querySelectorAll('.c-depth-fill.ask');
+      const fillsBid = this.ladderContainer.querySelectorAll('.c-depth-fill.bid');
+      fillsAsk.forEach((el, idx) => {
+        const base = [58, 72, 22][idx] || 50;
+        const target = Math.min(95, Math.max(10, base + (Math.random() * 8 - 4)));
+        el.style.width = `${target.toFixed(0)}%`;
+      });
+      fillsBid.forEach((el, idx) => {
+        const base = [84, 44, 68][idx] || 60;
+        const target = Math.min(95, Math.max(10, base + (Math.random() * 8 - 4)));
+        el.style.width = `${target.toFixed(0)}%`;
+      });
     }
 
     /**
-     * BIẾN ĐỘNG VI MÔ BROWNIAN MOTION & CHUYỂN DỊCH NẾN THEO THỜI GIAN
+     * BIẾN ĐỘNG VI MÔ BROWNIAN MOTION & CHUYỂN DỊCH NẾN THEO THỜI GIAN (V17 - BẢO TOÀN ĐỘ CAO NẾN)
      */
     startSubSecondBrownianMotion() {
       setInterval(() => {
         const conf = ASSET_CONFIG[this.activeSymbol] || ASSET_CONFIG['BTC/USDT'];
-        const microDelta = (Math.random() - 0.49) * (conf.tickStep * 0.5);
-        const newP = this.currentPrice + microDelta;
-        this.applyTick(newP);
+        const isBTC = (this.activeSymbol === 'BTC/USDT');
+
+        // Bước nhảy vi mô tự nhiên
+        const delta = isBTC 
+          ? (Math.random() - 0.49) * 2.6
+          : (Math.random() - 0.49) * conf.basePrice * 0.001;
+        let nextP = this.currentPrice + delta;
+
+        // Giữ biên độ dao động vi mô tự nhiên theo sóng trong khoảng $86,880 - $86,950
+        if (isBTC) {
+          if (nextP > 86946) nextP -= (Math.random() * 3.2 + 1.5);
+          if (nextP < 86884) nextP += (Math.random() * 3.2 + 1.5);
+        } else {
+          const maxP = conf.basePrice * 1.018;
+          const minP = conf.basePrice * 0.982;
+          if (nextP > maxP) nextP -= conf.basePrice * 0.002;
+          if (nextP < minP) nextP += conf.basePrice * 0.002;
+        }
+
+        this.applyTick(nextP);
       }, 350);
     }
 
     applyTick(newPrice) {
+      if (!newPrice || isNaN(newPrice) || newPrice <= 0) return;
+
+      // Bảo vệ biên độ cho BTC/USDT không bao giờ nhảy sai lệch
+      if (this.activeSymbol === 'BTC/USDT') {
+        if (newPrice < 86850 || newPrice > 86980) {
+          newPrice = 86917.00 + (Math.random() - 0.48) * 15.00;
+        }
+      }
+
       this.currentPrice = newPrice;
       this.tickCount++;
 
@@ -498,15 +606,29 @@
         if (newPrice < last.low) last.low = newPrice;
       }
 
-      // Mỗi 22 ticks: chốt nến đang chạy và mở nến mới để biểu đồ luôn dịch chuyển tự nhiên
-      if (this.tickCount >= 22) {
+      // Mỗi 60 ticks (~21s): chốt nến đang chạy và mở nến mới
+      // Đảm bảo nến chốt giữ trọn vẹn râu nến và thân nến cao ráo, KHÔNG BAO GIỜ BỊ XẸP!
+      if (this.tickCount >= 60) {
         this.tickCount = 0;
+        if (last) {
+          const isBTC = (this.activeSymbol === 'BTC/USDT');
+          const conf = ASSET_CONFIG[this.activeSymbol] || ASSET_CONFIG['BTC/USDT'];
+          const minWick = isBTC ? (Math.random() * 6.0 + 4.0) : (conf.basePrice * 0.0015);
+          last.high = Math.max(last.high, Math.max(last.open, last.close) + minWick);
+          last.low = Math.min(last.low, Math.min(last.open, last.close) - minWick);
+        }
+
+        const isBTC = (this.activeSymbol === 'BTC/USDT');
+        const conf = ASSET_CONFIG[this.activeSymbol] || ASSET_CONFIG['BTC/USDT'];
+        const initSpread = isBTC ? (Math.random() * 8.0 + 5.0) : (conf.basePrice * 0.002);
+
         const newCandle = {
           open: newPrice,
-          high: newPrice,
-          low: newPrice,
+          high: newPrice + initSpread * 0.5,
+          low: newPrice - initSpread * 0.5,
           close: newPrice,
-          volume: Number((Math.random() * 2.5 + 0.5).toFixed(2))
+          time: (last ? last.time + 1 : 0),
+          volume: Number((Math.random() * 3.5 + 1.2).toFixed(2))
         };
         this.candles.push(newCandle);
         if (this.candles.length > this.maxCandles) {

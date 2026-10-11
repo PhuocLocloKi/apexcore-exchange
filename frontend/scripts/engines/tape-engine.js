@@ -2,7 +2,8 @@
  * ========================================================
  * APEXCORE CYBER-QUANTUM TERMINAL — EXECUTION TAPE & PRO CONTROLS
  * (frontend/scripts/engines/tape-engine.js)
- * Băng khớp lệnh Time & Sales, Phím tắt HFT & 7 Hệ thống Tabs
+ * Băng khớp lệnh Time & Sales 9 Cột, Thước Đo Sổ Lệnh Skew Ladder & 4 Hộp KPI
+ * Master Blueprint Official V14 — Final Master Edition
  * Founder & Chief Architect: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
  * ========================================================
  */
@@ -15,22 +16,32 @@
   class SovereignTapeEngine {
     constructor() {
       this.tableContainer = null;
+      this.proContainer = null;
       this.trades = [];
-      this.maxTrades = 18;
+      this.maxTrades = 16;
+      this.totalFills = 6471;
+      this.isNewTradeFlash = false;
 
       // Filter: 'ALL' | 'BUY' | 'SELL' | 'WHALE'
       this.activeFilter = 'ALL';
 
-      this.currentPrice = 86895.00;
+      this.currentPrice = 86917.00;
       this.activeSymbol = 'BTC/USDT';
       this.activeUnit = 'BTC';
       this.currentExchange = 'APEXCORE';
       this.tradingMode = 'SPOT';
 
-      this.buysCount = 1548;
-      this.sellsCount = 1217;
-      this.settledTrades = 2765;
-      this.lastFillDelta = '+$16.15 UP';
+      this.buysCount = 3524;
+      this.sellsCount = 2947;
+      this.settledTrades = 6471;
+      this.lastFillDelta = '$16.15 UP @ .95';
+
+      // KPI elements
+      this.lastFillStat = null;
+      this.avgMedianStat = null;
+      this.buysPctStat = null;
+      this.winrateStat = null;
+      this.fillsBadge = null;
 
       // Audio
       this.audioCtx = null;
@@ -51,11 +62,20 @@
 
     init() {
       this.tableContainer = document.getElementById('tape-scroll-zone');
+      this.proContainer = document.getElementById('tape-pro-rows-zone');
+      this.lastFillStat = document.getElementById('kpi-last-fill');
+      this.avgMedianStat = document.getElementById('kpi-avg-median');
+      this.buysPctStat = document.getElementById('kpi-buys-pct');
+      this.winrateStat = document.getElementById('kpi-winrate');
+      this.fillsBadge = document.getElementById('txt-tape-fills-count');
+
       this.initInitialTrades();
       this.renderTape();
+      this.updateFooterStats();
+      this.updateSkewLadder();
       this.bindHftHotkeys();
       this.startSimulatedFeed();
-      this.renderResolutionGrid();
+      this.bindResolutionTileClicks();
       this.renderBottomTable();
 
       // Lắng nghe đổi tài sản
@@ -63,7 +83,6 @@
         window.ApexEventBus.on('ASSET_SWITCHED', (sym) => {
           this.activeSymbol = sym;
           this.activeUnit = sym.split('/')[0];
-          this.trades = [];
           this.initInitialTrades();
           this.renderTape();
         });
@@ -75,21 +94,20 @@
     }
 
     initInitialTrades() {
-      const now = Date.now();
-      for (let i = 0; i < 15; i++) {
-        const side = Math.random() > 0.44 ? 'BUY' : 'SELL';
-        const price = this.currentPrice + (Math.random() - 0.48) * 6;
-        const size = (0.05 + Math.random() * 1.8).toFixed(4);
-        const timeStr = this.formatTime(new Date(now - (15 - i) * 600));
-
-        this.trades.push({
-          time: timeStr,
-          side: side,
-          price: price,
-          size: size,
-          isWhale: parseFloat(size) > 1.2
-        });
-      }
+      // 10 Lệnh định lượng chuẩn y chang Ảnh 4
+      this.trades = [
+        { time: '17:15:38', mkt: 'BTC 5M',  side: 'UP', act: 'ADD',   px: '0.94', size: '$34.12', pUp: '.978', edge: '+2.5', result: '+$0.82', isWhale: false, isWin: true },
+        { time: '17:15:36', mkt: 'BTC 15M', side: 'DN', act: 'HEDGE', px: '0.98', size: '$54.30', pUp: '.962', edge: '+0.2', result: '+$0.79', isWhale: true,  isWin: true },
+        { time: '17:15:35', mkt: 'BTC 5M',  side: 'UP', act: 'ENTRY', px: '0.92', size: '$8.92',  pUp: '.942', edge: '+1.3', result: '+$0.50', isWhale: false, isWin: true },
+        { time: '17:15:33', mkt: 'BTC 5M',  side: 'UP', act: 'ADD',   px: '0.97', size: '$4.73',  pUp: '.972', edge: '+0.3', result: '+$0.37', isWhale: false, isWin: true },
+        { time: '17:15:30', mkt: 'BTC 5M',  side: 'UP', act: 'FLIP',  px: '0.95', size: '$11.12', pUp: '.973', edge: '+1.0', result: '+$1.33', isWhale: false, isWin: true },
+        { time: '17:15:28', mkt: 'ETH 5M',  side: 'DN', act: 'ENTRY', px: '0.96', size: '$21.12', pUp: '.975', edge: '+1.9', result: '+$4.20', isWhale: false, isWin: true },
+        { time: '17:15:25', mkt: 'SOL 5M',  side: 'UP', act: 'ADD',   px: '0.58', size: '$10.95', pUp: '.934', edge: '+2.1', result: '+$1.12', isWhale: false, isWin: true },
+        { time: '17:15:20', mkt: 'BTC 5M',  side: 'UP', act: 'ADD',   px: '0.60', size: '$21.44', pUp: '.967', edge: '+2.5', result: '+$2.34', isWhale: false, isWin: true },
+        { time: '17:15:15', mkt: 'BTC 15M', side: 'UP', act: 'ENTRY', px: '0.95', size: '$16.15', pUp: '.958', edge: '+1.8', result: '+$0.95', isWhale: false, isWin: true },
+        { time: '17:15:10', mkt: 'ETH 15M', side: 'DN', act: 'HEDGE', px: '0.97', size: '$42.50', pUp: '.981', edge: '+0.4', result: '+$1.08', isWhale: true,  isWin: true }
+      ];
+      this.totalFills = 6471;
     }
 
     formatTime(date) {
@@ -97,8 +115,7 @@
       const h = pad(date.getHours());
       const m = pad(date.getMinutes());
       const s = pad(date.getSeconds());
-      const ms = pad(date.getMilliseconds(), 3);
-      return `${h}:${m}:${s}.${ms}`;
+      return `${h}:${m}:${s}`;
     }
 
     /**
@@ -112,98 +129,257 @@
       this.renderTape();
     }
 
-    pushTrade(side, price, size, isWhale = false) {
-      const timeStr = this.formatTime(new Date());
-      const trade = {
-        time: timeStr,
-        side: side,
-        price: price,
-        size: Number(size).toFixed(4),
-        isWhale: isWhale || (parseFloat(size) > 1.2)
-      };
+    pushQuantTrade(customTrade = null) {
+      const now = new Date();
+      const timeStr = this.formatTime(now);
+
+      let trade = customTrade;
+      if (!trade) {
+        const markets = ['BTC 5M', 'BTC 15M', 'ETH 5M', 'SOL 5M', 'BTC 5M', 'ETH 15M'];
+        const acts = ['ADD', 'ENTRY', 'HEDGE', 'FLIP', 'ADD', 'ENTRY'];
+        const isUp = Math.random() > 0.38;
+        const mkt = markets[Math.floor(Math.random() * markets.length)];
+        const act = acts[Math.floor(Math.random() * acts.length)];
+        const px = (0.55 + Math.random() * 0.43).toFixed(2);
+        const rawSize = (4 + Math.random() * 50);
+        const size = '$' + rawSize.toFixed(2);
+        const pUp = '.' + Math.floor(930 + Math.random() * 65);
+        const edge = '+' + (Math.random() * 2.5 + 0.2).toFixed(1);
+        const isWin = Math.random() > 0.16;
+        const resVal = (Math.random() * 2.8 + 0.3).toFixed(2);
+        const result = isWin ? `+$${resVal}` : `-$${(Math.random() * 0.9 + 0.1).toFixed(2)}`;
+
+        trade = {
+          time: timeStr,
+          mkt: mkt,
+          side: isUp ? 'UP' : 'DN',
+          act: act,
+          px: px,
+          size: size,
+          pUp: pUp,
+          edge: edge,
+          result: result,
+          isWin: isWin,
+          isWhale: rawSize > 35,
+          price: this.currentPrice,
+          rawSize: rawSize
+        };
+      }
 
       this.trades.unshift(trade);
       if (this.trades.length > this.maxTrades * 2) {
         this.trades.pop();
       }
 
+      this.totalFills++;
       this.settledTrades++;
-      if (side === 'BUY') this.buysCount++;
+      if (trade.side === 'UP' || trade.side === 'BUY') this.buysCount++;
       else this.sellsCount++;
 
-      this.currentPrice = price;
-
+      this.isNewTradeFlash = true;
       this.renderTape();
       this.updateFooterStats();
 
       if (window.ApexEventBus) {
-        window.ApexEventBus.emit(window.ApexEvents.TRADE_EXECUTED, trade);
-        window.ApexEventBus.emit(window.ApexEvents.PRICE_TICK, price);
+        window.ApexEventBus.emit(window.ApexEvents.TRADE_EXECUTED, {
+          notional: trade.rawSize || 20,
+          price: this.currentPrice,
+          side: trade.side
+        });
       }
+    }
+
+    pushTrade(side, price, size, isWhale = false) {
+      const isUp = side === 'BUY' || side === 'UP';
+      const timeStr = this.formatTime(new Date());
+      const rawSize = parseFloat(size) || 10;
+      const px = (0.80 + Math.random() * 0.18).toFixed(2);
+      const acts = ['ENTRY', 'ADD', 'HEDGE', 'FLIP'];
+      const act = acts[Math.floor(Math.random() * acts.length)];
+      const resVal = (Math.random() * 3.2 + 0.4).toFixed(2);
+
+      const quantTrade = {
+        time: timeStr,
+        mkt: this.activeSymbol ? this.activeSymbol.split('/')[0] + ' 5M' : 'BTC 5M',
+        side: isUp ? 'UP' : 'DN',
+        act: act,
+        px: px,
+        size: '$' + (rawSize * (price > 1000 ? 0.0005 : 1)).toFixed(2),
+        pUp: '.' + Math.floor(935 + Math.random() * 60),
+        edge: '+' + (Math.random() * 2.4 + 0.2).toFixed(1),
+        result: `+$${resVal}`,
+        isWin: true,
+        isWhale: isWhale,
+        price: price,
+        rawSize: rawSize
+      };
+
+      this.pushQuantTrade(quantTrade);
     }
 
     renderTape() {
-      if (!this.tableContainer) return;
+      // 1. Render Bảng Lệnh Chi Tiết Đa Chiều 9 Cột (Ô [05])
+      if (this.proContainer) {
+        let filtered = this.trades;
+        if (this.activeFilter === 'BUY') {
+          filtered = this.trades.filter(t => t.side === 'UP' || t.side === 'BUY');
+        } else if (this.activeFilter === 'SELL') {
+          filtered = this.trades.filter(t => t.side === 'DN' || t.side === 'SELL');
+        } else if (this.activeFilter === 'WHALE') {
+          filtered = this.trades.filter(t => t.isWhale);
+        }
 
-      // Lọc danh sách theo filter
-      let filtered = this.trades;
-      if (this.activeFilter === 'BUY') {
-        filtered = this.trades.filter(t => t.side === 'BUY');
-      } else if (this.activeFilter === 'SELL') {
-        filtered = this.trades.filter(t => t.side === 'SELL');
-      } else if (this.activeFilter === 'WHALE') {
-        filtered = this.trades.filter(t => t.isWhale);
+        const displayList = filtered.slice(0, 9);
+        let html = '';
+        for (let i = 0; i < displayList.length; i++) {
+          const t = displayList[i];
+          const isUp = t.side === 'UP' || t.side === 'BUY';
+          const sideClass = isUp ? 'buy' : 'sell';
+          const sideLabel = isUp ? 'UP' : 'DN';
+          const actLower = (t.act || 'entry').toLowerCase();
+          const resClass = t.isWin !== false ? 'win' : 'loss';
+          const flashClass = (i === 0 && this.isNewTradeFlash) ? ' flash' : '';
+
+          html += `
+            <div class="tape-grid-row-item ${sideClass}${flashClass}">
+              <span class="t-time">${t.time}</span>
+              <span class="t-mkt">${t.mkt}</span>
+              <span class="t-side">${sideLabel}</span>
+              <span class="t-act-pill ${actLower}">${t.act}</span>
+              <span class="t-px">${t.px}</span>
+              <span class="t-size">${t.size}</span>
+              <span class="t-pup">${t.pUp}</span>
+              <span class="t-edge">${t.edge}</span>
+              <span class="t-res ${resClass}">${t.result}</span>
+            </div>
+          `;
+        }
+        this.proContainer.innerHTML = html;
+        this.isNewTradeFlash = false;
       }
 
-      const displayList = filtered.slice(0, this.maxTrades);
-
-      let html = '';
-      for (let i = 0; i < displayList.length; i++) {
-        const t = displayList[i];
-        const isBuy = t.side === 'BUY';
-        const sideClass = isBuy ? 'buy' : 'sell';
-        const formattedPrice = Number(t.price).toLocaleString('en-US', { minimumFractionDigits: 2 });
-        const whaleBadge = t.isWhale ? '<span style="color:#FFD700; margin-left:4px;" title="Cá voi vào lệnh">🐋</span>' : '';
-
-        html += `
-          <div class="tape-row-item ${sideClass}">
-            <span>${t.time}</span>
-            <span style="font-weight:700;">${t.side}${whaleBadge}</span>
-            <span>$${formattedPrice}</span>
-            <span style="text-align:right;">${t.size} ${this.activeUnit}</span>
-          </div>
-        `;
+      // 2. Legacy table nếu tồn tại
+      if (this.tableContainer) {
+        let filtered = this.trades;
+        const displayList = filtered.slice(0, 10);
+        let html = '';
+        for (let i = 0; i < displayList.length; i++) {
+          const t = displayList[i];
+          const isUp = t.side === 'UP' || t.side === 'BUY';
+          const sideClass = isUp ? 'buy' : 'sell';
+          html += `
+            <div class="tape-row-item ${sideClass}">
+              <span>${t.time}</span>
+              <span style="font-weight:700;">${t.side}</span>
+              <span>${t.px || t.price}</span>
+              <span style="text-align:right;">${t.size}</span>
+            </div>
+          `;
+        }
+        this.tableContainer.innerHTML = html;
       }
-
-      this.tableContainer.innerHTML = html;
     }
 
     updateFooterStats() {
-      const buysRatio = ((this.buysCount / (this.buysCount + this.sellsCount)) * 100).toFixed(1);
-      const buyStat = document.getElementById('tape-buys-percent');
-      const settledStat = document.getElementById('tape-settled-count');
-      const lastFillStat = document.getElementById('tape-last-fill');
+      // 1. Cập nhật Số Fills ở Header
+      if (this.fillsBadge) {
+        this.fillsBadge.textContent = this.totalFills.toLocaleString();
+      }
 
-      if (buyStat) buyStat.textContent = `${buysRatio}%`;
-      if (settledStat) settledStat.textContent = this.settledTrades.toLocaleString();
-      if (lastFillStat) lastFillStat.textContent = this.lastFillDelta;
+      // 2. Cập nhật 4 Hộp KPI V14 Dưới Đáy
+      if (this.lastFillStat && this.trades.length > 0) {
+        const last = this.trades[0];
+        const sideLabel = (last.side === 'BUY' || last.side === 'UP') ? 'UP' : 'DN';
+        this.lastFillStat.textContent = `${last.size} ${sideLabel} @ ${last.px}`;
+      }
+      if (this.avgMedianStat) {
+        this.avgMedianStat.textContent = '$29.80 / $17.20';
+      }
+      if (this.buysPctStat) {
+        this.buysPctStat.textContent = '54.0%';
+      }
+      if (this.winrateStat) {
+        this.winrateStat.textContent = '82.40%';
+      }
+
+      // Legacy footer fallback
+      const buysRatio = ((this.buysCount / (this.buysCount + this.sellsCount)) * 100).toFixed(1);
+      const legacyBuyStat = document.getElementById('tape-buys-percent');
+      const legacySettledStat = document.getElementById('tape-settled-count');
+      const legacyLastFillStat = document.getElementById('tape-last-fill');
+      if (legacyBuyStat) legacyBuyStat.textContent = `${buysRatio}%`;
+      if (legacySettledStat) legacySettledStat.textContent = this.settledTrades.toLocaleString();
+      if (legacyLastFillStat) legacyLastFillStat.textContent = this.lastFillDelta;
+    }
+
+    updateSkewLadder() {
+      // Rung động nhẹ nhàng khối lượng L2 Skew của BTC 15M (Độ lệch ±2-3%)
+      const jitter = (base, range) => Math.round(base + (Math.random() - 0.5) * range);
+
+      const v55 = jitter(755, 20);
+      const v54 = jitter(680, 16);
+      const v53 = jitter(1462, 30);
+      const v52 = jitter(1820, 36);
+
+      const v50 = jitter(1602, 30);
+      const v49 = jitter(989, 22);
+      const v48 = jitter(2845, 45);
+      const v47 = jitter(4520, 50);
+
+      const setVol = (id, vol) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = vol.toLocaleString();
+      };
+      const setBar = (id, pct) => {
+        const el = document.getElementById(id);
+        if (el) el.style.width = `${pct}%`;
+      };
+
+      setVol('ask-vol-55', v55);
+      setVol('ask-vol-54', v54);
+      setVol('ask-vol-53', v53);
+      setVol('ask-vol-52', v52);
+
+      setVol('bid-vol-50', v50);
+      setVol('bid-vol-49', v49);
+      setVol('bid-vol-48', v48);
+      setVol('bid-vol-47', v47);
+
+      setBar('ask-bar-55', Math.min(100, Math.round((v55 / 4520) * 100)));
+      setBar('ask-bar-54', Math.min(100, Math.round((v54 / 4520) * 100)));
+      setBar('ask-bar-53', Math.min(100, Math.round((v53 / 4520) * 100)));
+      setBar('ask-bar-52', Math.min(100, Math.round((v52 / 4520) * 100)));
+
+      setBar('bid-bar-50', Math.min(100, Math.round((v50 / 4520) * 100)));
+      setBar('bid-bar-49', Math.min(100, Math.round((v49 / 4520) * 100)));
+      setBar('bid-bar-48', Math.min(100, Math.round((v48 / 4520) * 100)));
+      setBar('bid-bar-47', 100);
     }
 
     startSimulatedFeed() {
+      let tickCount = 0;
       const tick = () => {
-        const delta = (Math.random() - 0.47) * 3.5;
-        const newP = this.currentPrice + delta;
-        const side = delta >= 0 ? 'BUY' : 'SELL';
-        const size = (0.02 + Math.random() * 0.95).toFixed(4);
-        const isWhale = Math.random() < 0.09;
+        tickCount++;
+        this.pushQuantTrade();
 
-        this.pushTrade(side, newP, isWhale ? (Math.random() * 4 + 2).toFixed(4) : size, isWhale);
+        if (tickCount % 2 === 0) {
+          this.updateSkewLadder();
+        }
 
-        const nextTick = Math.random() * 600 + 260;
+        const nextTick = Math.random() * 750 + 420;
         setTimeout(tick, nextTick);
       };
 
-      setTimeout(tick, 500);
+      setTimeout(tick, 600);
+    }
+
+    bindResolutionTileClicks() {
+      const tiles = document.querySelectorAll('.res-tile');
+      tiles.forEach(t => {
+        t.onclick = () => {
+          this.playHapticSound('CLICK');
+        };
+      });
     }
 
     /**
@@ -217,44 +393,49 @@
       document.querySelectorAll('.res-tab-btn').forEach(b => {
         b.classList.toggle('active', b.getAttribute('data-res') === tab);
       });
-      this.renderResolutionGrid();
     }
 
     renderResolutionGrid() {
       const gridBox = document.getElementById('resolution-heatmap-tiles');
       if (!gridBox) return;
 
-      // 16 ô gạch chia thành 2 hàng x 8 cột
+      // 24 ô gạch (2 hàng x 12 cột) theo đúng chuẩn Blueprint V10
       const tiles = [
         // Hàng 1
-        { val: '93¢', up: true, sym: 'BTC-15M' },
-        { val: '29¢', up: false, sym: 'ETH-5M' },
-        { val: '85¢', up: true, sym: 'SOL-15M' },
-        { val: '41¢', up: false, sym: 'BTC-5M' },
-        { val: '70¢', up: true, sym: 'ETH-15M' },
-        { val: '36¢', up: false, sym: 'BNB-5M' },
-        { val: '79¢', up: true, sym: 'SOL-5M' },
-        { val: '11¢', up: false, sym: 'BTC-15M' },
+        { val: '93¢', sec: '12s', up: true },
+        { val: '85¢', sec: '18s', up: true },
+        { val: '29¢', sec: '04s', up: false },
+        { val: '41¢', sec: '22s', up: false },
+        { val: '36¢', sec: '15s', up: false },
+        { val: '36¢', sec: '31s', up: false },
+        { val: '11¢', sec: '08s', up: false },
+        { val: '79¢', sec: '45s', up: true },
+        { val: '53¢', sec: '19s', up: true },
+        { val: '15¢', sec: '03s', up: false },
+        { val: '88¢', sec: '27s', up: true },
+        { val: '64¢', sec: '39s', up: true },
         // Hàng 2
-        { val: '53¢', up: true, sym: 'BTC-5M' },
-        { val: '15¢', up: false, sym: 'ETH-5M' },
-        { val: '60¢', up: true, sym: 'SOL-15M' },
-        { val: '48¢', up: false, sym: 'BNB-15M' },
-        { val: '79¢', up: true, sym: 'BTC-15M' },
-        { val: '96¢', up: false, sym: 'ETH-15M' },
-        { val: '53¢', up: true, sym: 'SOL-5M' },
-        { val: '37¢', up: false, sym: 'BTC-5M' }
+        { val: '9¢',  sec: '02s', up: false },
+        { val: '48¢', sec: '14s', up: false },
+        { val: '36¢', sec: '29s', up: false },
+        { val: '70¢', sec: '51s', up: true },
+        { val: '47¢', sec: '17s', up: false },
+        { val: '37¢', sec: '33s', up: false },
+        { val: '96¢', sec: '58s', up: false },
+        { val: '60¢', sec: '41s', up: true },
+        { val: '79¢', sec: '26s', up: true },
+        { val: '4¢',  sec: '05s', up: false },
+        { val: '52¢', sec: '38s', up: true },
+        { val: '71¢', sec: '49s', up: true }
       ];
 
       let html = '';
       tiles.forEach(item => {
-        const bg = item.up ? 'rgba(0, 255, 163, 0.12)' : 'rgba(255, 51, 102, 0.12)';
-        const border = item.up ? 'rgba(0, 255, 163, 0.35)' : 'rgba(255, 51, 102, 0.35)';
-        const color = item.up ? 'var(--neon-emerald)' : 'var(--laser-ruby)';
+        const cls = item.up ? 'win' : 'loss';
         html += `
-          <div class="res-tile-box" style="background:${bg}; border:1px solid ${border}; color:${color};" onclick="window.TapeEngine.playHapticSound('CLICK')">
-            <span class="res-tile-val">${item.val}</span>
-            <span class="res-tile-sym">${item.sym}</span>
+          <div class="res-tile ${cls}" onclick="window.TapeEngine && window.TapeEngine.playHapticSound('CLICK')">
+            <span class="t-val">${item.val}</span>
+            <span class="t-sec">${item.sec}</span>
           </div>
         `;
       });

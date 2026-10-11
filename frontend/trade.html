@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>APEXCORE // QUANTUM SOVEREIGN TERMINAL V17 — FOUNDER NGUYỄN PHƯỚC LỘC</title>
+  <title>APEXCORE // QUANTUM SOVEREIGN TERMINAL V13 — FOUNDER NGUYỄN PHƯỚC LỘC</title>
   <meta name="description" content="Trạm định lượng tự hành lượng tử ATS MATRIX // std0 POLYMARKET BOT - Thiết kế độc bản tôn vinh vị thế Founder & Chief Architect Nguyễn Phước Lộc (UID: 1107519625)">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 95'><path d='M50 0L95 25L50 95L5 25Z' fill='%23FFD700'/><path d='M50 15L80 32L50 80L20 32Z' fill='%2300FFA3'/></svg>">
 
@@ -38,9 +38,9 @@
   </style>
 
   <!-- SINGLE SOURCE OF TRUTH TOKENS & STYLES -->
-  <link rel="stylesheet" href="styles/theme-tokens.css?v=17.2">
-  <link rel="stylesheet" href="styles/quantum-grid.css?v=17.2">
-  <link rel="stylesheet" href="styles/crystal-effects.css?v=17.2">
+  <link rel="stylesheet" href="styles/theme-tokens.css?v=23.0">
+  <link rel="stylesheet" href="styles/quantum-grid.css?v=23.0">
+  <link rel="stylesheet" href="styles/crystal-effects.css?v=23.0">
 </head>
 <body class="godmode-active">
 
@@ -48,71 +48,187 @@
        TOP BAR: HUD VỆ TINH 1 DÒNG CHUẨN BLOOMBERG (3 CỤM THƯỢNG HẠNG)
        ======================================================== -->
   <header class="quantum-top-hud">
-    <!-- [CỤM 1: BRAND & HOME] -->
+    <!-- [CỤM 1: BRAND & NÚT HOME SIÊU NHẠY - ẢNH 2] -->
     <div class="hud-cluster-brand">
       <div class="hud-logo-3d-box" title="Khối Tinh Thể Kim Cương Bất Khả Thi 3D — Founder Nguyễn Phước Lộc">
-        <canvas id="mini-logo-canvas" width="32" height="32"></canvas>
+        <canvas id="mini-logo-canvas" width="30" height="30"></canvas>
       </div>
       <div class="hud-brand-title">
-        <span class="system-name">💎 APEXCORE QUANTUM V17</span>
+        <span class="system-name">⬖ APEXCORE QUANTUM V17</span>
         <span class="telemetry-tag">
           <span class="pulsar-dot" title="Máy chủ Go Concurrency Engine đang sống"></span>
           <span>TELEMETRY <strong id="txt-telemetry-ping">0.42µs</strong></span>
         </span>
       </div>
-      <!-- Nút 🏠 TRANG CHỦ (Home) tinh xảo 1 dòng duy nhất -->
-      <a href="index.html" class="btn-home-glass" title="Quay về trang chủ sàn giao dịch">
-        <span>🏠</span> TRANG CHỦ
+      <!-- Nút HOME siêu nhạy (chuyển về index.html 100% không lỗi) -->
+      <a href="index.html#/home" class="nav-home-capsule" id="apexHomeButton" onclick="window.location.assign('index.html#/home'); return false;" title="Quay về Trang Chủ ApexCore">
+        <svg class="home-svg" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span>HOME</span>
       </a>
     </div>
 
-    <!-- [CỤM 2: BỘ CHỌN SÀN & COIN] -->
-    <div class="hud-cluster-market">
-      <!-- BỘ CHỌN ĐA SÀN (MULTI-EXCHANGE SELECTOR) -->
-      <!-- BỘ CHỌN ĐA SÀN (MULTI-EXCHANGE SELECTOR - V7 BLUEPRINT) -->
-      <div class="exchange-selector-wrap" id="exchange-selector-container">
-        <div class="exchange-quick-pills">
-          <button type="button" class="exchange-quick-pill active" onclick="selectExchange('APEXCORE', '👑 ApexCore Sovereign (<0.5µs)')">👑 APEXCORE SOVEREIGN</button>
-          <button type="button" class="exchange-quick-pill" onclick="selectExchange('BINANCE', '🟡 Binance Direct HFT Gateway')">🟡 BINANCE</button>
-          <button type="button" class="exchange-quick-pill" onclick="selectExchange('OKX', '⬛ OKX Institutional Deep Pool')">⬛ OKX</button>
-          <button type="button" class="exchange-quick-pill" onclick="selectExchange('BYBIT', '🟧 Bybit Derivatives Hub')">🟧 BYBIT</button>
-          <button type="button" class="exchange-quick-pill" onclick="selectExchange('COINBASE', '🔵 Coinbase Prime Gateway')">🔵 COINBASE</button>
+    <!-- [CỤM 2: DẢI BĂNG CHUYỀN 50 CẶP TIỀN TOÀN CẦU 60 FPS - ẢNH 1] -->
+    <div class="nav-marquee-viewport" id="navMarqueeViewport" title="Dải Băng Chuyền 50 Cặp Thanh Khoản Toàn Cầu ApexCore (Rê chuột để tạm dừng / Click để kết nối sàn)">
+      <!-- HÀNG 1: TOP 25 CẶP TIỀN SO LE TRƯỢT SANG TRÁI -->
+      <div class="marquee-stream stream-top">
+        <div class="marquee-stream-track">
+          <!-- 25 CẶP ĐẦU TIÊN -->
+          <div class="ticker-pill c-usdc" data-symbol="USDC/USDT" onclick="handleMarqueeTickerClick('USDC/USDT', '$1.00')"><span class="t-icon">💲</span><span class="t-pair">USDC/USDT</span><span class="t-px">$1.00</span></div>
+          <div class="ticker-pill c-btc" data-symbol="BTC/USDT" onclick="handleMarqueeTickerClick('BTC/USDT', '$82,983.90')"><span class="t-icon">₿</span><span class="t-pair">BTC/USDT</span><span class="t-px">$82,983.90</span></div>
+          <div class="ticker-pill c-eth" data-symbol="ETH/USDT" onclick="handleMarqueeTickerClick('ETH/USDT', '$2,509.80')"><span class="t-icon">Ξ</span><span class="t-pair">ETH/USDT</span><span class="t-px">$2,509.80</span></div>
+          <div class="ticker-pill c-btc" data-symbol="BTC/USDC" onclick="handleMarqueeTickerClick('BTC/USDC', '$82,978.87')"><span class="t-icon">₿</span><span class="t-pair">BTC/USDC</span><span class="t-px">$82,978.87</span></div>
+          <div class="ticker-pill c-near" data-symbol="NEAR/USDT" onclick="handleMarqueeTickerClick('NEAR/USDT', '$5.36')"><span class="t-icon">Ⓝ</span><span class="t-pair">NEAR/USDT</span><span class="t-px">$5.36</span></div>
+          <div class="ticker-pill c-sol" data-symbol="SOL/USDT" onclick="handleMarqueeTickerClick('SOL/USDT', '$110.39')"><span class="t-icon">◎</span><span class="t-pair">SOL/USDT</span><span class="t-px">$110.39</span></div>
+          <div class="ticker-pill c-zec" data-symbol="ZEC/USDT" onclick="handleMarqueeTickerClick('ZEC/USDT', '$1,231.16')"><span class="t-icon">ⓩ</span><span class="t-pair">ZEC/USDT</span><span class="t-px">$1,231.16</span></div>
+          <div class="ticker-pill c-met" data-symbol="MET/USDC" onclick="handleMarqueeTickerClick('MET/USDC', '$0.4301')"><span class="t-icon">◈</span><span class="t-pair">MET/USDC</span><span class="t-px">$0.4301</span></div>
+          <div class="ticker-pill c-magic" data-symbol="MAGIC/USDT" onclick="handleMarqueeTickerClick('MAGIC/USDT', '$0.1039')"><span class="t-icon">✦</span><span class="t-pair">MAGIC/USDT</span><span class="t-px">$0.1039</span></div>
+          <div class="ticker-pill c-eth" data-symbol="ETH/USDC" onclick="handleMarqueeTickerClick('ETH/USDC', '$2,509.40')"><span class="t-icon">Ξ</span><span class="t-pair">ETH/USDC</span><span class="t-px">$2,509.40</span></div>
+          <div class="ticker-pill c-xrp" data-symbol="XRP/USDT" onclick="handleMarqueeTickerClick('XRP/USDT', '$1.41')"><span class="t-icon">✕</span><span class="t-pair">XRP/USDT</span><span class="t-px">$1.41</span></div>
+          <div class="ticker-pill c-usd1" data-symbol="USD1/USDT" onclick="handleMarqueeTickerClick('USD1/USDT', '$0.9992')"><span class="t-icon">💵</span><span class="t-pair">USD1/USDT</span><span class="t-px">$0.9992</span></div>
+          <div class="ticker-pill c-sui" data-symbol="SUI/USDT" onclick="handleMarqueeTickerClick('SUI/USDT', '$1.12')"><span class="t-icon">💧</span><span class="t-pair">SUI/USDT</span><span class="t-px">$1.12</span></div>
+          <div class="ticker-pill c-bnb" data-symbol="BNB/USDT" onclick="handleMarqueeTickerClick('BNB/USDT', '$750.59')"><span class="t-icon">❖</span><span class="t-pair">BNB/USDT</span><span class="t-px">$750.59</span></div>
+          <div class="ticker-pill c-wld" data-symbol="WLD/USDT" onclick="handleMarqueeTickerClick('WLD/USDT', '$0.5586')"><span class="t-icon">👁</span><span class="t-pair">WLD/USDT</span><span class="t-px">$0.5586</span></div>
+          <div class="ticker-pill c-uni" data-symbol="UNI/USDT" onclick="handleMarqueeTickerClick('UNI/USDT', '$7.63')"><span class="t-icon">🦄</span><span class="t-pair">UNI/USDT</span><span class="t-px">$7.63</span></div>
+          <div class="ticker-pill c-strk" data-symbol="STRK/USDT" onclick="handleMarqueeTickerClick('STRK/USDT', '$0.09336')"><span class="t-icon">✶</span><span class="t-pair">STRK/USDT</span><span class="t-px">$0.09336</span></div>
+          <div class="ticker-pill c-ada" data-symbol="ADA/USDT" onclick="handleMarqueeTickerClick('ADA/USDT', '$0.2544')"><span class="t-icon">₳</span><span class="t-pair">ADA/USDT</span><span class="t-px">$0.2544</span></div>
+          <div class="ticker-pill c-doge" data-symbol="DOGE/USDT" onclick="handleMarqueeTickerClick('DOGE/USDT', '$0.08616')"><span class="t-icon">Ð</span><span class="t-pair">DOGE/USDT</span><span class="t-px">$0.08616</span></div>
+          <div class="ticker-pill c-avax" data-symbol="AVAX/USDT" onclick="handleMarqueeTickerClick('AVAX/USDT', '$10.52')"><span class="t-icon">🔺</span><span class="t-pair">AVAX/USDT</span><span class="t-px">$10.52</span></div>
+          <div class="ticker-pill c-fet" data-symbol="FET/USDT" onclick="handleMarqueeTickerClick('FET/USDT', '$0.2273')"><span class="t-icon">🤖</span><span class="t-pair">FET/USDT</span><span class="t-px">$0.2273</span></div>
+          <div class="ticker-pill c-trx" data-symbol="TRX/USDT" onclick="handleMarqueeTickerClick('TRX/USDT', '$0.3309')"><span class="t-icon">⟁</span><span class="t-pair">TRX/USDT</span><span class="t-px">$0.3309</span></div>
+          <div class="ticker-pill c-ondo" data-symbol="ONDO/USDT" onclick="handleMarqueeTickerClick('ONDO/USDT', '$0.4946')"><span class="t-icon">⊚</span><span class="t-pair">ONDO/USDT</span><span class="t-px">$0.4946</span></div>
+          <div class="ticker-pill c-hype" data-symbol="HYPE/USDT" onclick="handleMarqueeTickerClick('HYPE/USDT', '$85.94')"><span class="t-icon">🌀</span><span class="t-pair">HYPE/USDT</span><span class="t-px">$85.94</span></div>
+          <div class="ticker-pill c-cfx" data-symbol="CFX/USDT" onclick="handleMarqueeTickerClick('CFX/USDT', '$0.1482')"><span class="t-icon">☯</span><span class="t-pair">CFX/USDT</span><span class="t-px">$0.1482</span></div>
+
+          <!-- DUPLICATE LOOP CHO TRƯỢT VÔ TẬN 60 FPS KHÔNG GIẬT -->
+          <div class="ticker-pill c-usdc" data-symbol="USDC/USDT" onclick="handleMarqueeTickerClick('USDC/USDT', '$1.00')"><span class="t-icon">💲</span><span class="t-pair">USDC/USDT</span><span class="t-px">$1.00</span></div>
+          <div class="ticker-pill c-btc" data-symbol="BTC/USDT" onclick="handleMarqueeTickerClick('BTC/USDT', '$82,983.90')"><span class="t-icon">₿</span><span class="t-pair">BTC/USDT</span><span class="t-px">$82,983.90</span></div>
+          <div class="ticker-pill c-eth" data-symbol="ETH/USDT" onclick="handleMarqueeTickerClick('ETH/USDT', '$2,509.80')"><span class="t-icon">Ξ</span><span class="t-pair">ETH/USDT</span><span class="t-px">$2,509.80</span></div>
+          <div class="ticker-pill c-btc" data-symbol="BTC/USDC" onclick="handleMarqueeTickerClick('BTC/USDC', '$82,978.87')"><span class="t-icon">₿</span><span class="t-pair">BTC/USDC</span><span class="t-px">$82,978.87</span></div>
+          <div class="ticker-pill c-near" data-symbol="NEAR/USDT" onclick="handleMarqueeTickerClick('NEAR/USDT', '$5.36')"><span class="t-icon">Ⓝ</span><span class="t-pair">NEAR/USDT</span><span class="t-px">$5.36</span></div>
+          <div class="ticker-pill c-sol" data-symbol="SOL/USDT" onclick="handleMarqueeTickerClick('SOL/USDT', '$110.39')"><span class="t-icon">◎</span><span class="t-pair">SOL/USDT</span><span class="t-px">$110.39</span></div>
+          <div class="ticker-pill c-zec" data-symbol="ZEC/USDT" onclick="handleMarqueeTickerClick('ZEC/USDT', '$1,231.16')"><span class="t-icon">ⓩ</span><span class="t-pair">ZEC/USDT</span><span class="t-px">$1,231.16</span></div>
+          <div class="ticker-pill c-met" data-symbol="MET/USDC" onclick="handleMarqueeTickerClick('MET/USDC', '$0.4301')"><span class="t-icon">◈</span><span class="t-pair">MET/USDC</span><span class="t-px">$0.4301</span></div>
+          <div class="ticker-pill c-magic" data-symbol="MAGIC/USDT" onclick="handleMarqueeTickerClick('MAGIC/USDT', '$0.1039')"><span class="t-icon">✦</span><span class="t-pair">MAGIC/USDT</span><span class="t-px">$0.1039</span></div>
+          <div class="ticker-pill c-eth" data-symbol="ETH/USDC" onclick="handleMarqueeTickerClick('ETH/USDC', '$2,509.40')"><span class="t-icon">Ξ</span><span class="t-pair">ETH/USDC</span><span class="t-px">$2,509.40</span></div>
+          <div class="ticker-pill c-xrp" data-symbol="XRP/USDT" onclick="handleMarqueeTickerClick('XRP/USDT', '$1.41')"><span class="t-icon">✕</span><span class="t-pair">XRP/USDT</span><span class="t-px">$1.41</span></div>
+          <div class="ticker-pill c-usd1" data-symbol="USD1/USDT" onclick="handleMarqueeTickerClick('USD1/USDT', '$0.9992')"><span class="t-icon">💵</span><span class="t-pair">USD1/USDT</span><span class="t-px">$0.9992</span></div>
+          <div class="ticker-pill c-sui" data-symbol="SUI/USDT" onclick="handleMarqueeTickerClick('SUI/USDT', '$1.12')"><span class="t-icon">💧</span><span class="t-pair">SUI/USDT</span><span class="t-px">$1.12</span></div>
+          <div class="ticker-pill c-bnb" data-symbol="BNB/USDT" onclick="handleMarqueeTickerClick('BNB/USDT', '$750.59')"><span class="t-icon">❖</span><span class="t-pair">BNB/USDT</span><span class="t-px">$750.59</span></div>
+          <div class="ticker-pill c-wld" data-symbol="WLD/USDT" onclick="handleMarqueeTickerClick('WLD/USDT', '$0.5586')"><span class="t-icon">👁</span><span class="t-pair">WLD/USDT</span><span class="t-px">$0.5586</span></div>
+          <div class="ticker-pill c-uni" data-symbol="UNI/USDT" onclick="handleMarqueeTickerClick('UNI/USDT', '$7.63')"><span class="t-icon">🦄</span><span class="t-pair">UNI/USDT</span><span class="t-px">$7.63</span></div>
+          <div class="ticker-pill c-strk" data-symbol="STRK/USDT" onclick="handleMarqueeTickerClick('STRK/USDT', '$0.09336')"><span class="t-icon">✶</span><span class="t-pair">STRK/USDT</span><span class="t-px">$0.09336</span></div>
+          <div class="ticker-pill c-ada" data-symbol="ADA/USDT" onclick="handleMarqueeTickerClick('ADA/USDT', '$0.2544')"><span class="t-icon">₳</span><span class="t-pair">ADA/USDT</span><span class="t-px">$0.2544</span></div>
+          <div class="ticker-pill c-doge" data-symbol="DOGE/USDT" onclick="handleMarqueeTickerClick('DOGE/USDT', '$0.08616')"><span class="t-icon">Ð</span><span class="t-pair">DOGE/USDT</span><span class="t-px">$0.08616</span></div>
+          <div class="ticker-pill c-avax" data-symbol="AVAX/USDT" onclick="handleMarqueeTickerClick('AVAX/USDT', '$10.52')"><span class="t-icon">🔺</span><span class="t-pair">AVAX/USDT</span><span class="t-px">$10.52</span></div>
+          <div class="ticker-pill c-fet" data-symbol="FET/USDT" onclick="handleMarqueeTickerClick('FET/USDT', '$0.2273')"><span class="t-icon">🤖</span><span class="t-pair">FET/USDT</span><span class="t-px">$0.2273</span></div>
+          <div class="ticker-pill c-trx" data-symbol="TRX/USDT" onclick="handleMarqueeTickerClick('TRX/USDT', '$0.3309')"><span class="t-icon">⟁</span><span class="t-pair">TRX/USDT</span><span class="t-px">$0.3309</span></div>
+          <div class="ticker-pill c-ondo" data-symbol="ONDO/USDT" onclick="handleMarqueeTickerClick('ONDO/USDT', '$0.4946')"><span class="t-icon">⊚</span><span class="t-pair">ONDO/USDT</span><span class="t-px">$0.4946</span></div>
+          <div class="ticker-pill c-hype" data-symbol="HYPE/USDT" onclick="handleMarqueeTickerClick('HYPE/USDT', '$85.94')"><span class="t-icon">🌀</span><span class="t-pair">HYPE/USDT</span><span class="t-px">$85.94</span></div>
+          <div class="ticker-pill c-cfx" data-symbol="CFX/USDT" onclick="handleMarqueeTickerClick('CFX/USDT', '$0.1482')"><span class="t-icon">☯</span><span class="t-pair">CFX/USDT</span><span class="t-px">$0.1482</span></div>
         </div>
       </div>
 
-      <!-- BỘ CHỌN ĐA CẶP TIỀN (MARKET PAIRS) -->
-      <div class="top-asset-switcher-bar">
-        <button type="button" class="asset-tab-pill active" data-symbol="BTC/USDT" onclick="window.ChartCanvasEngine && window.ChartCanvasEngine.switchAsset('BTC/USDT')">
-          <span>🟡 BTC</span> <strong style="color:var(--neon-emerald);">$86,895.00</strong> <span style="font-size:10px;">▲+2.84%</span>
-        </button>
-        <button type="button" class="asset-tab-pill" data-symbol="ETH/USDT" onclick="window.ChartCanvasEngine && window.ChartCanvasEngine.switchAsset('ETH/USDT')">
-          <span>🔷 ETH</span> <strong style="color:var(--neon-emerald);">$2,985.40</strong> <span style="font-size:10px;">▲+3.12%</span>
-        </button>
-        <button type="button" class="asset-tab-pill" data-symbol="SOL/USDT" onclick="window.ChartCanvasEngine && window.ChartCanvasEngine.switchAsset('SOL/USDT')">
-          <span>🟣 SOL</span> <strong style="color:var(--neon-emerald);">$188.65</strong> <span style="font-size:10px;">▲+5.60%</span>
-        </button>
-        <button type="button" class="asset-tab-pill" data-symbol="BNB/USDT" onclick="window.ChartCanvasEngine && window.ChartCanvasEngine.switchAsset('BNB/USDT')">
-          <span>🔶 BNB</span> <strong style="color:var(--neon-emerald);">$615.20</strong> <span style="font-size:10px;">▲+1.45%</span>
-        </button>
+      <!-- HÀNG 2: 25 CẶP CÒN LẠI SO LE TRƯỢT SANG PHẢI -->
+      <div class="marquee-stream stream-bottom">
+        <div class="marquee-stream-track">
+          <!-- 25 CẶP TIẾP THEO -->
+          <div class="ticker-pill c-zec" data-symbol="ZEC/USDC" onclick="handleMarqueeTickerClick('ZEC/USDC', '$1,231.22')"><span class="t-icon">ⓩ</span><span class="t-pair">ZEC/USDC</span><span class="t-px">$1,231.22</span></div>
+          <div class="ticker-pill c-usdt" data-symbol="USDT/BRL" onclick="handleMarqueeTickerClick('USDT/BRL', '$1.01')"><span class="t-icon">₮</span><span class="t-pair">USDT/BRL</span><span class="t-px">$1.01</span></div>
+          <div class="ticker-pill c-eth" data-symbol="ETH/USD1" onclick="handleMarqueeTickerClick('ETH/USD1', '$2,509.67')"><span class="t-icon">Ξ</span><span class="t-pair">ETH/USD1</span><span class="t-px">$2,509.67</span></div>
+          <div class="ticker-pill c-btc" data-symbol="BTC/USD1" onclick="handleMarqueeTickerClick('BTC/USD1', '$82,989.38')"><span class="t-icon">₿</span><span class="t-pair">BTC/USD1</span><span class="t-px">$82,989.38</span></div>
+          <div class="ticker-pill c-usdt" data-symbol="USDT/TRY" onclick="handleMarqueeTickerClick('USDT/TRY', '$1.00')"><span class="t-icon">₮</span><span class="t-pair">USDT/TRY</span><span class="t-px">$1.00</span></div>
+          <div class="ticker-pill c-rlc" data-symbol="RLC/USDT" onclick="handleMarqueeTickerClick('RLC/USDT', '$0.9349')"><span class="t-icon">⬢</span><span class="t-pair">RLC/USDT</span><span class="t-px">$0.9349</span></div>
+          <div class="ticker-pill c-ena" data-symbol="ENA/USDT" onclick="handleMarqueeTickerClick('ENA/USDT', '$0.2218')"><span class="t-icon">ε</span><span class="t-pair">ENA/USDT</span><span class="t-px">$0.2218</span></div>
+          <div class="ticker-pill c-btc" data-symbol="BTC/U" onclick="handleMarqueeTickerClick('BTC/U', '$82,986.65')"><span class="t-icon">₿</span><span class="t-pair">BTC/U</span><span class="t-px">$82,986.65</span></div>
+          <div class="ticker-pill c-lumia" data-symbol="LUMIA/USDT" onclick="handleMarqueeTickerClick('LUMIA/USDT', '$0.1098')"><span class="t-icon">✧</span><span class="t-pair">LUMIA/USDT</span><span class="t-px">$0.1098</span></div>
+          <div class="ticker-pill c-atom" data-symbol="ATOM/USDT" onclick="handleMarqueeTickerClick('ATOM/USDT', '$1.97')"><span class="t-icon">⚛</span><span class="t-pair">ATOM/USDT</span><span class="t-px">$1.97</span></div>
+          <div class="ticker-pill c-rlusd" data-symbol="RLUSD/USDT" onclick="handleMarqueeTickerClick('RLUSD/USDT', '$1.00')"><span class="t-icon">💧</span><span class="t-pair">RLUSD/USDT</span><span class="t-px">$1.00</span></div>
+          <div class="ticker-pill c-kaia" data-symbol="KAIA/USDT" onclick="handleMarqueeTickerClick('KAIA/USDT', '$0.05636')"><span class="t-icon">⚲</span><span class="t-pair">KAIA/USDT</span><span class="t-px">$0.05636</span></div>
+          <div class="ticker-pill c-qnt" data-symbol="QNT/USDT" onclick="handleMarqueeTickerClick('QNT/USDT', '$245.17')"><span class="t-icon">𝐐</span><span class="t-pair">QNT/USDT</span><span class="t-px">$245.17</span></div>
+          <div class="ticker-pill c-era" data-symbol="ERA/USDT" onclick="handleMarqueeTickerClick('ERA/USDT', '$0.08084')"><span class="t-icon">◈</span><span class="t-pair">ERA/USDT</span><span class="t-px">$0.08084</span></div>
+          <div class="ticker-pill c-bat" data-symbol="BAT/USDT" onclick="handleMarqueeTickerClick('BAT/USDT', '$0.1323')"><span class="t-icon">◬</span><span class="t-pair">BAT/USDT</span><span class="t-px">$0.1323</span></div>
+          <div class="ticker-pill c-aave" data-symbol="AAVE/USDT" onclick="handleMarqueeTickerClick('AAVE/USDT', '$171.52')"><span class="t-icon">👻</span><span class="t-pair">AAVE/USDT</span><span class="t-px">$171.52</span></div>
+          <div class="ticker-pill c-op" data-symbol="OP/USDT" onclick="handleMarqueeTickerClick('OP/USDT', '$0.1385')"><span class="t-icon">🔴</span><span class="t-pair">OP/USDT</span><span class="t-px">$0.1385</span></div>
+          <div class="ticker-pill c-wbtc" data-symbol="WBTC/BTC" onclick="handleMarqueeTickerClick('WBTC/BTC', '$82,867.25')"><span class="t-icon">₿</span><span class="t-pair">WBTC/BTC</span><span class="t-px">$82,867.25</span></div>
+          <div class="ticker-pill c-fil" data-symbol="FIL/USDT" onclick="handleMarqueeTickerClick('FIL/USDT', '$1.13')"><span class="t-icon">⨎</span><span class="t-pair">FIL/USDT</span><span class="t-px">$1.13</span></div>
+          <div class="ticker-pill c-ogn" data-symbol="OGN/USDT" onclick="handleMarqueeTickerClick('OGN/USDT', '$0.03463')"><span class="t-icon">⬡</span><span class="t-pair">OGN/USDT</span><span class="t-px">$0.03463</span></div>
+          <div class="ticker-pill c-pump" data-symbol="PUMP/USDT" onclick="handleMarqueeTickerClick('PUMP/USDT', '$0.005726')"><span class="t-icon">💊</span><span class="t-pair">PUMP/USDT</span><span class="t-px">$0.005726</span></div>
+          <div class="ticker-pill c-dot" data-symbol="DOT/USDT" onclick="handleMarqueeTickerClick('DOT/USDT', '$1.26')"><span class="t-icon">●</span><span class="t-pair">DOT/USDT</span><span class="t-px">$1.26</span></div>
+          <div class="ticker-pill c-lumia" data-symbol="LUMIA/TRY" onclick="handleMarqueeTickerClick('LUMIA/TRY', '$0.11')"><span class="t-icon">✧</span><span class="t-pair">LUMIA/TRY</span><span class="t-px">$0.11</span></div>
+          <div class="ticker-pill c-sol" data-symbol="SOL/USDC" onclick="handleMarqueeTickerClick('SOL/USDC', '$110.37')"><span class="t-icon">◎</span><span class="t-pair">SOL/USDC</span><span class="t-px">$110.37</span></div>
+          <div class="ticker-pill c-magic" data-symbol="MAGIC/TRY" onclick="handleMarqueeTickerClick('MAGIC/TRY', '$0.1042')"><span class="t-icon">✦</span><span class="t-pair">MAGIC/TRY</span><span class="t-px">$0.1042</span></div>
+
+          <!-- DUPLICATE LOOP CHO TRƯỢT VÔ TẬN 60 FPS KHÔNG GIẬT -->
+          <div class="ticker-pill c-zec" data-symbol="ZEC/USDC" onclick="handleMarqueeTickerClick('ZEC/USDC', '$1,231.22')"><span class="t-icon">ⓩ</span><span class="t-pair">ZEC/USDC</span><span class="t-px">$1,231.22</span></div>
+          <div class="ticker-pill c-usdt" data-symbol="USDT/BRL" onclick="handleMarqueeTickerClick('USDT/BRL', '$1.01')"><span class="t-icon">₮</span><span class="t-pair">USDT/BRL</span><span class="t-px">$1.01</span></div>
+          <div class="ticker-pill c-eth" data-symbol="ETH/USD1" onclick="handleMarqueeTickerClick('ETH/USD1', '$2,509.67')"><span class="t-icon">Ξ</span><span class="t-pair">ETH/USD1</span><span class="t-px">$2,509.67</span></div>
+          <div class="ticker-pill c-btc" data-symbol="BTC/USD1" onclick="handleMarqueeTickerClick('BTC/USD1', '$82,989.38')"><span class="t-icon">₿</span><span class="t-pair">BTC/USD1</span><span class="t-px">$82,989.38</span></div>
+          <div class="ticker-pill c-usdt" data-symbol="USDT/TRY" onclick="handleMarqueeTickerClick('USDT/TRY', '$1.00')"><span class="t-icon">₮</span><span class="t-pair">USDT/TRY</span><span class="t-px">$1.00</span></div>
+          <div class="ticker-pill c-rlc" data-symbol="RLC/USDT" onclick="handleMarqueeTickerClick('RLC/USDT', '$0.9349')"><span class="t-icon">⬢</span><span class="t-pair">RLC/USDT</span><span class="t-px">$0.9349</span></div>
+          <div class="ticker-pill c-ena" data-symbol="ENA/USDT" onclick="handleMarqueeTickerClick('ENA/USDT', '$0.2218')"><span class="t-icon">ε</span><span class="t-pair">ENA/USDT</span><span class="t-px">$0.2218</span></div>
+          <div class="ticker-pill c-btc" data-symbol="BTC/U" onclick="handleMarqueeTickerClick('BTC/U', '$82,986.65')"><span class="t-icon">₿</span><span class="t-pair">BTC/U</span><span class="t-px">$82,986.65</span></div>
+          <div class="ticker-pill c-lumia" data-symbol="LUMIA/USDT" onclick="handleMarqueeTickerClick('LUMIA/USDT', '$0.1098')"><span class="t-icon">✧</span><span class="t-pair">LUMIA/USDT</span><span class="t-px">$0.1098</span></div>
+          <div class="ticker-pill c-atom" data-symbol="ATOM/USDT" onclick="handleMarqueeTickerClick('ATOM/USDT', '$1.97')"><span class="t-icon">⚛</span><span class="t-pair">ATOM/USDT</span><span class="t-px">$1.97</span></div>
+          <div class="ticker-pill c-rlusd" data-symbol="RLUSD/USDT" onclick="handleMarqueeTickerClick('RLUSD/USDT', '$1.00')"><span class="t-icon">💧</span><span class="t-pair">RLUSD/USDT</span><span class="t-px">$1.00</span></div>
+          <div class="ticker-pill c-kaia" data-symbol="KAIA/USDT" onclick="handleMarqueeTickerClick('KAIA/USDT', '$0.05636')"><span class="t-icon">⚲</span><span class="t-pair">KAIA/USDT</span><span class="t-px">$0.05636</span></div>
+          <div class="ticker-pill c-qnt" data-symbol="QNT/USDT" onclick="handleMarqueeTickerClick('QNT/USDT', '$245.17')"><span class="t-icon">𝐐</span><span class="t-pair">QNT/USDT</span><span class="t-px">$245.17</span></div>
+          <div class="ticker-pill c-era" data-symbol="ERA/USDT" onclick="handleMarqueeTickerClick('ERA/USDT', '$0.08084')"><span class="t-icon">◈</span><span class="t-pair">ERA/USDT</span><span class="t-px">$0.08084</span></div>
+          <div class="ticker-pill c-bat" data-symbol="BAT/USDT" onclick="handleMarqueeTickerClick('BAT/USDT', '$0.1323')"><span class="t-icon">◬</span><span class="t-pair">BAT/USDT</span><span class="t-px">$0.1323</span></div>
+          <div class="ticker-pill c-aave" data-symbol="AAVE/USDT" onclick="handleMarqueeTickerClick('AAVE/USDT', '$171.52')"><span class="t-icon">👻</span><span class="t-pair">AAVE/USDT</span><span class="t-px">$171.52</span></div>
+          <div class="ticker-pill c-op" data-symbol="OP/USDT" onclick="handleMarqueeTickerClick('OP/USDT', '$0.1385')"><span class="t-icon">🔴</span><span class="t-pair">OP/USDT</span><span class="t-px">$0.1385</span></div>
+          <div class="ticker-pill c-wbtc" data-symbol="WBTC/BTC" onclick="handleMarqueeTickerClick('WBTC/BTC', '$82,867.25')"><span class="t-icon">₿</span><span class="t-pair">WBTC/BTC</span><span class="t-px">$82,867.25</span></div>
+          <div class="ticker-pill c-fil" data-symbol="FIL/USDT" onclick="handleMarqueeTickerClick('FIL/USDT', '$1.13')"><span class="t-icon">⨎</span><span class="t-pair">FIL/USDT</span><span class="t-px">$1.13</span></div>
+          <div class="ticker-pill c-ogn" data-symbol="OGN/USDT" onclick="handleMarqueeTickerClick('OGN/USDT', '$0.03463')"><span class="t-icon">⬡</span><span class="t-pair">OGN/USDT</span><span class="t-px">$0.03463</span></div>
+          <div class="ticker-pill c-pump" data-symbol="PUMP/USDT" onclick="handleMarqueeTickerClick('PUMP/USDT', '$0.005726')"><span class="t-icon">💊</span><span class="t-pair">PUMP/USDT</span><span class="t-px">$0.005726</span></div>
+          <div class="ticker-pill c-dot" data-symbol="DOT/USDT" onclick="handleMarqueeTickerClick('DOT/USDT', '$1.26')"><span class="t-icon">●</span><span class="t-pair">DOT/USDT</span><span class="t-px">$1.26</span></div>
+          <div class="ticker-pill c-lumia" data-symbol="LUMIA/TRY" onclick="handleMarqueeTickerClick('LUMIA/TRY', '$0.11')"><span class="t-icon">✧</span><span class="t-pair">LUMIA/TRY</span><span class="t-px">$0.11</span></div>
+          <div class="ticker-pill c-sol" data-symbol="SOL/USDC" onclick="handleMarqueeTickerClick('SOL/USDC', '$110.37')"><span class="t-icon">◎</span><span class="t-pair">SOL/USDC</span><span class="t-px">$110.37</span></div>
+          <div class="ticker-pill c-magic" data-symbol="MAGIC/TRY" onclick="handleMarqueeTickerClick('MAGIC/TRY', '$0.1042')"><span class="t-icon">✦</span><span class="t-pair">MAGIC/TRY</span><span class="t-px">$0.1042</span></div>
+        </div>
       </div>
     </div>
 
-    <!-- [CỤM 3: FOUNDER TELEMETRY & CONTROLS] -->
+    <!-- [CỤM 3: SOVEREIGN AVATAR & CONTROLS - ẢNH 3] -->
     <div class="hud-cluster-controls">
-      <a href="apex-master-admin.html" target="_blank" class="founder-id-badge" title="Cổng Quản Trị Tối Cao của Founder Nguyễn Phước Lộc">
-        <span>👑</span>
-        <span>ARCHITECT: NGUYỄN PHƯỚC LỘC</span>
-        <span style="opacity:0.75;">· UID: 1107519625</span>
-        <span style="color:var(--neon-emerald); font-weight:800;">GODMODE</span>
+      <!-- KHỐI PROFILE SOVEREIGN TÔN VINH FOUNDER NGUYỄN PHƯỚC LỘC -->
+      <a href="apex-master-admin.html" target="_blank" class="sovereign-profile-card" title="Hồ Sơ Tối Cao & Cổng Quản Trị Founder Nguyễn Phước Lộc (UID: 1107519625)">
+        <!-- AVATAR NGƯỜI LỬA LƯỢNG TỬ (ẢNH 3) -->
+        <div class="sovereign-avatar-frame">
+          <img src="assets/images/founder-avatar.png" 
+               onerror="if(!this.dataset.step){this.dataset.step='1';this.src='file:///C:/Users/PC/.gemini/antigravity-ide/brain/34539367-f555-4175-b7c3-546693d0728e/.user_uploaded/media_1791648884312.png';}else if(this.dataset.step==='1'){this.dataset.step='2';this.src='assets/bull_mascot.jpg';}" 
+               class="sovereign-avatar-img" 
+               alt="Founder Nguyễn Phước Lộc"
+               title="Founder & Chief Architect: Nguyễn Phước Lộc (UID: 1107519625)">
+          <div class="sovereign-fire-halo"></div>
+        </div>
+        <!-- THÔNG TIN ĐỊNH DANH SOVEREIGN -->
+        <div class="sovereign-info-stack">
+          <div class="sovereign-name-row">
+            <span class="sovereign-crown">👑</span>
+            <span class="sovereign-name">ARCHITECT: NGUYỄN PHƯỚC LỘC</span>
+          </div>
+          <div class="sovereign-meta-row">
+            <span class="sovereign-uid">UID: 1107519625</span>
+            <span class="sovereign-godmode">GODMODE ON</span>
+          </div>
+        </div>
       </a>
 
-      <!-- Công tắc âm thanh Web Audio API -->
-      <button type="button" class="hud-pill-btn" id="btn-toggle-sound" onclick="toggleSoundFx()" title="Bật/Tắt âm thanh phản hồi xúc giác">
-        <span id="sound-icon">🔊</span>
-        <span id="sound-txt">AUDIO ON</span>
+      <!-- CÔNG TẮC ÂM THANH VỚI SÓNG EQUALIZER MINI ılıl -->
+      <button type="button" class="hud-audio-eq-btn" id="btn-toggle-sound" onclick="toggleSoundFx()" title="Bật/Tắt âm thanh phản hồi lượng tử">
+        <span class="eq-bars">
+          <span class="eq-bar b1"></span>
+          <span class="eq-bar b2"></span>
+          <span class="eq-bar b3"></span>
+        </span>
+        <span id="sound-txt">AUDIO</span>
       </button>
 
-      <span class="hud-utc-clock" id="txt-utc-clock">06:15:22.420 UTC</span>
+      <!-- ĐỒNG HỒ UTC NGUYÊN TỬ CHÍNH XÁC MILI-GIÂY -->
+      <span class="hud-utc-clock" id="txt-utc-clock">15:58:42.714 UTC</span>
     </div>
   </header>
 
@@ -126,157 +242,311 @@
          ======================================================== -->
     <div class="quantum-row-top">
 
-      <!-- [1] PHÂN KHU 1: PNL & PERFORMANCE COCKPIT (Góc trên bên trái) -->
-      <section class="quantum-card">
-        <div class="quantum-card-header">
-          <div class="quantum-card-title">
-            <span class="tag-num">[01]</span> PNL & PERFORMANCE
+      <!-- [1] CARD [01]: WALLET & INVENTORY FLOW (TOP LEFT) -->
+      <section class="quantum-card compact-top-card card-wallet-flow">
+        <!-- HEADER -->
+        <div class="card-wallet-header">
+          <div class="wallet-header-left">
+            <span class="pulsar-dot green"></span>
+            <span class="wallet-title-main">WALLET · 0xDF79···3DCD</span>
+            <span class="wallet-active-badge">● ACTIVE</span>
           </div>
-          <span class="card-status-badge live">● LIVE 120HZ</span>
+          <span class="live-glass-pill"><span class="live-radar-dot"></span>[LIVE]</span>
         </div>
 
-        <div class="pnl-huge-amount" id="txt-net-pnl-huge">+$98,915.00</div>
-        <div class="pnl-sub-today">Hôm nay: <strong style="color:var(--neon-emerald);">+$3,420.12 (Today)</strong> · Tự động cân đối</div>
-
-        <!-- Win Rate Progress Bar -->
-        <div class="winrate-bar-container">
-          <div class="winrate-label-row">
-            <span>WIN RATE TỔNG THỂ</span>
-            <span class="winrate-percent" id="txt-winrate-pct">82.2% (1,297 ord)</span>
-          </div>
-          <div class="winrate-track">
-            <div class="winrate-progress" id="bar-winrate-progress"></div>
-          </div>
-        </div>
-
-        <!-- Lưới thông số định lượng -->
-        <div class="pnl-stats-grid">
-          <div class="pnl-stat-cell">
-            <span class="stat-k">TRADES</span>
-            <span class="stat-v" id="txt-stat-trades">1,297</span>
-          </div>
-          <div class="pnl-stat-cell">
-            <span class="stat-k">AVG PROFIT</span>
-            <span class="stat-v" id="txt-stat-avg">$16.56</span>
-          </div>
-          <div class="pnl-stat-cell">
-            <span class="stat-k">COMPUTE NODE</span>
-            <span class="stat-v" style="color:var(--cyber-cyan);">TESLA-04</span>
+        <!-- ALL-TIME PNL -->
+        <div class="wallet-pnl-block">
+          <div class="wallet-pnl-label">ALL-TIME PNL</div>
+          <div class="wallet-pnl-val" id="txt-net-pnl-huge">+$99,317</div>
+          <div class="wallet-pnl-sub">
+            <span class="sub-arrow">▲</span> 150.0 FILLS/HR · <span id="txt-stat-trades-sub">8,191 FILLS 24H</span>
           </div>
         </div>
 
-        <!-- Sparkline thang khối lượng -->
-        <div class="pnl-sparkline-box">
-          <canvas id="sparkline-canvas"></canvas>
+        <!-- 3 THÔNG SỐ ĐỊNH LƯỢNG & DRAWDOWN RISK -->
+        <div class="wallet-metrics-grid">
+          <div class="w-metric-cell">
+            <span class="w-metric-k">FILLS 24H</span>
+            <span class="w-metric-v" id="txt-stat-trades">8,191</span>
+          </div>
+          <div class="w-metric-cell">
+            <span class="w-metric-k">WIN RATE</span>
+            <span class="w-metric-v emerald" id="txt-winrate-pct">82.1% (1308 ord)</span>
+          </div>
+          <div class="w-metric-cell">
+            <span class="w-metric-k">MODEL EDGE</span>
+            <span class="w-metric-v cyan" id="chip-model-edge">+5.54%</span>
+          </div>
+        </div>
+
+        <div class="drawdown-risk-row">
+          <div class="drawdown-risk-badge">
+            <span class="dr-lbl">DRAWDOWN RISK: 3.0/10</span>
+            <span class="dr-tag">[SAFE]</span>
+          </div>
+        </div>
+
+        <!-- ========================================================
+             🌊 CỤM ĐỒ THỊ DÒNG CHẢY HẠT LƯỢNG TỬ:
+             CAPITAL & ORDERFLOW PIPELINE (OFFICIAL V12 SANKEY FLOW 60 FPS)
+             ======================================================== -->
+        <div class="sankey-pipeline-container" id="sankey-pipeline-wrap">
+          <div class="sankey-header-line">
+            <div class="sh-left">
+              <span class="sh-icon">🌊</span>
+              <span class="sh-title">CAPITAL & ORDERFLOW PIPELINE</span>
+              <span class="sh-sub">(WHERE LIQUIDITY FLOWS)</span>
+            </div>
+            <span class="sankey-live-tag"><span class="live-radar-dot"></span>● 60 FPS</span>
+          </div>
+
+          <div class="sankey-canvas-box">
+            <canvas id="sankey-flow-canvas"></canvas>
+          </div>
+        </div>
+
+        <!-- ĐÁY CARD [01]: DẢI KIỂM ĐỊNH SỔ CÁI LƯỢNG TỬ (QUANTUM AUDIT STRIP) -->
+        <div class="card-bottom-audit-strip">
+          <span class="audit-icon">🔒</span>
+          <span>MERKLE ROOT: 0x9f8c...4b12 · HASH LATENCY: 0.38µs · VERIFIED</span>
         </div>
       </section>
 
-      <!-- [2] PHÂN KHU 2: MICROSTRUCTURE & PRICE LADDER (Góc trên ở giữa) -->
-      <section class="quantum-card">
-        <div class="quantum-card-header">
-          <div class="quantum-card-title">
-            <span class="tag-num">[02]</span> MICROSTRUCTURE & LADDER
+      <!-- [2] CARD [02]: NẾN THẬT 100% & BẬC THANG GIÁ LADDER (TOP MIDDLE) -->
+      <section class="quantum-card compact-top-card card-candle-ladder">
+        <!-- HEADER 2 DÒNG CHUẨN ẢNH 2 -->
+        <div class="candle-ladder-header">
+          <div class="cl-top-line">
+            <span class="pulsar-dot amber"></span>
+            <span class="cl-title" id="txt-spot-title">BTC SPOT - MODEL FEED · 18 AUG 2026</span>
           </div>
-          <!-- TAB BAR 2: KHUNG THỜI GIAN NẾN (TIMEFRAME SELECTOR) -->
-          <div class="timeframe-tabs-group">
-            <button type="button" class="timeframe-tab-btn" data-tf="1s" onclick="window.ChartCanvasEngine && window.ChartCanvasEngine.switchTimeframe('1s')">1s</button>
-            <button type="button" class="timeframe-tab-btn" data-tf="1m" onclick="window.ChartCanvasEngine && window.ChartCanvasEngine.switchTimeframe('1m')">1m</button>
-            <button type="button" class="timeframe-tab-btn" data-tf="5m" onclick="window.ChartCanvasEngine && window.ChartCanvasEngine.switchTimeframe('5m')">5m</button>
-            <button type="button" class="timeframe-tab-btn active" data-tf="15m" onclick="window.ChartCanvasEngine && window.ChartCanvasEngine.switchTimeframe('15m')">15m</button>
-            <button type="button" class="timeframe-tab-btn" data-tf="1H" onclick="window.ChartCanvasEngine && window.ChartCanvasEngine.switchTimeframe('1H')">1H</button>
-            <button type="button" class="timeframe-tab-btn" data-tf="4H" onclick="window.ChartCanvasEngine && window.ChartCanvasEngine.switchTimeframe('4H')">4H</button>
-            <button type="button" class="timeframe-tab-btn" data-tf="1D" onclick="window.ChartCanvasEngine && window.ChartCanvasEngine.switchTimeframe('1D')">1D</button>
+          <div class="cl-sub-line">
+            <span class="cl-pair" id="txt-spot-pair">BTC/USD · 5M</span>
+            <strong class="cl-price" id="txt-spot-price">$86,917</strong>
+            <span class="cl-change" id="txt-spot-change">▲ +7.31%</span>
           </div>
         </div>
 
-        <div class="microstructure-wrap">
-          <!-- Canvas Nến lượng tử & Mây giá vi cấu trúc -->
-          <div class="micro-chart-pane">
-            <!-- THƯỚC ĐO THÔNG SỐ NẾN THỜI GIAN THỰC (CANDLE HUD) -->
-            <div class="candle-hud-bar" id="candle-hud-bar">
-              <span>O: <span class="candle-hud-val" id="hud-val-open">$86,885.50</span></span>
-              <span>H: <span class="candle-hud-val up" id="hud-val-high">$86,910.00</span></span>
-              <span>L: <span class="candle-hud-val down" id="hud-val-low">$86,842.10</span></span>
-              <span>C: <span class="candle-hud-val up" id="hud-val-close">$86,895.05</span></span>
-              <span>VOL: <span class="candle-hud-val" id="hud-val-vol">42.8 BTC</span></span>
+        <!-- NỬA TRÊN: BIỂU ĐỒ NẾN THẬT OHLC & MOVING AVERAGE MA9 (KHÔNG BAO GIỜ BẸP) -->
+        <div class="candle-chart-box">
+          <canvas id="micro-chart-canvas"></canvas>
+        </div>
+
+        <!-- NỬA DƯỚI: FILL SURVIVAL KAPLAN-MEIER PRO WIDGET (OFFICIAL V17) -->
+        <div class="fill-survival-container" id="fillSurvivalModule">
+          <!-- Header với 3 badge chuẩn HFT -->
+          <div class="fs-header">
+            <div class="fs-title">
+              <span class="fs-icon">⌛</span>
+              <span class="fs-name">FILL SURVIVAL</span>
             </div>
-            <div class="micro-chart-canvas-box">
-              <canvas id="micro-chart-canvas"></canvas>
+            <div class="fs-badges">
+              <span class="fs-badge p50" id="fs-badge-p50">P50 26MS</span>
+              <span class="fs-badge route">LD4-AMS</span>
+              <span class="fs-badge unf" id="fs-badge-unf">UNF 2.2%</span>
             </div>
           </div>
 
-          <!-- Bậc thang giá Price Ladder chạy theo giá thực 100% -->
-          <div class="ladder-table-pane">
-            <div class="ladder-table-header">
-              <span>GIÁ THẬT</span>
-              <span>DEPTH VOLUME</span>
+          <!-- Dòng phụ đề khoa học -->
+          <div class="fs-subtitle">SHARE OF ORDERS STILL UNFILLED · KAPLAN-MEIER</div>
+
+          <!-- Thân widget: Đồ thị diện tích Kaplan-Meier bên trái & Cột thống kê bên phải -->
+          <div class="fs-body">
+            <!-- Phần đồ thị Canvas -->
+            <div class="fs-chart-box">
+              <canvas id="fillSurvivalCanvas" class="fs-canvas"></canvas>
+
+              <!-- Thẻ Callout trôi nổi -->
+              <div class="fs-callout late-adds">
+                <span class="fs-callout-tag">LATE ADDS</span>
+              </div>
+              <div class="fs-callout late-scans">
+                <span class="fs-callout-tag">LATE SCANS</span>
+              </div>
+
+              <!-- Chú thích Legend góc dưới trái -->
+              <div class="fs-legend">
+                <span class="fs-leg-item maker"><span class="fs-dot"></span>MAKER</span>
+                <span class="fs-leg-item retail"><span class="fs-dot"></span>RETAIL</span>
+                <span class="fs-leg-item passive"><span class="fs-dot dashed"></span>PASSIVE</span>
+              </div>
             </div>
-            <div class="ladder-rows-list" id="price-ladder-rows">
-              <!-- Render tự động bởi chart-canvas.js -->
+
+            <!-- Cột thống kê thanh bar ngang bên phải -->
+            <div class="fs-stats-pillar">
+              <div class="fs-stat-row">
+                <span class="fs-stat-lbl">&gt; 1s</span>
+                <div class="fs-stat-bar-track">
+                  <div class="fs-stat-bar-fill c-cyan" id="fs-bar-1s" style="width: 72%;"></div>
+                </div>
+                <span class="fs-stat-val c-cyan" id="fs-val-1s">18%</span>
+              </div>
+              <div class="fs-stat-row">
+                <span class="fs-stat-lbl">&gt; 5s</span>
+                <div class="fs-stat-bar-track">
+                  <div class="fs-stat-bar-fill c-green" id="fs-bar-5s" style="width: 42%;"></div>
+                </div>
+                <span class="fs-stat-val c-green" id="fs-val-5s">7.2%</span>
+              </div>
+              <div class="fs-stat-row">
+                <span class="fs-stat-lbl">&gt; 10s</span>
+                <div class="fs-stat-bar-track">
+                  <div class="fs-stat-bar-fill c-amber" id="fs-bar-10s" style="width: 25%;"></div>
+                </div>
+                <span class="fs-stat-val c-amber" id="fs-val-10s">+3.0%</span>
+              </div>
+              <div class="fs-stat-row">
+                <span class="fs-stat-lbl">&gt; 30s</span>
+                <div class="fs-stat-bar-track">
+                  <div class="fs-stat-bar-fill c-blue" id="fs-bar-30s" style="width: 12%;"></div>
+                </div>
+                <span class="fs-stat-val c-blue" id="fs-val-30s">+0.8%</span>
+              </div>
+              <div class="fs-stat-row">
+                <span class="fs-stat-lbl">UNF</span>
+                <div class="fs-stat-bar-track">
+                  <div class="fs-stat-bar-fill c-red" id="fs-bar-unf" style="width: 15%;"></div>
+                </div>
+                <span class="fs-stat-val c-red" id="fs-val-unf">2.2%</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- [3] PHÂN KHU 3: FEED LATENCY, WIRE INSPECTOR & RESOLUTION GRID (Góc trên bên phải) -->
-      <section class="quantum-card">
-        <div class="quantum-card-header">
-          <div class="quantum-card-title">
-            <span class="tag-num">[03]</span> FEED WIRE & RESOLUTION
-          </div>
-          <span class="card-status-badge live" style="color:var(--cyber-cyan); border-color:var(--cyber-cyan-glow);">HEX STREAM</span>
-        </div>
-
-        <!-- Máy đo sóng sin Oscillograph -->
-        <div class="oscillograph-canvas-box">
-          <canvas id="oscillograph-canvas"></canvas>
-        </div>
-
-        <!-- Wire Inspector Hex Dump cuộn liên tục -->
-        <div class="wire-hex-feed" id="wire-hex-feed-box" style="margin-bottom:8px;">
-          <!-- Cuộn mã nhị phân liên tục bởi chart-canvas.js -->
-        </div>
-
-        <!-- TAB BAR 3 & PHÂN KHU 4.1: MA TRẬN NHIỆT ĐÁO HẠN LỆNH (RESOLUTION GRID) -->
-        <div class="res-grid-header">
-          <span style="font-size:10px; font-family:var(--font-code); color:var(--text-muted);">LIVE EXPIRIES HEATMAP:</span>
-          <div class="res-tabs-row">
-            <button type="button" class="res-tab-btn active" data-res="settling" onclick="window.TapeEngine && window.TapeEngine.switchResolutionTab('settling')">SETTLING: 4</button>
-            <button type="button" class="res-tab-btn" data-res="open" onclick="window.TapeEngine && window.TapeEngine.switchResolutionTab('open')">OPEN: 18</button>
-          </div>
-        </div>
-
-        <div class="res-heatmap-tiles" id="resolution-heatmap-tiles">
-          <!-- Render động thẻ ô số 93¢, 85¢, 29¢... -->
-        </div>
-
-        <!-- PHÂN KHU 4.2: CHU KỲ THỊ TRƯỜNG (MARKET LIFECYCLE GANTT TIMELINE - 5 THANH TIẾN TRÌNH) -->
-        <div class="market-gantt-wrap">
-          <div class="gantt-timeline-header">
-            <span>CHU KỲ THỊ TRƯỜNG (5 STAGES)</span>
-            <div class="gantt-stage-tags">
-              <span>ENTRY</span><span>➔</span><span>OPEN</span><span>➔</span><span>RESOLVE</span>
+      <!-- [3] CARD [03]: CHIA 2 TẦNG GANTT & HEATMAP (TOP RIGHT) -->
+      <section class="quantum-card compact-top-card card-gantt-grid">
+        <!-- TẦNG TRÊN: MARKET LIFECYCLE GANTT (5 THANH TIẾN ĐỘ LIVE DRIFT V11) -->
+        <div class="gantt-upper-block">
+          <div class="gantt-header-row">
+            <div class="gh-left">
+              <span class="pulsar-dot amber"></span>
+              <span class="gh-title">MARKET LIFECYCLE · ENTRY ➔ RESOLVE</span>
+            </div>
+            <div class="gh-badge">
+              <span class="stat-open">● OPEN: 5</span>
+              <span class="stat-sep">·</span>
+              <span class="stat-res" id="txt-gantt-resolved">RESOLVED: 137</span>
             </div>
           </div>
-          <div class="gantt-item">
-            <div class="gantt-label"><span>BTC-15M VOL POOL</span><strong style="color:var(--cyber-cyan);">65% OPEN</strong></div>
-            <div class="gantt-track"><div class="gantt-progress cyan-glow" style="width: 65%;"></div></div>
+
+          <div class="gantt-track-list">
+            <div class="gantt-t-row">
+              <span class="gt-coin">ETH5M</span>
+              <div class="gt-channel">
+                <div class="gt-bar bar-eth" id="gantt-bar-1" style="left: 6%; width: 70%;"></div>
+              </div>
+              <span class="gt-badge" id="gantt-marker-1">🔶 C01</span>
+            </div>
+            <div class="gantt-t-row">
+              <span class="gt-coin">ETH5M</span>
+              <div class="gt-channel">
+                <div class="gt-bar bar-eth" id="gantt-bar-2" style="left: 18%; width: 50%;"></div>
+              </div>
+              <span class="gt-badge empty" id="gantt-marker-2"></span>
+            </div>
+            <div class="gantt-t-row">
+              <span class="gt-coin">SOL5M</span>
+              <div class="gt-channel">
+                <div class="gt-bar bar-sol" id="gantt-bar-3" style="left: 26%; width: 56%;"></div>
+              </div>
+              <span class="gt-badge" id="gantt-marker-3">🔶 C01</span>
+            </div>
+            <div class="gantt-t-row">
+              <span class="gt-coin">BTC5M</span>
+              <div class="gt-channel">
+                <div class="gt-bar bar-btc" id="gantt-bar-4" style="left: 40%; width: 34%;"></div>
+              </div>
+              <span class="gt-badge empty" id="gantt-marker-4"></span>
+            </div>
+            <div class="gantt-t-row">
+              <span class="gt-coin">BTC5M</span>
+              <div class="gt-channel">
+                <div class="gt-bar bar-btc" id="gantt-bar-5" style="left: 54%; width: 40%;"></div>
+              </div>
+              <span class="gt-badge empty" id="gantt-marker-5"></span>
+            </div>
           </div>
-          <div class="gantt-item">
-            <div class="gantt-label"><span>15M ROLLING HEDGE</span><strong style="color:#FFB800;">82% ACTIVE</strong></div>
-            <div class="gantt-track"><div class="gantt-progress orange-hedge-glow" style="width: 82%;"></div></div>
+
+          <div class="gantt-footer-legend">
+            BTC / ETH / SOL 5M · 15M · FLIP ➔ BUY OPPOSITE · LADDER 55s-95s
           </div>
-          <div class="gantt-item">
-            <div class="gantt-label"><span>ETH-5M PROFIT TAKE</span><strong style="color:var(--neon-emerald);">+$177 SETTLED</strong></div>
-            <div class="gantt-track"><div class="gantt-progress emerald-glow" style="width: 100%;"></div></div>
+        </div>
+
+        <!-- ĐƯỜNG PHÂN CÁCH 2 TẦNG MỎNG -->
+        <div class="card3-tier-divider"></div>
+
+        <!-- TẦNG DƯỚI: RESOLUTION GRID (LƯỚI 24 Ô GẠCH HEATMAP) -->
+        <div class="res-grid-lower-block">
+          <div class="res-header-row">
+            <div class="rh-left">
+              <span class="pulsar-dot emerald"></span>
+              <span class="rh-title">RESOLUTION GRID · LIVE EXPIRIES</span>
+            </div>
+            <div class="rh-badge">
+              <span class="stat-settling">● SETTLING: 4</span>
+              <span class="stat-sep">·</span>
+              <span class="stat-open">OPEN: 18</span>
+            </div>
           </div>
-          <div class="gantt-item">
-            <div class="gantt-label"><span>SOL-15M ARBITRAGE</span><strong style="color:var(--cyber-cyan);">48% ACCUMULATE</strong></div>
-            <div class="gantt-track"><div class="gantt-progress cyan-glow" style="width: 48%;"></div></div>
+
+          <!-- LƯỚI 2 HÀNG X 12 CỘT = 24 Ô GẠCH THEO BLUEPRINT -->
+          <div class="res-tiles-24-grid" id="resolution-heatmap-tiles">
+            <!-- Hàng 1 (12 ô) -->
+            <div class="res-tile win" data-tile-idx="0"><span class="t-val">93¢</span><span class="t-sec">42s</span></div>
+            <div class="res-tile win" data-tile-idx="1"><span class="t-val">85¢</span><span class="t-sec">15s</span></div>
+            <div class="res-tile loss" data-tile-idx="2"><span class="t-val">29¢</span><span class="t-sec">23s</span></div>
+            <div class="res-tile loss" data-tile-idx="3"><span class="t-val">41¢</span><span class="t-sec">24s</span></div>
+            <div class="res-tile loss" data-tile-idx="4"><span class="t-val">36¢</span><span class="t-sec">28s</span></div>
+            <div class="res-tile loss" data-tile-idx="5"><span class="t-val">36¢</span><span class="t-sec">28s</span></div>
+            <div class="res-tile loss" data-tile-idx="6"><span class="t-val">11¢</span><span class="t-sec">84s</span></div>
+            <div class="res-tile win" data-tile-idx="7"><span class="t-val">79¢</span><span class="t-sec">12s</span></div>
+            <div class="res-tile win" data-tile-idx="8"><span class="t-val">53¢</span><span class="t-sec">82s</span></div>
+            <div class="res-tile loss" data-tile-idx="9"><span class="t-val">15¢</span><span class="t-sec">53s</span></div>
+            <div class="res-tile win" data-tile-idx="10"><span class="t-val">88¢</span><span class="t-sec">84s</span></div>
+            <div class="res-tile win" data-tile-idx="11"><span class="t-val">64¢</span><span class="t-sec">89s</span></div>
+            <!-- Hàng 2 (12 ô) -->
+            <div class="res-tile loss" data-tile-idx="12"><span class="t-val">9¢</span><span class="t-sec">86s</span></div>
+            <div class="res-tile loss" data-tile-idx="13"><span class="t-val">48¢</span><span class="t-sec">47s</span></div>
+            <div class="res-tile loss" data-tile-idx="14"><span class="t-val">36¢</span><span class="t-sec">11s</span></div>
+            <div class="res-tile win" data-tile-idx="15"><span class="t-val">70¢</span><span class="t-sec">18s</span></div>
+            <div class="res-tile loss" data-tile-idx="16"><span class="t-val">47¢</span><span class="t-sec">89s</span></div>
+            <div class="res-tile loss" data-tile-idx="17"><span class="t-val">37¢</span><span class="t-sec">89s</span></div>
+            <div class="res-tile loss" data-tile-idx="18"><span class="t-val">96¢</span><span class="t-sec">23s</span></div>
+            <div class="res-tile win" data-tile-idx="19"><span class="t-val">60¢</span><span class="t-sec">48s</span></div>
+            <div class="res-tile win" data-tile-idx="20"><span class="t-val">79¢</span><span class="t-sec">17s</span></div>
+            <div class="res-tile loss" data-tile-idx="21"><span class="t-val">4¢</span><span class="t-sec">86s</span></div>
+            <div class="res-tile win" data-tile-idx="22"><span class="t-val">52¢</span><span class="t-sec">19s</span></div>
+            <div class="res-tile win" data-tile-idx="23"><span class="t-val">71¢</span><span class="t-sec">26s</span></div>
           </div>
-          <div class="gantt-item">
-            <div class="gantt-label"><span>BTC-5M RESOLVED</span><strong style="color:var(--neon-emerald);">+$92 SETTLED</strong></div>
-            <div class="gantt-track"><div class="gantt-progress emerald-glow" style="width: 100%;"></div></div>
+        </div>
+
+        <!-- ĐƯỜNG PHÂN CÁCH TẦNG 3 -->
+        <div class="card3-tier-divider"></div>
+
+        <!-- ========================================================
+             🧬 TẦNG DƯỚI: CHUỖI XOẮN KÉP TRADE HELIX (OFFICIAL V13 DNA 60 FPS)
+             ======================================================== -->
+        <div class="trade-helix-block">
+          <div class="helix-header-row">
+            <div class="hh-left">
+              <span class="helix-diamond">◆</span>
+              <span class="hh-title">TRADE HELIX · LAST 104 FILLS</span>
+            </div>
+            <div class="hh-badges">
+              <span class="hb-pill emerald">[WR: 49%]</span>
+              <span class="hb-pill gold">[PNL: +$412]</span>
+            </div>
+          </div>
+
+          <div class="helix-canvas-box">
+            <canvas id="trade-helix-canvas"></canvas>
+          </div>
+
+          <div class="helix-footer-row">
+            <span class="hf-pnl">+$336</span>
+            <span class="hf-stats">W: 349 · L: 451 · 49% WIN</span>
+            <span class="hf-node">NODE: QUANT · 60 FPS</span>
           </div>
         </div>
       </section>
@@ -372,11 +642,22 @@
             <span class="edge-val-tag gold">+5.40</span>
             <div class="dashed-guide-line gold"></div>
           </div>
-          <div class="zone-time-row" title="4:10 +6.70">
+            <div class="zone-time-row" title="4:10 +6.70">
             <span class="time-tag">4:10</span>
             <div class="zone-time-track"><div class="zone-time-fill bar-c-11" style="width:100%;"></div></div>
             <span class="edge-val-tag gold-bright">+6.70</span>
             <div class="dashed-guide-line gold-bright"></div>
+          </div>
+
+          <!-- NHÃN CHÂN TRANG KỸ THUẬT V9: TICK MARGIN & TIẾN TRÌNH QUÉT SÓNG T-4M10S -->
+          <div class="edge-footer-tech-bar">
+            <div class="edge-footer-progress-track">
+              <div class="edge-footer-progress-fill" id="edge-horizon-progress" style="width: 74%;"></div>
+            </div>
+            <div class="edge-footer-label">
+              <span class="edge-footer-dot"></span>
+              <span>TICK MARGIN: 0.15% · RESOLUTION HORIZON T-4M10S</span>
+            </div>
           </div>
         </div>
 
@@ -389,27 +670,27 @@
             </div>
             <div class="radar-row-stat">
               <span>SHADOWS OR FILLS:</span>
-              <strong class="stat-gold">87</strong>
+              <strong class="stat-gold" id="txt-shadows-fills">87</strong>
             </div>
             <div class="radar-fills-big">
               <div class="fills-label">FILLS / MIN:</div>
-              <div class="fills-num-cyan">152.6</div>
+              <div class="fills-num-cyan" id="txt-fills-min">152.6</div>
             </div>
             <div class="radar-row-stat">
               <span>REAL VOLATILITY:</span>
-              <strong class="stat-gold">30 / SEC</strong>
+              <strong class="stat-gold" id="txt-real-vol">30 / SEC</strong>
             </div>
             <div class="radar-row-stat">
               <span>EDGE AT 50%:</span>
-              <strong class="stat-cyan">50.8%</strong>
+              <strong class="stat-cyan" id="txt-edge-50">50.8%</strong>
             </div>
             <div class="radar-winrate-wrap">
               <div class="winrate-line">
                 <span>WIN RATE:</span>
-                <strong style="color:var(--neon-emerald);">52%</strong>
+                <strong style="color:var(--neon-emerald);" id="txt-radar-winrate">52%</strong>
               </div>
               <div class="radar-winrate-track">
-                <div class="radar-winrate-bar" style="width: 52%;"></div>
+                <div class="radar-winrate-bar" id="bar-radar-winrate" style="width: 52%;"></div>
               </div>
             </div>
           </div>
@@ -420,7 +701,7 @@
           <!-- BẢNG DANH MỤC KHỚP LỆNH LŨY KẾ (RESOLVED FEED - 10 HÀNG) -->
           <div class="resolved-feed-container">
             <div class="resolved-feed-header-line">RESOLVED FEED (10-SEC SLICE)</div>
-            <div class="resolved-feed-list">
+            <div class="resolved-feed-list" id="resolved-feed-list">
               <div class="resolved-feed-row up">
                 <span class="rf-coin">BTC UP</span>
                 <div class="rf-bar-track"><div class="rf-bar-fill up" style="width:72%;"></div></div>
@@ -472,6 +753,19 @@
                 <span class="rf-pnl down">-$129</span>
               </div>
             </div>
+
+            <!-- THANH ĐO PHỤ CHÂN BẢNG V9: NET SPREAD & LIQUIDITY COVER -->
+            <div class="resolved-feed-submeters">
+              <div class="submeter-item">
+                <span class="submeter-lbl">NET SPREAD:</span>
+                <strong class="stat-cyan" id="txt-net-spread">0.12 USDT</strong>
+              </div>
+              <span class="submeter-sep">·</span>
+              <div class="submeter-item">
+                <span class="submeter-lbl">LIQUIDITY COVER:</span>
+                <strong class="stat-emerald" id="txt-liq-cover">98.4%</strong>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -511,60 +805,153 @@
     </div>
 
     <!-- ========================================================
-         TẦNG 3: 2 PHÂN KHU DƯỚI (EXECUTION TAPE | RESOLUTION FUNNEL)
+         TẦNG 3: 2 PHÂN KHU DƯỚI (MASTER V14 PRO: EXECUTION TAPE PRO & CAPITAL SANKEY)
          ======================================================== -->
     <div class="quantum-row-bottom">
 
-      <!-- [5] PHÂN KHU 5: EXECUTION TAPE (TIME & SALES LIVE) (Góc dưới bên trái) -->
-      <section class="quantum-card">
-        <div class="quantum-card-header">
+      <!-- [5] PHÂN KHU 5: EXECUTION TAPE PRO (TIME & SALES 2 CỘT + BOOK SKEW + 4 HỘP KPI) (Y CHANG ẢNH 4) -->
+      <section class="card-execution-tape-pro">
+        <div class="tape-pro-header">
           <div class="quantum-card-title">
-            <span class="tag-num">[05]</span> EXECUTION TAPE (TIME & SALES)
+            <span class="tag-num" style="color:var(--neon-emerald);">[05]</span>
+            <span>◆ EXECUTION TAPE · TIME & SALES · LATE ENTRIES, ADDS, HEDGES & FLIPS</span>
           </div>
-          <!-- TAB BAR 4: BỘ LỌC BĂNG KHỚP LỆNH -->
-          <div class="tape-filter-tabs">
-            <button type="button" class="tape-filter-btn active" data-filter="ALL" onclick="window.TapeEngine && window.TapeEngine.setFilter('ALL')">TẤT CẢ</button>
-            <button type="button" class="tape-filter-btn" data-filter="BUY" style="color:var(--neon-emerald);" onclick="window.TapeEngine && window.TapeEngine.setFilter('BUY')">MUA</button>
-            <button type="button" class="tape-filter-btn" data-filter="SELL" style="color:var(--laser-ruby);" onclick="window.TapeEngine && window.TapeEngine.setFilter('SELL')">BÁN</button>
-            <button type="button" class="tape-filter-btn" data-filter="WHALE" style="color:var(--sovereign-gold);" onclick="window.TapeEngine && window.TapeEngine.setFilter('WHALE')">CÁ VOI 🐋</button>
+          <div class="tape-fills-badge">
+            <span class="status-pulse-dot emerald"></span>
+            <strong id="txt-tape-fills-count">6,471</strong> FILLS
           </div>
         </div>
 
-        <div class="tape-table-container">
-          <div class="tape-table-head">
-            <span>THỜI GIAN</span>
-            <span>LOẠI</span>
-            <span>GIÁ (USDT)</span>
-            <span style="text-align:right;">KHỐI LƯỢNG</span>
+        <div class="tape-pro-split-container">
+          <!-- CỘT TRÁI: BẢNG LỆNH CHI TIẾT ĐA CHIỀU (9 CỘT) -->
+          <div class="tape-pro-left-table">
+            <div class="tape-grid-head">
+              <span>TIME</span>
+              <span>MKT</span>
+              <span>SIDE</span>
+              <span>ACT</span>
+              <span>PX</span>
+              <span>SIZE</span>
+              <span>P(UP)</span>
+              <span>EDGE</span>
+              <span style="text-align:right;">RESULT</span>
+            </div>
+            <div class="tape-grid-rows" id="tape-pro-rows-zone">
+              <!-- Render động 60 FPS bởi tape-engine.js -->
+            </div>
           </div>
 
-          <div class="tape-scroll-zone" id="tape-scroll-zone">
-            <!-- Render động bởi tape-engine.js -->
-          </div>
+          <!-- CỘT PHẢI: BOOK - BTC 15M SKEW LADDER -->
+          <div class="tape-pro-right-book">
+            <div class="book-skew-head">
+              <span class="bsh-title">BOOK - BTC 15M SKEW</span>
+              <span class="bsh-tag">L2 QUANT</span>
+            </div>
 
-          <div class="tape-footer-stats">
-            <span>LAST FILL: <strong id="tape-last-fill" style="color:var(--neon-emerald);">+$16.15 UP</strong></span>
-            <span>TỈ LỆ MUA: <strong id="tape-buys-percent" style="color:var(--neon-emerald);">56.0%</strong></span>
-            <span>ĐÃ CHỐT: <strong id="tape-settled-count" style="color:var(--sovereign-gold);">2,765 LỆNH</strong></span>
+            <div class="book-skew-ladder-rows">
+              <!-- Asks (Red) -->
+              <div class="skew-ladder-row ask">
+                <span class="sk-strike">55¢</span>
+                <div class="sk-track"><div class="sk-fill ask" id="ask-bar-55" style="width: 32%;"></div></div>
+                <span class="sk-vol" id="ask-vol-55">755</span>
+              </div>
+              <div class="skew-ladder-row ask">
+                <span class="sk-strike">54¢</span>
+                <div class="sk-track"><div class="sk-fill ask" id="ask-bar-54" style="width: 44%;"></div></div>
+                <span class="sk-vol" id="ask-vol-54">680</span>
+              </div>
+              <div class="skew-ladder-row ask">
+                <span class="sk-strike">53¢</span>
+                <div class="sk-track"><div class="sk-fill ask" id="ask-bar-53" style="width: 68%;"></div></div>
+                <span class="sk-vol" id="ask-vol-53">1,462</span>
+              </div>
+              <div class="skew-ladder-row ask">
+                <span class="sk-strike">52¢</span>
+                <div class="sk-track"><div class="sk-fill ask" id="ask-bar-52" style="width: 82%;"></div></div>
+                <span class="sk-vol" id="ask-vol-52">1,820</span>
+              </div>
+
+              <!-- Spread Divider -->
+              <div class="skew-spread-divider">
+                <span>51¢ [LAST]</span>
+                <div class="sk-spread-line"></div>
+                <span>Spread 1¢</span>
+              </div>
+
+              <!-- Bids (Green) -->
+              <div class="skew-ladder-row bid">
+                <span class="sk-strike">50¢</span>
+                <div class="sk-track"><div class="sk-fill bid" id="bid-bar-50" style="width: 74%;"></div></div>
+                <span class="sk-vol" id="bid-vol-50">1,602</span>
+              </div>
+              <div class="skew-ladder-row bid">
+                <span class="sk-strike">49¢</span>
+                <div class="sk-track"><div class="sk-fill bid" id="bid-bar-49" style="width: 48%;"></div></div>
+                <span class="sk-vol" id="bid-vol-49">989</span>
+              </div>
+              <div class="skew-ladder-row bid">
+                <span class="sk-strike">48¢</span>
+                <div class="sk-track"><div class="sk-fill bid" id="bid-bar-48" style="width: 92%;"></div></div>
+                <span class="sk-vol" id="bid-vol-48">2,845</span>
+              </div>
+              <div class="skew-ladder-row bid">
+                <span class="sk-strike">47¢</span>
+                <div class="sk-track"><div class="sk-fill bid" id="bid-bar-47" style="width: 100%;"></div></div>
+                <span class="sk-vol" id="bid-vol-47">4,520</span>
+              </div>
+            </div>
+
+            <div class="book-skew-footer">
+              TOTAL V · $62.5K BOOK · SPREAD 1.0¢ · T-4:12S
+            </div>
+          </div>
+        </div>
+
+        <!-- CỤM 4 HỘP THỐNG KÊ KPI DƯỚI ĐÁY -->
+        <div class="tape-kpi-quad-grid">
+          <div class="tape-kpi-card kpi-emerald">
+            <span class="kpi-lbl">[LAST FILL]</span>
+            <span class="kpi-val" id="kpi-last-fill">$16.15 UP @ .95</span>
+          </div>
+          <div class="tape-kpi-card kpi-silver">
+            <span class="kpi-lbl">[AVG / MEDIAN $]</span>
+            <span class="kpi-val" id="kpi-avg-median">$29.80 / $17.20</span>
+          </div>
+          <div class="tape-kpi-card kpi-blue">
+            <span class="kpi-lbl">[BUYS &gt;= $0.80]</span>
+            <span class="kpi-val" id="kpi-buys-pct">54.0%</span>
+          </div>
+          <div class="tape-kpi-card kpi-gold">
+            <span class="kpi-lbl">[WIN RATE · SETTLED]</span>
+            <span class="kpi-val" id="kpi-winrate">82.40%</span>
           </div>
         </div>
       </section>
 
-      <!-- [6] PHÂN KHU 6: GREEKS FIELD (THE GAMMA WALL) & HAWKES CASCADE (Góc dưới bên phải) -->
-      <section class="quantum-card">
-        <div class="quantum-card-header">
+      <!-- [6] PHÂN KHU 6: CAPITAL SANKEY · SMART-MONEY FLOW (4 NGUỒN ➔ 4 ĐÍCH 60 FPS) (Y CHANG ẢNH 1) -->
+      <section class="card-capital-sankey">
+        <div class="sankey-card-header">
           <div class="quantum-card-title">
-            <span class="tag-num">[06]</span> GREEKS FIELD & HAWKES CASCADE
+            <span class="tag-num" style="color:var(--sovereign-gold);">[06]</span>
+            <span>● CAPITAL SANKEY · SMART-MONEY FLOW</span>
           </div>
-          <span class="card-status-badge" style="color:var(--sovereign-gold); border-color:var(--border-grid-gold);">GAMMA: +6.75PP</span>
+          <div class="sankey-header-badges">
+            <span class="sc-badge gold">[INFLOW $463M]</span>
+            <span class="sc-badge emerald">[NET LONG +$103M]</span>
+          </div>
         </div>
 
-        <div class="funnel-canvas-container">
-          <canvas id="funnel-canvas" class="funnel-3d-canvas"></canvas>
-          <div class="funnel-legend-overlay">
-            <span>CONVERGENCE: <strong style="color:var(--neon-emerald);">94.2%</strong></span>
-            <span>VOLATILITY σ: <strong style="color:var(--cyber-cyan);">1.82</strong></span>
-            <span>HAWKES FLOW: <strong style="color:var(--sovereign-gold);">CASCADE ACTIVE</strong></span>
+        <div class="capital-sankey-canvas-wrap">
+          <canvas id="capital-sankey-canvas"></canvas>
+        </div>
+
+        <div class="capital-sankey-footer-strip">
+          <div class="cs-footer-left">
+            <span class="cs-arrow">&gt;</span>
+            <span class="cs-txt">AGENT ENTER <strong class="emerald">▲ LONG</strong> · <span class="gold">ETH UP 5M</span> · $17,116 · SKEW ARBITRAGE ACTIVE</span>
+          </div>
+          <div class="cs-footer-right">
+            LATENCY: <strong>0.42µs</strong>
           </div>
         </div>
       </section>
@@ -700,24 +1087,42 @@
   <script src="scripts/vendor/three.min.js"></script>
 
   <!-- Central Core Event Bus -->
-  <script src="scripts/core/event-bus.js?v=17.2"></script>
+  <script src="scripts/core/event-bus.js?v=23.0"></script>
 
   <!-- 3D Central Heart & Torus Heatmap Engine -->
-  <script src="scripts/engines/crystal-engine.js?v=17.2"></script>
+  <script src="scripts/engines/crystal-engine.js?v=23.0"></script>
 
-  <!-- Real OHLC Candle & Price Ladder Engine -->
-  <script src="scripts/engines/chart-canvas.js?v=17.2"></script>
+  <!-- Sankey Particle Capital Flow Pipeline Engine (V12) -->
+  <script src="scripts/engines/sankey-engine.js?v=23.0"></script>
+
+  <!-- Trade Helix DNA Wave Engine (Official V13) -->
+  <script src="scripts/engines/helix-engine.js?v=23.0"></script>
+
+  <!-- Capital Sankey Smart-Money Flow Engine (Master V14 Final) -->
+  <script src="scripts/engines/capital-sankey-engine.js?v=23.0"></script>
+
+  <!-- Real OHLC Candle Engine (V17 Anti-Squish) -->
+  <script src="scripts/engines/chart-canvas.js?v=23.0"></script>
+
+  <!-- Fill Survival Kaplan-Meier Engine (Official V17) -->
+  <script src="scripts/engines/fill-survival-engine.js?v=23.0"></script>
 
   <!-- Execution Tape, Hotkeys & Pro Controls -->
-  <script src="scripts/engines/tape-engine.js?v=17.2"></script>
+  <script src="scripts/engines/tape-engine.js?v=23.0"></script>
 
-  <script src="scripts/quantum-torus.js?v=17.2"></script>
-  <script src="scripts/quantum-tape.js?v=17.2"></script>
+  <script src="scripts/quantum-torus.js?v=23.0"></script>
+  <script src="scripts/quantum-tape.js?v=23.0"></script>
 
   <!-- ========================================================
        MASTER INITIALIZER & CLOCK TELEMETRY
        ======================================================== -->
   <script>
+    // 0. Khóa cuộn trang về đỉnh, không tự nhảy xuống đáy khi tải trang
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
     // 1. Đồng hồ UTC quốc tế chính xác mili-giây
     function updateUtcClock() {
       const now = new Date();
@@ -756,20 +1161,20 @@
       }
     }
 
-    // 3. Bật/Tắt âm thanh xúc giác
+    // 3. Bật/Tắt âm thanh xúc giác với sóng Equalizer mini ılıl
     function toggleSoundFx() {
       if (!window.TapeEngine) return;
       window.TapeEngine.soundEnabled = !window.TapeEngine.soundEnabled;
-      const icon = document.getElementById('sound-icon');
       const txt = document.getElementById('sound-txt');
+      const eqBars = document.querySelectorAll('.eq-bar');
       if (window.TapeEngine.soundEnabled) {
-        if (icon) icon.textContent = '🔊';
         if (txt) txt.textContent = 'AUDIO ON';
+        eqBars.forEach(b => b.style.animationPlayState = 'running');
         window.TapeEngine.playHapticSound('CHIME');
         window.TapeEngine.showToast('🔊 ĐÃ BẬT ÂM THANH XÚC GIÁC LƯỢNG TỬ', 'GOLD');
       } else {
-        if (icon) icon.textContent = '🔇';
         if (txt) txt.textContent = 'AUDIO OFF';
+        eqBars.forEach(b => b.style.animationPlayState = 'paused');
         window.TapeEngine.showToast('🔇 ĐÃ TẮT ÂM THANH', 'GOLD');
       }
     }
@@ -810,32 +1215,38 @@
       }
     }
 
-    // 5. Điều khiển Bộ chọn Đa Sàn (Multi-Exchange Selector)
-    function toggleExchangeDropdown() {
-      const menu = document.getElementById('exchange-dropdown-menu');
-      if (menu) menu.classList.toggle('show');
-    }
+    // 5. Xử lý click cặp coin trên Băng Chuyền Marquee 50 Cặp Tiền
+    window.handleMarqueeTickerClick = function (symbol, price) {
+      if (window.ChartCanvasEngine && ['BTC/USDT', 'ETH/USDT', 'SOL/USDT', 'BNB/USDT'].includes(symbol)) {
+        window.ChartCanvasEngine.switchAsset(symbol);
+        if (window.TapeEngine) {
+          window.TapeEngine.showToast(`🚀 ĐÃ KẾT NỐI THANH KHOẢN: ${symbol} — ${price}`, 'CYAN');
+        }
+      } else {
+        if (window.TapeEngine) {
+          window.TapeEngine.showToast(`⚡ CẶP THANH KHOẢN TOÀN CẦU: ${symbol} — GIÁ ${price}`, 'GOLD');
+        }
+      }
+    };
 
-    function selectExchange(code, name) {
-      document.querySelectorAll('.exchange-quick-pill').forEach(btn => {
-        btn.classList.toggle('active', btn.textContent.toUpperCase().includes(code));
+    // 6. Nút HOME siêu nhạy — chuyển về trang chủ index.html 100% không bị chặn
+    const homeBtn = document.getElementById('apexHomeButton');
+    if (homeBtn) {
+      homeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        window.location.assign('index.html#/home');
       });
-      const label = document.getElementById('txt-current-exchange');
-      if (label) label.textContent = code;
-
-      if (window.TapeEngine) {
-        window.TapeEngine.setExchange(code);
-        window.TapeEngine.showToast(`🏛️ ĐÃ KẾT NỐI SÀN: ${name}`, 'GOLD');
-      }
     }
 
-    document.addEventListener('click', (e) => {
-      const wrap = document.getElementById('exchange-selector-container');
-      if (wrap && !wrap.contains(e.target)) {
-        const menu = document.getElementById('exchange-dropdown-menu');
-        if (menu) menu.classList.remove('show');
-      }
-    });
+    // 7. Fallback Avatar Người Lửa Lượng Tử
+    const avatarImg = document.querySelector('.sovereign-avatar-img');
+    if (avatarImg) {
+      avatarImg.addEventListener('error', function () {
+        this.onerror = null;
+        this.src = 'assets/bull_mascot.jpg';
+      });
+    }
   </script>
 </body>
 </html>

@@ -41,7 +41,7 @@ class HashRouter {
   handleRoute() {
     let rawHash = window.location.hash.replace(/^#\/?/, '').trim();
     if (!rawHash) {
-      rawHash = 'trade/BNB_USDT';
+      rawHash = 'home';
     }
 
     const parts = rawHash.split('/').filter(Boolean);
@@ -81,9 +81,9 @@ class HashRouter {
       activeNav = 'square';
       targetPage.mount(this.container);
     } else {
-      targetPage = this.pages.trade;
-      activeNav = 'trade';
-      targetPage.mount(this.container, { symbol: 'BNB_USDT' });
+      targetPage = this.pages.home;
+      activeNav = 'home';
+      targetPage.mount(this.container);
     }
 
     this.currentView = targetPage;

@@ -20,11 +20,11 @@
 
   // Cấu hình Kích Thước & Điều Khiển 3D Interactive Torus (crystal-engine.js)
   const TORUS_CONFIG = {
-    radius: 165,            // Phóng to kích thước tổng thể
-    tube: 62,               // Độ dày thân ống quả cầu
+    radius: 175,            // Phóng to kích thước tổng thể bè ngang
+    tube: 68,               // Độ dày thân ống quả cầu
     radialSegments: 28,     // Lưới đa giác mịn hơn
-    tubularSegments: 56,    // Độ cong tròn mượt mà
-    goldenRingRadius: 52,   // Vòng nhẫn vàng kim to rõ ở tâm
+    tubularSegments: 48,    // Độ cong tròn mượt mà
+    goldenRingRadius: 54,   // Vòng nhẫn vàng kim to rõ ở tâm
     enableMouseDrag: true,  // Bật tính năng kéo xoay 360 độ
     enableWheelZoom: true,  // Bật tính năng lăn chuột phóng to/thu nhỏ
     autoRotateSpeed: 0.003  // Tốc độ tự quay êm ái khi thả chuột
@@ -328,11 +328,15 @@
 
     /**
      * ========================================================
-     * PHẦN 3 & 4: "TRÁI TIM QUẢ CẦU 3D" (THE HEATMAP TORUS CORE)
-     * - Volumetric Heatmap Torus Surface Mesh (Cyan/Navy back ➔ Emerald/Gold/Ruby front)
-     * - The Central Golden Aperture Ring (#FFD700) dựng đứng ở tâm
-     * - Khối Tinh thể Kim Cương ở tâm
-     * - 1,500 Hạt lượng tử chuyển động xoắn ốc
+     * PHẦN 3 & 4: "TRÁI TIM QUẢ CẦU 3D ĐA GIÁC THỂ TÍCH" (VOLUMETRIC FACETED TORUS V9)
+     * - Dáng nằm ngang bè rộng chuẩn Ảnh 4 (Wide Oblique Perspective, camera ~28-30 độ)
+     * - Mặt đa giác thể tích tô màu nhiệt (Solid Translucent Facets):
+     *   + Nửa sau: Kính mờ Xanh Cyan vi mô bán trong suốt rgba(0, 140, 235, 0.18)
+     *   + Vành trước: Xanh Ngọc Lục Bảo #00FFA3 -> Vàng Hổ Phách #FFB800
+     *   + Hố sâu trọng lực ở tâm: Đỏ Ruby & Hồng Magenta #FF3366
+     * - Các chóp nhọn địa hình nhấp nhô trên vành (Top Rim Mountain Spikes - Ảnh 4)
+     * - Vòng Nhẫn Vàng Kim đứng thẳng tắp xuyên qua tâm hố sâu (#FFE600)
+     * - Tách biệt 100%: ETH 2,481 ở góc 7 giờ, tuyệt đối không đè RESOLUTION AXIS!
      * ========================================================
      */
     renderQuantumTorusHeart() {
@@ -344,57 +348,58 @@
 
       ctx.clearRect(0, 0, w, h);
       const cx = w / 2;
-      const cy = h / 2 - 8; // Căn giữa tối ưu buồng lái
+      const cy = h / 2 - 12; // Căn giữa tối ưu buồng lái
 
       const t = this.clockTime;
       const breath = 1.0 + 0.035 * Math.sin(t * 1.8);
 
-      // Tham số Torus hình học chuẩn V8 (+40% Enlarge & Cân Đối Hoàn Hảo)
-      const R = TORUS_CONFIG.radius * breath; // 165 * breath (radius: 165)
-      const r = TORUS_CONFIG.tube * breath;   // 62 * breath (tube: 62)
+      // Tham số Torus hình học chuẩn V9 — Bánh Donut Bè Ngang Thể Tích
+      const R = (TORUS_CONFIG.radius || 175) * breath;
+      const r = (TORUS_CONFIG.tube || 68) * breath;
 
-      // Góc xoay không gian 3D: Nằm ngang hơn (Oblique Elevation Angle) + Tương tác xoay 360 độ
-      const baseElevation = 0.52; // Góc nghiêng nằm ngang bề thế (~30 deg)
-      const rotX = baseElevation + this.userRotX + Math.sin(t * 0.25) * 0.04;
+      // Góc nhìn camera hạ xuống ~28-30 độ nghiêng nằm ngang (Wide Oblique Angle - Ảnh 4)
+      const basePitch = 0.50; // ~29 độ
+      const rotX = basePitch + this.userRotX + Math.sin(t * 0.2) * 0.03;
       const rotY = this.autoRotAngle + this.userRotY;
-      const rotZ = (t * 0.03) + (this.userRotY * 0.08);
+      const rotZ = (t * 0.02) + (this.userRotY * 0.05);
 
       const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
       const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
       const cosZ = Math.cos(rotZ), sinZ = Math.sin(rotZ);
 
-      // Phép chiếu phối cảnh 3D sang 2D kèm Zoom (Mouse Wheel Zoom)
+      // Phép chiếu phối cảnh 3D không gian sang 2D màn hình (Torus nằm ngang trên mặt phẳng XZ)
       const project = (x, y, z) => {
-        // Xoay Y
-        let x1 = x * cosY + z * sinY;
-        let y1 = y;
-        let z1 = -x * sinY + z * cosY;
+        // Xoay quanh trục đứng Y (Yaw)
+        const x1 = x * cosY + z * sinY;
+        const y1 = y;
+        const z1 = -x * sinY + z * cosY;
 
-        // Xoay X
-        let x2 = x1;
-        let y2 = y1 * cosX - z1 * sinX;
-        let z2 = y1 * sinX + z1 * cosX;
+        // Xoay nghiêng quanh trục ngang X (Pitch)
+        const x2 = x1;
+        const y2 = y1 * cosX - z1 * sinX;
+        const z2 = y1 * sinX + z1 * cosX;
 
-        // Xoay Z
-        let x3 = x2 * cosZ - y2 * sinZ;
-        let y3 = x2 * sinZ + y2 * cosZ;
-        let z3 = z2;
+        // Xoay nhẹ theo trục sâu Z (Roll)
+        const x3 = x2 * cosZ - y2 * sinZ;
+        const y3 = x2 * sinZ + y2 * cosZ;
+        const z3 = z2;
 
-        const fov = 460;
-        const scale = (fov / (fov + z3 + 85)) * this.userZoom;
+        const fov = 480;
+        const scale = (fov / (fov + z3 + 120)) * this.userZoom;
         return {
           px: cx + x3 * scale,
           py: cy + y3 * scale,
           depth: z3,
           scale: scale,
           rawX: x3,
-          rawY: y3
+          rawY: y3,
+          rawZ: z3
         };
       };
 
-      // 1. HÌNH HỌC LƯỚI ĐA GIÁC: 28 VÒNG RADIAL X 56 ĐOẠN TUBULAR
-      const uSteps = TORUS_CONFIG.radialSegments; // 28 múi radial
-      const vSteps = TORUS_CONFIG.tubularSegments; // 56 đoạn tubular
+      // 1. SINH LƯỚI ĐA GIÁC THỂ TÍCH & CHÓP NHỌN ĐỊA HÌNH TRÊN VÀNH (VERTEX MOUNTAIN SPIKES)
+      const uSteps = TORUS_CONFIG.radialSegments || 28; // 28 múi radial
+      const vSteps = TORUS_CONFIG.tubularSegments || 48; // 48 đoạn tubular
       const gridPoints = [];
 
       for (let i = 0; i < uSteps; i++) {
@@ -403,79 +408,123 @@
         for (let j = 0; j < vSteps; j++) {
           const v = (j / vSteps) * Math.PI * 2;
 
-          // ĐỈNH NHỌN DAO ĐỘNG (VERTEX ELEVATION SPIKES)
-          let elevationSpike = 0;
-          const upperRimFactor = Math.sin(v);
+          // Chóp nhọn địa hình nhấp nhô trên vành (Top Rim Mountain Spikes - Ảnh 4)
+          let mountainSpike = 0;
+          const upperRimFactor = Math.sin(v); // Nửa trên của ống (y > 0)
           if (upperRimFactor > 0.15) {
-            const densityWave = Math.sin(u * 6 + t * 2.2) * Math.cos(v * 4 + t * 1.6);
-            if (densityWave > 0.12) {
-              elevationSpike = Math.pow(densityWave, 1.5) * 18 * (0.85 + 0.35 * Math.sin(t * 3.4));
+            const spikeWave = Math.sin(u * 5.0 + t * 0.9) * Math.cos(v * 3.0 + t * 0.6);
+            if (spikeWave > 0.12) {
+              mountainSpike = Math.pow(spikeWave, 1.4) * 24.0 * (0.85 + 0.35 * Math.sin(t * 2.4));
             }
           }
 
-          const currentR = R + elevationSpike;
-          const x = (currentR + r * Math.cos(v)) * Math.cos(u);
-          const y = (currentR + r * Math.cos(v)) * Math.sin(u);
-          const z = r * Math.sin(v);
+          // Tọa độ 3D: Vành chính nằm ngang trên mặt phẳng XZ, trục Y hướng lên trên
+          const x0 = (R + r * Math.cos(v)) * Math.cos(u);
+          const z0 = (R + r * Math.cos(v)) * Math.sin(u);
+          const y0 = r * Math.sin(v) + mountainSpike;
 
-          gridPoints[i][j] = project(x, y, z);
+          const proj = project(x0, y0, z0);
+          proj.u = u;
+          proj.v = v;
+          proj.cosV = Math.cos(v);
+          proj.isTopRim = upperRimFactor > 0.2;
+          gridPoints[i][j] = proj;
         }
       }
 
-      // 2. GRADIENT NHIỆT (HEATMAP SHADERS)
-      ctx.lineWidth = 1;
+      // 2. MẶT ĐA GIÁC THỂ TÍCH TÔ MÀU NHIỆT (SOLID TRANSLUCENT FACETS - Y CHANG ẢNH 4)
+      const facets = [];
       for (let i = 0; i < uSteps; i++) {
-        for (let j = 0; j < vSteps; j += 2) {
-          const p1 = gridPoints[i][j];
-          const p2 = gridPoints[(i + 1) % uSteps][j];
-          const p3 = gridPoints[i][(j + 1) % vSteps];
+        const nextI = (i + 1) % uSteps;
+        for (let j = 0; j < vSteps; j++) {
+          const nextJ = (j + 1) % vSteps;
 
-          let strokeCol;
-          if (p1.depth < -15) {
-            // Nửa sau: Midnight Cyan bán trong suốt
-            strokeCol = 'rgba(0, 150, 255, 0.20)';
+          const p1 = gridPoints[i][j];
+          const p2 = gridPoints[nextI][j];
+          const p3 = gridPoints[nextI][nextJ];
+          const p4 = gridPoints[i][nextJ];
+
+          const avgDepth = (p1.depth + p2.depth + p3.depth + p4.depth) * 0.25;
+          const avgCosV = (p1.cosV + p2.cosV + p3.cosV + p4.cosV) * 0.25;
+          const avgX = (p1.rawX + p2.rawX + p3.rawX + p4.rawX) * 0.25;
+
+          // Phân phối màu nhiệt thể tích đa giác
+          let fillColor, strokeColor;
+          if (avgCosV < -0.25) {
+            // Hố sâu trọng lực ở tâm: Đỏ Ruby & Hồng Magenta
+            fillColor = 'rgba(255, 45, 95, 0.38)';
+            strokeColor = 'rgba(255, 60, 130, 0.55)';
+          } else if (avgDepth < -15) {
+            // Nửa sau: Kính mờ Xanh Cyan vi mô bán trong suốt
+            fillColor = 'rgba(0, 140, 235, 0.18)';
+            strokeColor = 'rgba(0, 190, 255, 0.38)';
           } else {
-            // Vành trước & Hố đen trọng lực
-            const distFromCenter = Math.hypot(p1.px - cx, p1.py - cy);
-            if (distFromCenter < TORUS_CONFIG.goldenRingRadius * breath * this.userZoom) {
-              // Lòng trong hố đen trọng lực: Đỏ Ruby & Hồng Magenta
-              strokeCol = 'rgba(255, 51, 102, 0.55)';
-            } else if (p1.depth > 40) {
-              // Vành trước sáng nhất: Vàng Kim #FFB800 / #FFD700
-              strokeCol = 'rgba(255, 184, 0, 0.50)';
+            // Vành trước: Xanh Ngọc Lục Bảo (#00FFA3) chuyển dần sang Vàng Hổ Phách (#FFB800)
+            if (avgX < 20) {
+              fillColor = 'rgba(0, 255, 163, 0.24)';
+              strokeColor = 'rgba(0, 255, 163, 0.55)';
             } else {
-              // Vành trước biên ngoài: Xanh Ngọc Lục Bảo #00FFA3
-              strokeCol = 'rgba(0, 255, 163, 0.38)';
+              fillColor = 'rgba(255, 184, 0, 0.30)';
+              strokeColor = 'rgba(255, 215, 0, 0.62)';
             }
           }
 
-          ctx.strokeStyle = strokeCol;
-          ctx.beginPath();
-          ctx.moveTo(p1.px, p1.py);
-          ctx.lineTo(p2.px, p2.py);
-          ctx.stroke();
-
-          ctx.beginPath();
-          ctx.moveTo(p1.px, p1.py);
-          ctx.lineTo(p3.px, p3.py);
-          ctx.stroke();
+          facets.push({
+            p1, p2, p3, p4,
+            depth: avgDepth,
+            fillColor,
+            strokeColor
+          });
         }
       }
 
-      // 3. VÒNG NHẪN VÀNG KIM APERTURE RING & RESOLUTION AXIS
-      // Tăng kích thước Vòng Nhẫn Vàng Kim ở tâm tương ứng từ radius: 38 lên radius: 52
-      ctx.save();
-      const ringTilt = Math.sin(t * 0.4) * 0.12 + (this.userRotY * 0.08);
-      const ringRadX = TORUS_CONFIG.goldenRingRadius * breath * this.userZoom;
-      const ringRadY = (TORUS_CONFIG.goldenRingRadius * 1.76) * breath * this.userZoom;
+      // Sắp xếp mặt đa giác theo chiều sâu (Painter's Algorithm: vẽ từ xa tới gần)
+      facets.sort((a, b) => a.depth - b.depth);
 
-      // Hào quang tỏa sáng rộng
+      // Dựng các mặt thể tích và lưới wireframe sắc nét
+      for (let k = 0; k < facets.length; k++) {
+        const f = facets[k];
+        ctx.fillStyle = f.fillColor;
+        ctx.beginPath();
+        ctx.moveTo(f.p1.px, f.p1.py);
+        ctx.lineTo(f.p2.px, f.p2.py);
+        ctx.lineTo(f.p3.px, f.p3.py);
+        ctx.lineTo(f.p4.px, f.p4.py);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.strokeStyle = f.strokeColor;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+
+      // 3. VÒNG NHẪN VÀNG KIM ĐỨNG DỌC Ở TÂM (#FFE600) & RESOLUTION AXIS
+      const ringRad = (TORUS_CONFIG.goldenRingRadius || 54) * breath;
+      const ringSegs = 48;
+      const ring3DPoints = [];
+
+      for (let s = 0; s <= ringSegs; s++) {
+        const theta = (s / ringSegs) * Math.PI * 2;
+        // Vòng nhẫn đứng thẳng tắp xuyên qua tâm hố sâu (trong mặt phẳng YZ)
+        const rx = 0;
+        const ry = ringRad * 1.55 * Math.sin(theta);
+        const rz = ringRad * Math.cos(theta);
+        ring3DPoints.push(project(rx, ry, rz));
+      }
+
+      ctx.save();
+      // Ánh hào quang vàng kim tỏa sáng rộng
       ctx.shadowColor = '#FFE600';
-      ctx.shadowBlur = 36;
-      ctx.strokeStyle = 'rgba(255, 230, 0, 0.36)';
-      ctx.lineWidth = 8 * this.userZoom;
+      ctx.shadowBlur = 35;
+      ctx.strokeStyle = 'rgba(255, 230, 0, 0.38)';
+      ctx.lineWidth = 7 * this.userZoom;
       ctx.beginPath();
-      ctx.ellipse(cx, cy, ringRadX, ringRadY, ringTilt, 0, Math.PI * 2);
+      for (let s = 0; s <= ringSegs; s++) {
+        const pt = ring3DPoints[s];
+        if (s === 0) ctx.moveTo(pt.px, pt.py);
+        else ctx.lineTo(pt.px, pt.py);
+      }
+      ctx.closePath();
       ctx.stroke();
 
       // Vành nhẫn chính Vàng Kim Rực Rỡ (#FFE600)
@@ -484,19 +533,25 @@
       ctx.strokeStyle = '#FFE600';
       ctx.lineWidth = 3.6 * this.userZoom;
       ctx.beginPath();
-      ctx.ellipse(cx, cy, ringRadX * 0.85, ringRadY * 0.88, ringTilt, 0, Math.PI * 2);
+      for (let s = 0; s <= ringSegs; s++) {
+        const pt = ring3DPoints[s];
+        if (s === 0) ctx.moveTo(pt.px, pt.py);
+        else ctx.lineTo(pt.px, pt.py);
+      }
+      ctx.closePath();
       ctx.stroke();
 
       // Vành trong tâm sáng trắng vàng
-      ctx.strokeStyle = 'rgba(255, 255, 240, 0.88)';
+      ctx.strokeStyle = 'rgba(255, 255, 240, 0.90)';
       ctx.lineWidth = 1.4 * this.userZoom;
-      ctx.beginPath();
-      ctx.ellipse(cx, cy, ringRadX * 0.80, ringRadY * 0.84, ringTilt, 0, Math.PI * 2);
       ctx.stroke();
       ctx.restore();
 
       // TÂM NGẮM ⌖ & CHỮ PHÁT SÁNG "RESOLUTION AXIS" NGAY DƯỚI CHÂN VÒNG NHẪN
-      const axisBottomY = cy + ringRadY + 16 * this.userZoom;
+      // Cố định ở đáy nhẫn (6 giờ), cách ly tuyệt đối khỏi nhãn ETH 2,481
+      const ringBottomProj = project(0, -ringRad * 1.55, 0);
+      const axisY = Math.max(cy + 65, ringBottomProj.py + 18);
+
       ctx.save();
       ctx.font = 'bold 9.5px "JetBrains Mono", monospace';
       ctx.textAlign = 'center';
@@ -504,25 +559,25 @@
       ctx.fillStyle = '#FFE600';
       ctx.shadowColor = '#FFE600';
       ctx.shadowBlur = 10;
-      ctx.fillText('⌖ RESOLUTION AXIS', cx, axisBottomY);
+      ctx.fillText('⌖ RESOLUTION AXIS', cx, axisY);
       ctx.restore();
 
-      // HẠT BỤI VÀNG LƯỢNG TỬ XOAY TRÒN THEO QUỸ ĐẠO VÒNG NHẪN
+      // HẠT BỤI VÀNG LƯỢNG TỬ XOAY TRÒN THEO VÒNG NHẪN
       if (this.ringParticles) {
         ctx.save();
         for (let i = 0; i < this.ringParticles.length; i++) {
           const rp = this.ringParticles[i];
           rp.angle += rp.speed * this.volatilitySpeed;
-          const rpRadX = (ringRadX * 0.85 + rp.radiusVariance * this.userZoom);
-          const rpRadY = (ringRadY * 0.88 + rp.radiusVariance * 1.5 * this.userZoom);
-          const px = cx + rpRadX * Math.cos(rp.angle);
-          const py = cy + rpRadY * Math.sin(rp.angle);
+          const rpx = 0;
+          const rpy = (ringRad * 1.55 + rp.radiusVariance) * Math.sin(rp.angle);
+          const rpz = (ringRad + rp.radiusVariance * 0.8) * Math.cos(rp.angle);
+          const rProj = project(rpx, rpy, rpz);
 
           ctx.fillStyle = '#FFE600';
           ctx.shadowColor = '#FFE600';
           ctx.shadowBlur = 8;
           ctx.beginPath();
-          ctx.arc(px, py, rp.size * this.userZoom, 0, Math.PI * 2);
+          ctx.arc(rProj.px, rProj.py, rp.size * this.userZoom, 0, Math.PI * 2);
           ctx.fill();
         }
         ctx.restore();
@@ -537,7 +592,7 @@
       ctx.strokeStyle = '#FFE600';
       ctx.lineWidth = 1.5 * this.userZoom;
 
-      const cSize = 16 * breath * this.userZoom;
+      const cSize = 15 * breath * this.userZoom;
       ctx.beginPath();
       ctx.moveTo(0, -cSize * 1.5);
       ctx.lineTo(cSize, 0);
@@ -560,11 +615,11 @@
         p.u += p.speedU * this.volatilitySpeed;
         p.v += p.speedV * this.volatilitySpeed;
 
-        const x = (R + r * Math.cos(p.v)) * Math.cos(p.u);
-        const y = (R + r * Math.cos(p.v)) * Math.sin(p.u);
-        const z = r * Math.sin(p.v);
+        const px3 = (R + r * Math.cos(p.v)) * Math.cos(p.u);
+        const pz3 = (R + r * Math.cos(p.v)) * Math.sin(p.u);
+        const py3 = r * Math.sin(p.v);
 
-        const proj = project(x, y, z);
+        const proj = project(px3, py3, pz3);
         if (proj.scale > 0) {
           ctx.fillStyle = p.color;
           ctx.beginPath();
@@ -573,9 +628,9 @@
         }
       }
 
-      // 6. CÁC CHỐT SỐ MỐC GÓC XOAY: NHÃN 2:30 VÀ 3:45 ĐÍNH TRỰC TIẾP VÀO MẶT LƯỚI
-      const p230 = project(R * Math.cos(Math.PI * 0.35), R * Math.sin(Math.PI * 0.35), r * 0.8);
-      const p345 = project(R * Math.cos(Math.PI * 0.72), R * Math.sin(Math.PI * 0.72), -r * 0.5);
+      // 6. CÁC CHỐT SỐ MỐC GÓC XOAY: NHÃN 2:30 VÀ 3:45
+      const p230 = project(R * 0.60, r * 0.5, -R * 0.70);
+      const p345 = project(R * 0.85, -r * 0.1, -R * 0.25);
 
       ctx.save();
       ctx.font = 'bold 9px "JetBrains Mono", monospace';
@@ -587,16 +642,12 @@
       ctx.restore();
 
       // 7. 4 MŨI TÊN VECTOR CHỈ TỌA ĐỘ KHÔNG GIAN 3D (VECTOR CALLOUTS)
-      // - Cyan trên cùng bên trái: vành trên -> BTC 77,318
-      // - Cam bên dưới bên trái: góc dưới -> ETH 2,481
-      // - Trắng góc trên bên phải: rìa ngoài bên phải -> SOL 91.66
-      // - Vàng bên phải: trục giải quyết -> CHAINLINK 77,299 · RESOLUTION CHARGE · LAG 1.1S
+      // Tách biệt 100%: ETH 2,481 ở góc 7 giờ, tuyệt đối không đè lên RESOLUTION AXIS!
       const drawCallout = (targetX, targetY, labelText, color, offsetX, offsetY, subText = null) => {
         const endX = targetX + offsetX;
         const endY = targetY + offsetY;
 
         ctx.save();
-        // Tâm điểm chấm sáng
         ctx.fillStyle = color;
         ctx.shadowColor = color;
         ctx.shadowBlur = 8;
@@ -604,7 +655,6 @@
         ctx.arc(targetX, targetY, 2.5, 0, Math.PI * 2);
         ctx.fill();
 
-        // Đường gióng vector có mũi tên
         ctx.strokeStyle = color;
         ctx.lineWidth = 1.2;
         ctx.setLineDash([3, 2]);
@@ -614,7 +664,6 @@
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Mũi tên nhỏ trỏ vào mục tiêu
         const angle = Math.atan2(targetY - endY, targetX - endX);
         ctx.fillStyle = color;
         ctx.beginPath();
@@ -624,7 +673,6 @@
         ctx.closePath();
         ctx.fill();
 
-        // Khung nhãn HUD chữ nhật
         ctx.font = 'bold 9.5px "JetBrains Mono", monospace';
         const textWidth = ctx.measureText(labelText).width;
         const padX = 6;
@@ -634,13 +682,12 @@
         const boxX = offsetX > 0 ? endX : endX - boxW;
         const boxY = endY - boxH / 2;
 
-        ctx.fillStyle = 'rgba(7, 12, 22, 0.88)';
+        ctx.fillStyle = 'rgba(7, 12, 22, 0.90)';
         ctx.strokeStyle = color;
         ctx.lineWidth = 1;
         ctx.fillRect(boxX, boxY, boxW, boxH);
         ctx.strokeRect(boxX, boxY, boxW, boxH);
 
-        // Chữ nhãn
         ctx.fillStyle = color;
         ctx.shadowColor = color;
         ctx.shadowBlur = 6;
@@ -656,18 +703,21 @@
         ctx.restore();
       };
 
-      // Tọa độ mục tiêu cho 4 vector callouts
-      const btcTarget = project(-R * 0.65, R * 0.75, r * 0.8);
-      drawCallout(btcTarget.px, btcTarget.py, 'BTC 77,318', '#00F0FF', -55, -28);
+      // - BTC 77,318: Vành trên bên trái (Góc 10 giờ)
+      const btcTarget = project(-R * 0.75, r * 0.6 + 10, -R * 0.55);
+      drawCallout(btcTarget.px, btcTarget.py, 'BTC 77,318', '#00F0FF', -65, -30);
 
-      const ethTarget = project(-R * 0.75, -R * 0.6, -r * 0.6);
-      drawCallout(ethTarget.px, ethTarget.py, 'ETH 2,481', '#FF9900', -55, 25);
+      // - ETH 2,481: LỆCH HẲN SANG GÓC 7 GIỜ (TÂY NAM), CÁCH XA RESOLUTION AXIS > 60PX
+      const ethTarget = project(-R * 0.85, -r * 0.25, R * 0.55);
+      drawCallout(ethTarget.px, ethTarget.py, 'ETH 2,481', '#FF9900', -72, 16);
 
-      const solTarget = project(R * 0.95, R * 0.45, r * 0.5);
-      drawCallout(solTarget.px, solTarget.py, 'SOL 91.66', '#FFFFFF', 45, -24);
+      // - SOL 91.66: Rìa ngoài bên phải (Góc 2 giờ)
+      const solTarget = project(R * 0.85, r * 0.5, -R * 0.45);
+      drawCallout(solTarget.px, solTarget.py, 'SOL 91.66', '#FFFFFF', 55, -28);
 
-      const clTarget = { px: cx + ringRadX * 0.85, py: cy + 18 * this.userZoom };
-      drawCallout(clTarget.px, clTarget.py, 'CHAINLINK 77,299', '#FFE600', 50, 8, 'RESOLUTION CHARGE · LAG 1.1S');
+      // - CHAINLINK 77,299: Trục giải quyết bên phải (Góc 4 giờ)
+      const clTarget = project(R * 0.85, -r * 0.2, R * 0.45);
+      drawCallout(clTarget.px, clTarget.py, 'CHAINLINK 77,299', '#FFE600', 55, 12, 'RESOLUTION CHARGE · LAG 1.1S');
     }
 
     /**

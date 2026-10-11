@@ -10,6 +10,9 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html, body {
@@ -19,8 +22,10 @@ html, body {
   color: var(--text-primary);
   font-family: var(--font-sans);
   overflow-x: hidden;
+  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.5px;
 }
 
 /* ========================================================
@@ -28,15 +33,15 @@ html, body {
    3 CỤM RÕ RÀNG — KHÔNG BAO GIỜ BỊ VỠ HÀNG
    ======================================================== */
 .quantum-top-hud {
-  height: 54px;
-  background: rgba(10, 14, 23, 0.94);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border-grid);
+  height: 56px;
+  background: rgba(7, 11, 20, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 240, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
+  padding: 0 12px;
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -45,18 +50,22 @@ html, body {
   gap: 12px;
 }
 
-/* CỤM 1: BRAND & HOME */
+/* ========================================================
+   CỤM 1: BRAND & NÚT HOME SIÊU NHẠY (ẢNH 2)
+   ======================================================== */
 .hud-cluster-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
   white-space: nowrap;
+  position: relative;
+  z-index: 30;
 }
 
 .hud-logo-3d-box {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   position: relative;
   display: flex;
   align-items: center;
@@ -72,190 +81,345 @@ html, body {
 }
 
 .hud-brand-title .system-name {
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 800;
-  letter-spacing: 1.1px;
+  letter-spacing: 0.08em;
   color: var(--sovereign-gold);
   font-family: var(--font-code);
   text-shadow: 0 0 10px var(--sovereign-gold-glow);
   white-space: nowrap;
+  line-height: 1.1;
 }
 
 .hud-brand-title .telemetry-tag {
-  font-size: 9.5px;
+  font-size: 9px;
   color: var(--cyber-cyan);
   font-family: var(--font-code);
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   white-space: nowrap;
+  margin-top: 1px;
 }
 
 .pulsar-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: var(--radius-full);
   background-color: var(--neon-emerald);
-  box-shadow: 0 0 8px var(--neon-emerald-glow);
+  box-shadow: 0 0 6px var(--neon-emerald-glow);
   animation: pulsarBreath 1.2s infinite ease-in-out;
 }
 
-/* NÚT 🏠 TRANG CHỦ (HOME) TINH XẢO */
-.btn-home-glass {
-  background: rgba(255, 215, 0, 0.08);
-  border: 1px solid var(--border-grid-gold);
-  color: var(--sovereign-gold);
+/* NÚT HOME SIÊU NHẠY (QUAY VỀ INDEX.HTML 100% KHÔNG LỖI) */
+.nav-home-capsule {
+  background: rgba(0, 240, 255, 0.08);
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  color: #00F0FF;
   font-family: var(--font-code);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: var(--radius-sm);
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
-  transition: all 0.2s ease;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   backdrop-filter: blur(8px);
+  letter-spacing: 0.05em;
+  position: relative;
+  z-index: 35;
+  pointer-events: auto;
+  user-select: none;
 }
 
-.btn-home-glass:hover {
-  background: var(--sovereign-gold);
-  color: #000;
-  box-shadow: 0 0 14px var(--sovereign-gold-glow);
+.nav-home-capsule:hover {
+  background: #00F0FF;
+  color: #000000;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.75);
   transform: translateY(-1px);
 }
 
-/* CỤM 2: BỘ CHỌN SÀN & COIN (TICKER) */
-.hud-cluster-market {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.hud-cluster-market::-webkit-scrollbar {
-  display: none;
-}
-
-/* BỘ CHỌN ĐA SÀN (MULTI-EXCHANGE SELECTOR) */
-.exchange-selector-wrap {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
+.nav-home-capsule .home-svg {
   flex-shrink: 0;
+  transition: transform 0.2s;
 }
 
-.exchange-quick-pills {
+.nav-home-capsule:hover .home-svg {
+  transform: scale(1.15);
+}
+
+/* ========================================================
+   CỤM 2: DẢI BĂNG CHUYỀN 50 CẶP TIỀN CHẠY 60 FPS (ẢNH 1)
+   HÀNG 1 & HÀNG 2 SO LE — INFINITE SEAMLESS MARQUEE
+   ======================================================== */
+.nav-marquee-viewport {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
   display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.exchange-quick-pill {
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid var(--border-grid);
-  color: var(--text-secondary);
-  font-family: var(--font-code);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 4px 8px;
-  border-radius: var(--radius-xs);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s ease;
-}
-
-.exchange-quick-pill:hover,
-.exchange-quick-pill.active {
-  border-color: var(--sovereign-gold);
-  color: var(--sovereign-gold);
-  background: var(--sovereign-gold-bg);
-  box-shadow: 0 0 8px var(--sovereign-gold-glow);
-}
-
-.exchange-dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  margin-top: 6px;
-  background: rgba(12, 17, 27, 0.98);
-  border: 1px solid var(--border-grid-bright);
-  border-radius: var(--radius-sm);
-  padding: 4px;
-  display: none;
   flex-direction: column;
-  gap: 2px;
-  min-width: 230px;
-  z-index: 2000;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(14px);
+  justify-content: center;
+  gap: 2.5px;
+  overflow: hidden;
+  position: relative;
+  mask-image: linear-gradient(to right, transparent 0%, black 25px, black calc(100% - 25px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 25px, black calc(100% - 25px), transparent 100%);
 }
 
-.exchange-dropdown-menu.show {
+.marquee-stream {
   display: flex;
+  overflow: hidden;
+  width: 100%;
 }
 
-.exchange-opt-item {
-  padding: 6px 10px;
-  font-size: 11px;
-  font-family: var(--font-code);
-  color: var(--text-secondary);
-  border-radius: var(--radius-xs);
-  cursor: pointer;
+.marquee-stream-track {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: all 0.15s;
-}
-
-.exchange-opt-item:hover, .exchange-opt-item.active {
-  background: rgba(255, 215, 0, 0.12);
-  color: var(--sovereign-gold);
-}
-
-/* TOP ASSET SWITCHER (DANH MỤC CÁC CẶP COIN) */
-.top-asset-switcher-bar {
-  display: flex;
+  width: max-content;
   align-items: center;
   gap: 6px;
-  flex-shrink: 0;
+  will-change: transform;
 }
 
-.asset-tab-pill {
-  background: var(--bg-card);
-  border: 1px solid var(--border-grid);
-  color: var(--text-secondary);
-  font-family: var(--font-code);
-  font-size: 11px;
-  padding: 4px 9px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
+/* HÀNG 1: TRƯỢT SANG TRÁI 60 FPS */
+.stream-top .marquee-stream-track {
+  animation: marqueeTrackLeft 46s linear infinite;
+}
+
+/* HÀNG 2: TRƯỢT SANG PHẢI / SO LE 60 FPS */
+.stream-bottom .marquee-stream-track {
+  animation: marqueeTrackRight 50s linear infinite;
+}
+
+/* RÊ CHUỘT DỪNG LẠI (INSPECT & CLICK) */
+.nav-marquee-viewport:hover .marquee-stream-track {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeTrackLeft {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes marqueeTrackRight {
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+/* THẺ COMPACT TICKER PILL (125px - 145px) */
+.ticker-pill {
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  height: 20px;
+  padding: 0 7px;
+  border-radius: 3px;
+  font-family: var(--font-code);
+  font-size: 9.5px;
+  font-weight: 700;
   white-space: nowrap;
-  transition: all 0.2s;
+  cursor: pointer;
+  background: rgba(11, 17, 30, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(4px);
+  user-select: none;
 }
 
-.asset-tab-pill:hover {
-  border-color: var(--sovereign-gold);
-  color: var(--text-primary);
+.ticker-pill .t-icon {
+  font-size: 10.5px;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
-.asset-tab-pill.active {
-  background: rgba(255, 215, 0, 0.12);
-  border-color: var(--sovereign-gold);
-  color: #FFF;
-  box-shadow: 0 0 10px var(--sovereign-gold-glow);
+.ticker-pill .t-pair {
+  font-size: 9px;
+  color: #cbd5e1;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
-/* CỤM 3: FOUNDER TELEMETRY & CONTROLS */
+.ticker-pill .t-px {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.ticker-pill:hover {
+  transform: scale(1.06);
+  z-index: 10;
+  background: rgba(18, 27, 46, 0.98);
+}
+
+/* PHÂN KHÚC MÀU SẮC THƯƠNG HIỆU COIN CHUẨN HOÁ */
+.ticker-pill.c-btc { border-color: rgba(247, 147, 26, 0.4); }
+.ticker-pill.c-btc .t-icon, .ticker-pill.c-btc .t-px { color: #F7931A; }
+.ticker-pill.c-btc:hover { border-color: #F7931A; box-shadow: 0 0 10px rgba(247, 147, 26, 0.5); }
+
+.ticker-pill.c-eth { border-color: rgba(98, 126, 234, 0.4); }
+.ticker-pill.c-eth .t-icon, .ticker-pill.c-eth .t-px { color: #8BA2FF; }
+.ticker-pill.c-eth:hover { border-color: #8BA2FF; box-shadow: 0 0 10px rgba(98, 126, 234, 0.5); }
+
+.ticker-pill.c-sol { border-color: rgba(20, 241, 149, 0.4); }
+.ticker-pill.c-sol .t-icon, .ticker-pill.c-sol .t-px { color: #14F195; }
+.ticker-pill.c-sol:hover { border-color: #14F195; box-shadow: 0 0 10px rgba(20, 241, 149, 0.5); }
+
+.ticker-pill.c-bnb { border-color: rgba(240, 185, 11, 0.4); }
+.ticker-pill.c-bnb .t-icon, .ticker-pill.c-bnb .t-px { color: #F0B90B; }
+.ticker-pill.c-bnb:hover { border-color: #F0B90B; box-shadow: 0 0 10px rgba(240, 185, 11, 0.5); }
+
+.ticker-pill.c-usdc { border-color: rgba(39, 117, 202, 0.4); }
+.ticker-pill.c-usdc .t-icon, .ticker-pill.c-usdc .t-px { color: #38BDF8; }
+.ticker-pill.c-usdc:hover { border-color: #38BDF8; box-shadow: 0 0 10px rgba(39, 117, 202, 0.5); }
+
+.ticker-pill.c-usdt { border-color: rgba(38, 161, 123, 0.4); }
+.ticker-pill.c-usdt .t-icon, .ticker-pill.c-usdt .t-px { color: #26A17B; }
+.ticker-pill.c-usdt:hover { border-color: #26A17B; box-shadow: 0 0 10px rgba(38, 161, 123, 0.5); }
+
+.ticker-pill.c-near { border-color: rgba(0, 229, 255, 0.4); }
+.ticker-pill.c-near .t-icon, .ticker-pill.c-near .t-px { color: #00E5FF; }
+.ticker-pill.c-near:hover { border-color: #00E5FF; box-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+
+.ticker-pill.c-zec { border-color: rgba(244, 183, 40, 0.4); }
+.ticker-pill.c-zec .t-icon, .ticker-pill.c-zec .t-px { color: #F4B728; }
+.ticker-pill.c-zec:hover { border-color: #F4B728; box-shadow: 0 0 10px rgba(244, 183, 40, 0.5); }
+
+.ticker-pill.c-met { border-color: rgba(0, 240, 255, 0.4); }
+.ticker-pill.c-met .t-icon, .ticker-pill.c-met .t-px { color: #00F0FF; }
+.ticker-pill.c-met:hover { border-color: #00F0FF; box-shadow: 0 0 10px rgba(0, 240, 255, 0.5); }
+
+.ticker-pill.c-magic { border-color: rgba(221, 51, 51, 0.4); }
+.ticker-pill.c-magic .t-icon, .ticker-pill.c-magic .t-px { color: #DD3333; }
+.ticker-pill.c-magic:hover { border-color: #DD3333; box-shadow: 0 0 10px rgba(221, 51, 51, 0.5); }
+
+.ticker-pill.c-xrp { border-color: rgba(0, 229, 255, 0.4); }
+.ticker-pill.c-xrp .t-icon, .ticker-pill.c-xrp .t-px { color: #00E5FF; }
+.ticker-pill.c-xrp:hover { border-color: #00E5FF; box-shadow: 0 0 10px rgba(0, 229, 255, 0.5); }
+
+.ticker-pill.c-usd1 { border-color: rgba(59, 130, 246, 0.4); }
+.ticker-pill.c-usd1 .t-icon, .ticker-pill.c-usd1 .t-px { color: #3B82F6; }
+.ticker-pill.c-usd1:hover { border-color: #3B82F6; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+
+.ticker-pill.c-sui { border-color: rgba(77, 162, 255, 0.4); }
+.ticker-pill.c-sui .t-icon, .ticker-pill.c-sui .t-px { color: #4DA2FF; }
+.ticker-pill.c-sui:hover { border-color: #4DA2FF; box-shadow: 0 0 10px rgba(77, 162, 255, 0.5); }
+
+.ticker-pill.c-wld { border-color: rgba(168, 85, 247, 0.4); }
+.ticker-pill.c-wld .t-icon, .ticker-pill.c-wld .t-px { color: #A855F7; }
+.ticker-pill.c-wld:hover { border-color: #A855F7; box-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
+
+.ticker-pill.c-uni { border-color: rgba(255, 0, 122, 0.4); }
+.ticker-pill.c-uni .t-icon, .ticker-pill.c-uni .t-px { color: #FF007A; }
+.ticker-pill.c-uni:hover { border-color: #FF007A; box-shadow: 0 0 10px rgba(255, 0, 122, 0.5); }
+
+.ticker-pill.c-strk { border-color: rgba(236, 121, 107, 0.4); }
+.ticker-pill.c-strk .t-icon, .ticker-pill.c-strk .t-px { color: #EC796B; }
+.ticker-pill.c-strk:hover { border-color: #EC796B; box-shadow: 0 0 10px rgba(236, 121, 107, 0.5); }
+
+.ticker-pill.c-ada { border-color: rgba(59, 130, 246, 0.4); }
+.ticker-pill.c-ada .t-icon, .ticker-pill.c-ada .t-px { color: #60A5FA; }
+.ticker-pill.c-ada:hover { border-color: #60A5FA; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+
+.ticker-pill.c-doge { border-color: rgba(194, 166, 51, 0.4); }
+.ticker-pill.c-doge .t-icon, .ticker-pill.c-doge .t-px { color: #C2A633; }
+.ticker-pill.c-doge:hover { border-color: #C2A633; box-shadow: 0 0 10px rgba(194, 166, 51, 0.5); }
+
+.ticker-pill.c-avax { border-color: rgba(232, 65, 66, 0.4); }
+.ticker-pill.c-avax .t-icon, .ticker-pill.c-avax .t-px { color: #E84142; }
+.ticker-pill.c-avax:hover { border-color: #E84142; box-shadow: 0 0 10px rgba(232, 65, 66, 0.5); }
+
+.ticker-pill.c-fet { border-color: rgba(0, 255, 163, 0.4); }
+.ticker-pill.c-fet .t-icon, .ticker-pill.c-fet .t-px { color: #00FFA3; }
+.ticker-pill.c-fet:hover { border-color: #00FFA3; box-shadow: 0 0 10px rgba(0, 255, 163, 0.5); }
+
+.ticker-pill.c-trx { border-color: rgba(239, 0, 39, 0.4); }
+.ticker-pill.c-trx .t-icon, .ticker-pill.c-trx .t-px { color: #EF0027; }
+.ticker-pill.c-trx:hover { border-color: #EF0027; box-shadow: 0 0 10px rgba(239, 0, 39, 0.5); }
+
+.ticker-pill.c-ondo { border-color: rgba(15, 98, 254, 0.4); }
+.ticker-pill.c-ondo .t-icon, .ticker-pill.c-ondo .t-px { color: #0F62FE; }
+.ticker-pill.c-ondo:hover { border-color: #0F62FE; box-shadow: 0 0 10px rgba(15, 98, 254, 0.5); }
+
+.ticker-pill.c-hype { border-color: rgba(0, 245, 212, 0.4); }
+.ticker-pill.c-hype .t-icon, .ticker-pill.c-hype .t-px { color: #00F5D4; }
+.ticker-pill.c-hype:hover { border-color: #00F5D4; box-shadow: 0 0 10px rgba(0, 245, 212, 0.5); }
+
+.ticker-pill.c-cfx { border-color: rgba(37, 99, 235, 0.4); }
+.ticker-pill.c-cfx .t-icon, .ticker-pill.c-cfx .t-px { color: #2563EB; }
+.ticker-pill.c-cfx:hover { border-color: #2563EB; box-shadow: 0 0 10px rgba(37, 99, 235, 0.5); }
+
+.ticker-pill.c-rlc { border-color: rgba(255, 209, 92, 0.4); }
+.ticker-pill.c-rlc .t-icon, .ticker-pill.c-rlc .t-px { color: #FFD15C; }
+.ticker-pill.c-rlc:hover { border-color: #FFD15C; box-shadow: 0 0 10px rgba(255, 209, 92, 0.5); }
+
+.ticker-pill.c-ena { border-color: rgba(226, 232, 240, 0.4); }
+.ticker-pill.c-ena .t-icon, .ticker-pill.c-ena .t-px { color: #FFFFFF; }
+.ticker-pill.c-ena:hover { border-color: #FFFFFF; box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); }
+
+.ticker-pill.c-lumia { border-color: rgba(153, 69, 255, 0.4); }
+.ticker-pill.c-lumia .t-icon, .ticker-pill.c-lumia .t-px { color: #9945FF; }
+.ticker-pill.c-lumia:hover { border-color: #9945FF; box-shadow: 0 0 10px rgba(153, 69, 255, 0.5); }
+
+.ticker-pill.c-atom { border-color: rgba(99, 102, 241, 0.4); }
+.ticker-pill.c-atom .t-icon, .ticker-pill.c-atom .t-px { color: #818CF8; }
+.ticker-pill.c-atom:hover { border-color: #818CF8; box-shadow: 0 0 10px rgba(99, 102, 241, 0.5); }
+
+.ticker-pill.c-rlusd { border-color: rgba(0, 140, 231, 0.4); }
+.ticker-pill.c-rlusd .t-icon, .ticker-pill.c-rlusd .t-px { color: #008CE7; }
+.ticker-pill.c-rlusd:hover { border-color: #008CE7; box-shadow: 0 0 10px rgba(0, 140, 231, 0.5); }
+
+.ticker-pill.c-kaia { border-color: rgba(255, 92, 0, 0.4); }
+.ticker-pill.c-kaia .t-icon, .ticker-pill.c-kaia .t-px { color: #FF5C00; }
+.ticker-pill.c-kaia:hover { border-color: #FF5C00; box-shadow: 0 0 10px rgba(255, 92, 0, 0.5); }
+
+.ticker-pill.c-qnt { border-color: rgba(245, 158, 11, 0.4); }
+.ticker-pill.c-qnt .t-icon, .ticker-pill.c-qnt .t-px { color: #F59E0B; }
+.ticker-pill.c-qnt:hover { border-color: #F59E0B; box-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+
+.ticker-pill.c-era { border-color: rgba(123, 97, 255, 0.4); }
+.ticker-pill.c-era .t-icon, .ticker-pill.c-era .t-px { color: #7B61FF; }
+.ticker-pill.c-era:hover { border-color: #7B61FF; box-shadow: 0 0 10px rgba(123, 97, 255, 0.5); }
+
+.ticker-pill.c-bat { border-color: rgba(255, 80, 0, 0.4); }
+.ticker-pill.c-bat .t-icon, .ticker-pill.c-bat .t-px { color: #FF5000; }
+.ticker-pill.c-bat:hover { border-color: #FF5000; box-shadow: 0 0 10px rgba(255, 80, 0, 0.5); }
+
+.ticker-pill.c-aave { border-color: rgba(182, 80, 158, 0.4); }
+.ticker-pill.c-aave .t-icon, .ticker-pill.c-aave .t-px { color: #B6509E; }
+.ticker-pill.c-aave:hover { border-color: #B6509E; box-shadow: 0 0 10px rgba(182, 80, 158, 0.5); }
+
+.ticker-pill.c-op { border-color: rgba(255, 4, 32, 0.4); }
+.ticker-pill.c-op .t-icon, .ticker-pill.c-op .t-px { color: #FF0420; }
+.ticker-pill.c-op:hover { border-color: #FF0420; box-shadow: 0 0 10px rgba(255, 4, 32, 0.5); }
+
+.ticker-pill.c-wbtc { border-color: rgba(240, 146, 66, 0.4); }
+.ticker-pill.c-wbtc .t-icon, .ticker-pill.c-wbtc .t-px { color: #F09242; }
+.ticker-pill.c-wbtc:hover { border-color: #F09242; box-shadow: 0 0 10px rgba(240, 146, 66, 0.5); }
+
+.ticker-pill.c-fil { border-color: rgba(0, 144, 255, 0.4); }
+.ticker-pill.c-fil .t-icon, .ticker-pill.c-fil .t-px { color: #0090FF; }
+.ticker-pill.c-fil:hover { border-color: #0090FF; box-shadow: 0 0 10px rgba(0, 144, 255, 0.5); }
+
+.ticker-pill.c-ogn { border-color: rgba(56, 189, 248, 0.4); }
+.ticker-pill.c-ogn .t-icon, .ticker-pill.c-ogn .t-px { color: #38BDF8; }
+.ticker-pill.c-ogn:hover { border-color: #38BDF8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.5); }
+
+.ticker-pill.c-pump { border-color: rgba(0, 255, 163, 0.4); }
+.ticker-pill.c-pump .t-icon, .ticker-pill.c-pump .t-px { color: #00FFA3; }
+.ticker-pill.c-pump:hover { border-color: #00FFA3; box-shadow: 0 0 10px rgba(0, 255, 163, 0.5); }
+
+.ticker-pill.c-dot { border-color: rgba(230, 0, 122, 0.4); }
+.ticker-pill.c-dot .t-icon, .ticker-pill.c-dot .t-px { color: #E6007A; }
+.ticker-pill.c-dot:hover { border-color: #E6007A; box-shadow: 0 0 10px rgba(230, 0, 122, 0.5); }
+
+/* ========================================================
+   CỤM 3: SOVEREIGN AVATAR NGƯỜI LỬA & PROFILE CONTROLS (ẢNH 3)
+   ======================================================== */
 .hud-cluster-controls {
   display: flex;
   align-items: center;
@@ -264,62 +428,185 @@ html, body {
   white-space: nowrap;
 }
 
-.hud-utc-clock {
-  color: var(--text-secondary);
-  font-family: var(--font-code);
-  font-size: 11px;
-  white-space: nowrap;
-}
-
-.founder-id-badge {
+/* THẺ PROFILE SOVEREIGN TÔN VINH FOUNDER NGUYỄN PHƯỚC LỘC */
+.sovereign-profile-card {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--sovereign-gold-bg);
-  border: 1px solid var(--border-grid-gold);
+  padding: 3px 8px 3px 4px;
+  background: rgba(13, 19, 33, 0.75);
+  border: 1px solid rgba(255, 215, 0, 0.3);
   border-radius: var(--radius-sm);
-  padding: 4px 10px;
-  font-family: var(--font-code);
-  font-size: 11px;
-  color: var(--sovereign-gold);
   text-decoration: none;
-  transition: all 0.2s ease;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(8px);
+}
+
+.sovereign-profile-card:hover {
+  border-color: var(--sovereign-gold);
+  background: rgba(22, 32, 54, 0.95);
+  box-shadow: 0 0 14px rgba(255, 215, 0, 0.35);
+  transform: translateY(-1px);
+}
+
+/* KHUNG TRÒN AVATAR NGƯỜI LỬA LƯỢNG TỬ (ẢNH 3) */
+.sovereign-avatar-frame {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  flex-shrink: 0;
+  background: conic-gradient(from 180deg, #00F0FF, #FF6B00, #FF2A6D, #00F0FF);
+  box-shadow: 0 0 10px rgba(255, 107, 0, 0.45);
+  overflow: hidden;
+}
+
+.sovereign-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  background: #050814;
+  z-index: 1;
+}
+
+/* HÀO QUANG THỞ LỬA QUANG PHỔ (#00F0FF -> #FF6B00 -> #FF2A6D) */
+.sovereign-fire-halo {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sovereignHaloBreath 2.4s infinite ease-in-out;
+  z-index: 2;
+}
+
+@keyframes sovereignHaloBreath {
+  0%, 100% {
+    box-shadow: inset 0 0 4px rgba(0, 240, 255, 0.6), 0 0 8px rgba(255, 107, 0, 0.4);
+  }
+  50% {
+    box-shadow: inset 0 0 8px rgba(255, 42, 109, 0.8), 0 0 14px rgba(255, 107, 0, 0.7);
+  }
+}
+
+.sovereign-info-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+  font-family: var(--font-code);
+}
+
+.sovereign-name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sovereign-crown {
+  font-size: 11px;
+  line-height: 1;
+  filter: drop-shadow(0 0 4px #FFD700);
+}
+
+.sovereign-name {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #FFD700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+  letter-spacing: 0.05em;
   white-space: nowrap;
 }
 
-.founder-id-badge:hover {
-  background: var(--sovereign-gold);
-  color: var(--bg-void);
-  box-shadow: 0 0 12px var(--sovereign-gold-glow);
+.sovereign-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.hud-pill-btn {
-  background: var(--bg-input);
-  border: 1px solid var(--border-grid);
-  color: var(--text-secondary);
-  font-family: var(--font-code);
-  font-size: 11px;
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  display: inline-flex;
+.sovereign-uid {
+  font-size: 9px;
+  color: #94A3B8;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.sovereign-godmode {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: rgba(168, 85, 247, 0.2);
+  color: #D946EF;
+  border: 1px solid rgba(168, 85, 247, 0.5);
+  box-shadow: 0 0 6px rgba(168, 85, 247, 0.35);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* NÚT WEB AUDIO VỚI SÓNG EQUALIZER MINI ılıl */
+.hud-audio-eq-btn {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  transition: all 0.2s;
+  gap: 5px;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: var(--radius-xs);
+  background: rgba(13, 19, 33, 0.75);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  color: #00F0FF;
+  font-family: var(--font-code);
+  font-size: 9.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(6px);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
-.hud-pill-btn:hover {
-  border-color: var(--cyber-cyan);
-  color: var(--cyber-cyan);
+.hud-audio-eq-btn:hover {
+  border-color: #00F0FF;
+  background: rgba(0, 240, 255, 0.15);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
 }
 
-.hud-pill-btn.active-god {
-  border-color: var(--sovereign-gold);
-  color: var(--sovereign-gold);
-  background: var(--sovereign-gold-bg);
-  box-shadow: 0 0 10px var(--sovereign-gold-glow);
+.eq-bars {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 10px;
+}
+
+.eq-bar {
+  width: 2px;
+  border-radius: 1px;
+  background: #00F0FF;
+  box-shadow: 0 0 4px #00F0FF;
+}
+
+.eq-bar.b1 { height: 5px; animation: eqPulse1 0.8s infinite ease-in-out; }
+.eq-bar.b2 { height: 9px; animation: eqPulse2 0.6s infinite ease-in-out; }
+.eq-bar.b3 { height: 6px; animation: eqPulse3 0.9s infinite ease-in-out; }
+
+@keyframes eqPulse1 { 0%, 100% { height: 3px; } 50% { height: 8px; } }
+@keyframes eqPulse2 { 0%, 100% { height: 9px; } 50% { height: 4px; } }
+@keyframes eqPulse3 { 0%, 100% { height: 4px; } 50% { height: 10px; } }
+
+.hud-utc-clock {
+  color: #94A3B8;
+  font-family: var(--font-code);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* CANDLE HUD BOX (PHÍA TRÊN BIỂU ĐỒ NẾN [02]) */
@@ -408,8 +695,11 @@ html, body {
 /* --- TẦNG 1: 3 PHÂN KHU ĐẦU TIÊN (PNL | MICROSTRUCTURE | LATENCY) --- */
 .quantum-row-top {
   display: grid;
-  grid-template-columns: 1.15fr 1.6fr 1.25fr;
+  grid-template-columns: 1.05fr 1.55fr 1.4fr;
   gap: 10px;
+  height: 295px;
+  max-height: 295px;
+  box-sizing: border-box;
 }
 
 /* --- TẦNG 2: PHÂN KHU 4 TRÁI TIM 3D TRUNG TÂM --- */
@@ -418,11 +708,15 @@ html, body {
   position: relative;
 }
 
-/* --- TẦNG 3: 2 PHÂN KHU DƯỚI (EXECUTION TAPE | RESOLUTION FUNNEL) --- */
+/* --- TẦNG 3: 2 PHÂN KHU DƯỚI (MASTER V14: EXECUTION TAPE PRO | CAPITAL SANKEY) --- */
 .quantum-row-bottom {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
+  grid-template-columns: 1.35fr 1fr;
   gap: 10px;
+  height: 280px;
+  max-height: 280px;
+  min-height: 280px;
+  box-sizing: border-box;
 }
 
 /* --- TẦNG 4: PRO COCKPIT DƯỚI ĐÁY --- */
@@ -500,189 +794,810 @@ html, body {
 }
 
 /* ========================================================
-   PHÂN KHU 1: PNL & PERFORMANCE COCKPIT
+   MASTER V10: TOP 3-CARD COMPACT MATRIX (~280px TỶ LỆ VÀNG)
    ======================================================== */
-.pnl-huge-amount {
-  font-size: 30px;
-  font-weight: 800;
+.compact-top-card {
+  height: 295px;
+  max-height: 295px;
+  padding: 10px 12px;
+  background: rgba(9, 14, 26, 0.92);
+  border: 1px solid rgba(30, 41, 59, 0.55);
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
+  box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.5px;
+}
+
+/* --- CARD [01]: WALLET & INVENTORY FLOW --- */
+.card-wallet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 18px;
+}
+.wallet-header-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   font-family: var(--font-code);
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--sovereign-gold);
+}
+.wallet-active-badge {
   color: var(--neon-emerald);
-  text-shadow: 0 0 16px var(--neon-emerald-glow);
-  margin-bottom: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  margin-left: 2px;
+}
+.live-glass-pill {
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--neon-emerald);
+  background: rgba(0, 255, 163, 0.12);
+  border: 1px solid rgba(0, 255, 163, 0.4);
+  padding: 1px 6px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+
+.wallet-pnl-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 1px 0;
+}
+.wallet-pnl-label {
+  font-size: 8.5px;
+  color: var(--text-muted);
+  font-family: var(--font-code);
+  letter-spacing: 0.6px;
+}
+.wallet-pnl-val {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--neon-emerald);
+  font-family: var(--font-code);
+  text-shadow: 0 0 14px rgba(0, 255, 163, 0.65);
+  line-height: 1.1;
   letter-spacing: -0.5px;
 }
-
-.pnl-sub-today {
-  font-size: 12px;
-  font-family: var(--font-code);
+.wallet-pnl-sub {
+  font-size: 9px;
   color: var(--text-secondary);
-  margin-bottom: 12px;
-}
-
-.winrate-bar-container {
-  margin-bottom: 12px;
-}
-
-.winrate-label-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
   font-family: var(--font-code);
-  margin-bottom: 4px;
-  color: var(--text-secondary);
 }
-
-.winrate-label-row .winrate-percent {
+.wallet-pnl-sub .sub-arrow {
   color: var(--neon-emerald);
-  font-weight: 700;
+  font-weight: 800;
 }
 
-.winrate-track {
-  width: 100%;
-  height: 6px;
-  background: var(--bg-input);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-  border: 1px solid var(--border-grid);
-}
-
-.winrate-progress {
-  height: 100%;
-  width: 82.2%;
-  background: linear-gradient(90deg, var(--neon-emerald), var(--cyber-cyan));
-  box-shadow: 0 0 10px var(--neon-emerald-glow);
-  transition: width 0.4s ease;
-}
-
-.pnl-stats-grid {
+.wallet-metrics-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 10px;
+  gap: 5px;
+  margin: 2px 0;
 }
-
-.pnl-stat-cell {
-  background: var(--bg-input);
-  border: 1px solid var(--border-grid);
-  border-radius: var(--radius-sm);
-  padding: 6px 8px;
-}
-
-.pnl-stat-cell .stat-k {
-  font-size: 10px;
-  color: var(--text-muted);
+.w-metric-cell {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  padding: 3px 5px;
   font-family: var(--font-code);
+}
+.w-metric-k {
+  font-size: 8px;
+  color: var(--text-muted);
   display: block;
 }
-
-.pnl-stat-cell .stat-v {
-  font-size: 12px;
+.w-metric-v {
+  font-size: 11px;
   font-weight: 700;
-  font-family: var(--font-code);
-  color: var(--text-primary);
+  color: #fff;
 }
+.w-metric-v.emerald { color: var(--neon-emerald); }
+.w-metric-v.cyan { color: var(--cyber-cyan); }
 
-.pnl-sparkline-box {
-  width: 100%;
-  height: 38px;
-  position: relative;
+.drawdown-risk-row {
+  margin: 1px 0;
 }
+.drawdown-risk-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(0, 255, 163, 0.45);
+  background: rgba(0, 255, 163, 0.08);
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-family: var(--font-code);
+  font-size: 8.5px;
+}
+.dr-lbl { color: #e2e8f0; font-weight: 600; }
+.dr-tag { color: var(--neon-emerald); font-weight: 800; }
 
 /* ========================================================
-   PHÂN KHU 2: MICROSTRUCTURE & PRICE LADDER
+   MASTER V12: SANKEY PARTICLE CAPITAL FLOW PIPELINE (CARD 01)
    ======================================================== */
-.microstructure-wrap {
-  display: flex;
-  gap: 12px;
-  height: 190px;
-}
-
-.micro-chart-pane {
-  flex: 1.2;
-  position: relative;
+.sankey-pipeline-container {
   display: flex;
   flex-direction: column;
-}
-
-.micro-chart-canvas-box {
   flex: 1;
+  min-height: 120px;
+  margin-top: 3px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+  padding-top: 3px;
+  overflow: hidden;
   position: relative;
-  width: 100%;
-  overflow: hidden;
 }
 
-.ladder-table-pane {
-  flex: 0.95;
-  display: flex;
-  flex-direction: column;
-  border-left: 1px solid var(--border-grid);
-  padding-left: 10px;
-  font-family: var(--font-code);
-  font-size: 11px;
-}
-
-.ladder-table-header {
-  display: flex;
-  justify-content: space-between;
-  color: var(--text-muted);
-  font-size: 10px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid var(--border-grid);
-  margin-bottom: 4px;
-}
-
-.ladder-rows-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  overflow: hidden;
-}
-
-.ladder-row-item {
+.sankey-header-line {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-family: var(--font-code);
+  font-size: 8.5px;
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+.sankey-header-line .sh-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sankey-header-line .sh-icon {
+  font-size: 9px;
+}
+
+.sankey-header-line .sh-title {
+  color: var(--sovereign-gold);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.sankey-header-line .sh-sub {
+  color: var(--text-muted);
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.sankey-live-tag {
+  color: var(--neon-emerald);
+  font-size: 8px;
+  font-weight: 700;
+  font-family: var(--font-code);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(0, 255, 163, 0.08);
+  border: 1px solid rgba(0, 255, 163, 0.35);
+  padding: 1px 5px;
+  border-radius: 2px;
+  letter-spacing: 0.4px;
+}
+
+.sankey-canvas-box {
+  flex: 1;
+  width: 100%;
+  min-height: 102px;
   position: relative;
-  padding: 2px 4px;
-  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(6, 11, 20, 0.40);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+#sankey-flow-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* --- CARD [02]: NẾN THẬT 100% & BẬC THANG GIÁ LADDER --- */
+.candle-ladder-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  height: 26px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 2px;
+}
+.cl-top-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-code);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--sovereign-gold);
+}
+.cl-sub-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-code);
+  font-size: 10px;
+}
+.cl-pair { color: var(--text-muted); font-size: 9.5px; font-weight: 600; }
+.cl-price { font-size: 13px; font-weight: 800; color: #fff; text-shadow: 0 0 8px rgba(0, 240, 255, 0.5); }
+.cl-change { color: var(--neon-emerald); font-weight: 700; font-size: 9.5px; }
+
+.candle-chart-box {
+  height: 124px;
+  max-height: 124px;
+  width: 100%;
+  position: relative;
+  margin: 1px 0;
+}
+#micro-chart-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ==========================================================================
+   FILL SURVIVAL KAPLAN-MEIER WIDGET (CARD 02 LOWER HALF - OFFICIAL V17)
+   Founder & Chief Architect: Nguyễn Phước Lộc
+   ========================================================================== */
+.fill-survival-container {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 8px 5px 8px;
+  background: rgba(4, 9, 18, 0.95);
+  border-top: 1px solid rgba(0, 240, 255, 0.2);
+  font-family: var(--font-code);
+  position: relative;
+  overflow: hidden;
+  height: 134px;
+  max-height: 134px;
+  box-sizing: border-box;
+  margin-top: auto;
+}
+.fs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.fs-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.fs-icon {
   font-size: 11px;
-  cursor: pointer;
+  filter: drop-shadow(0 0 4px #ffb300);
 }
-
-.ladder-row-item:hover {
-  background: var(--bg-hover);
+.fs-name {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
 }
+.fs-badges {
+  display: flex;
+  gap: 4px;
+}
+.fs-badge {
+  font-size: 8px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 2px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.fs-badge.p50 {
+  background: rgba(0, 240, 255, 0.12);
+  color: #00f0ff;
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  box-shadow: 0 0 6px rgba(0, 240, 255, 0.2);
+}
+.fs-badge.route {
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+.fs-badge.unf {
+  background: rgba(255, 51, 102, 0.12);
+  color: #ff3366;
+  border: 1px solid rgba(255, 51, 102, 0.35);
+  box-shadow: 0 0 6px rgba(255, 51, 102, 0.2);
+}
+.fs-subtitle {
+  font-size: 7.5px;
+  color: #64748b;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+  flex-shrink: 0;
+}
+.fs-body {
+  display: grid;
+  grid-template-columns: 1fr 125px;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+  align-items: stretch;
+  overflow: hidden;
+}
+.fs-chart-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.fs-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* Thẻ trôi nổi Callout */
+.fs-callout {
+  position: absolute;
+  pointer-events: none;
+}
+.fs-callout.late-adds {
+  top: 24%;
+  left: 23%;
+}
+.fs-callout.late-scans {
+  top: 42%;
+  left: 45%;
+}
+.fs-callout-tag {
+  font-size: 7px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 2px;
+  display: inline-block;
+  line-height: 1;
+}
+.late-adds .fs-callout-tag {
+  background: rgba(0, 255, 163, 0.2);
+  color: #00ffa3;
+  border: 1px solid rgba(0, 255, 163, 0.5);
+  box-shadow: 0 0 6px rgba(0, 255, 163, 0.4);
+}
+.late-scans .fs-callout-tag {
+  background: rgba(255, 51, 102, 0.2);
+  color: #ff3366;
+  border: 1px solid rgba(255, 51, 102, 0.5);
+  box-shadow: 0 0 6px rgba(255, 51, 102, 0.4);
+}
+.fs-legend {
+  position: absolute;
+  bottom: 0px;
+  left: 26px;
+  display: flex;
+  gap: 6px;
+  font-size: 7px;
+}
+.fs-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: 700;
+}
+.fs-leg-item.maker { color: #00ffa3; }
+.fs-leg-item.retail { color: #ff3366; }
+.fs-leg-item.passive { color: #a855f7; }
+.fs-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 1px;
+  display: inline-block;
+}
+.fs-leg-item.maker .fs-dot { background: #00ffa3; box-shadow: 0 0 4px #00ffa3; }
+.fs-leg-item.retail .fs-dot { background: #ff3366; box-shadow: 0 0 4px #ff3366; }
+.fs-leg-item.passive .fs-dot { background: #a855f7; border: 1px dashed #ffffff; }
 
-.ladder-depth-fill {
+/* Cột thống kê bên phải */
+.fs-stats-pillar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0 0 2px 0;
+  border-left: 1px dashed rgba(255, 255, 255, 0.08);
+  padding-left: 6px;
+}
+.fs-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 7.5px;
+  height: 14px;
+}
+.fs-stat-lbl {
+  width: 30px;
+  color: #94a3b8;
+  font-weight: 600;
+  font-size: 7px;
+}
+.fs-stat-bar-track {
+  flex: 1;
+  height: 3.5px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.fs-stat-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+.fs-stat-val {
+  width: 26px;
+  text-align: right;
+  font-weight: 800;
+  font-size: 7.5px;
+}
+.c-cyan { background: #00f0ff; color: #00f0ff; text-shadow: 0 0 4px rgba(0, 240, 255, 0.5); }
+.c-green { background: #10b981; color: #10b981; }
+.c-amber { background: #f59e0b; color: #f59e0b; }
+.c-blue { background: #3b82f6; color: #3b82f6; }
+.c-red { background: #ef4444; color: #ef4444; text-shadow: 0 0 4px rgba(239, 68, 68, 0.5); }
+
+/* --- CARD [03]: CHIA 3 TẦNG HOÀN MỸ (GANTT | HEATMAP | TRADE HELIX) --- */
+.gantt-upper-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+  height: 74px;
+}
+.gantt-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-code);
+  font-size: 8.5px;
+}
+.gh-title { color: var(--sovereign-gold); font-weight: 700; }
+.gh-badge { font-size: 8px; color: var(--text-muted); }
+.stat-open { color: var(--neon-emerald); font-weight: 700; }
+.stat-res { color: #93c5fd; }
+.stat-settling { color: var(--neon-emerald); font-weight: 700; }
+
+.gantt-track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+  margin: 1px 0;
+}
+.gantt-t-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 9.5px;
+  font-family: var(--font-code);
+  font-size: 8px;
+}
+.gt-coin { width: 32px; color: #94a3b8; font-weight: 700; font-size: 7.5px; }
+.gt-channel {
+  flex: 1;
+  height: 3.5px;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.gt-bar {
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 0;
-  pointer-events: none;
-  opacity: 0.25;
-  transition: width 0.2s ease;
+  border-radius: 2px;
+}
+.gt-bar.bar-eth { background: #3b82f6; box-shadow: 0 0 5px rgba(59, 130, 246, 0.6); }
+.gt-bar.bar-sol { background: #a855f7; box-shadow: 0 0 5px rgba(168, 85, 247, 0.6); }
+.gt-bar.bar-btc { background: #ffd700; box-shadow: 0 0 5px rgba(255, 215, 0, 0.6); }
+.gt-badge { width: 40px; text-align: right; font-size: 7.5px; color: #ffb800; font-weight: 800; }
+.gt-badge.empty { visibility: hidden; }
+
+.gantt-footer-legend {
+  font-family: var(--font-code);
+  font-size: 7px;
+  color: #64748b;
+  letter-spacing: 0.2px;
 }
 
-.ladder-depth-fill.bid {
-  background-color: var(--neon-emerald);
+.card3-tier-divider {
+  height: 1px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+  margin: 2px 0;
 }
 
-.ladder-depth-fill.ask {
-  background-color: var(--laser-ruby);
+.res-grid-lower-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+  height: 72px;
 }
-
-.ladder-row-item.ask .ladder-p {
-  color: var(--laser-ruby);
+.res-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-code);
+  font-size: 8.5px;
 }
+.rh-title { color: var(--sovereign-gold); font-weight: 700; }
+.rh-badge { font-size: 8px; color: var(--text-muted); }
 
-.ladder-row-item.bid .ladder-p {
+.res-tiles-24-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2px;
+  margin: 1px 0;
+}
+.res-tile {
+  height: 20px;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-code);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.res-tile:hover { transform: scale(1.08); }
+.res-tile.win {
+  background: rgba(0, 255, 163, 0.14);
+  border: 1px solid rgba(0, 255, 163, 0.45);
   color: var(--neon-emerald);
 }
+.res-tile.loss {
+  background: rgba(255, 51, 102, 0.14);
+  border: 1px solid rgba(255, 51, 102, 0.45);
+  color: var(--laser-ruby);
+}
+.res-tile .t-val {
+  font-size: 8px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.2px;
+}
+.res-tile .t-sec {
+  font-size: 6px;
+  opacity: 0.75;
+  line-height: 1;
+  margin-top: 1px;
+}
 
-.ladder-row-item.current {
-  background: var(--bg-input-focus);
+/* ========================================================
+   MASTER V13: TRADE HELIX DNA WAVE ENGINE (CARD 03 ĐÁY)
+   ======================================================== */
+.trade-helix-block {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 86px;
+  margin-top: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.helix-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-code);
+  font-size: 8.5px;
+  margin-bottom: 2px;
+  line-height: 1.2;
+}
+
+.hh-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.helix-diamond {
+  color: var(--sovereign-gold);
+  font-size: 8.5px;
+}
+
+.hh-title {
+  color: var(--sovereign-gold);
   font-weight: 700;
-  border-left: 2px solid var(--sovereign-gold);
+  letter-spacing: 0.3px;
+}
+
+.hh-badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hb-pill {
+  font-size: 7.5px;
+  font-weight: 700;
+  font-family: var(--font-code);
+  padding: 1px 4px;
+  border-radius: 2px;
+  letter-spacing: 0.3px;
+}
+
+.hb-pill.emerald {
+  color: var(--neon-emerald);
+  background: rgba(0, 255, 163, 0.08);
+  border: 1px solid rgba(0, 255, 163, 0.35);
+}
+
+.hb-pill.gold {
+  color: var(--sovereign-gold);
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.35);
+}
+
+.helix-canvas-box {
+  flex: 1;
+  width: 100%;
+  min-height: 52px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(6, 11, 20, 0.40);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+#trade-helix-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.helix-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-code);
+  font-size: 7.5px;
+  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 2px;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.hf-pnl {
+  color: var(--neon-emerald);
+  font-weight: 800;
+  text-shadow: 0 0 6px rgba(0, 255, 163, 0.45);
+}
+
+.hf-stats {
+  color: #cbd5e1;
+  font-weight: 600;
+}
+
+.hf-node {
+  color: var(--cyber-cyan);
+  font-weight: 700;
+}
+
+/* ĐÁY CARD [01]: DẢI KIỂM ĐỊNH SỔ CÁI LƯỢNG TỬ (QUANTUM AUDIT STRIP) */
+.card-bottom-audit-strip {
+  font-family: var(--font-code);
+  font-size: 7.5px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 3px;
+  margin-top: auto;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-bottom-audit-strip .audit-icon {
+  font-size: 8px;
+  color: var(--sovereign-gold);
+}
+
+/* ĐÁY CARD [02]: DẢI THÔNG SỐ THANH KHOẢN THỊ TRƯỜNG (MARKET LIQUIDITY STRIP) */
+.card-bottom-liquidity-strip {
+  font-family: var(--font-code);
+  font-size: 7.5px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 3px;
+  margin-top: auto;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-bottom-liquidity-strip .liq-icon {
+  font-size: 8px;
+  color: var(--sovereign-gold);
+}
+
+/* CHẤM ĐÈN RADAR RIPPLE ANIMATION (CARD 01 & 03) */
+.live-radar-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--neon-emerald);
+  box-shadow: 0 0 6px var(--neon-emerald);
+  position: relative;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.live-radar-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid var(--neon-emerald);
+  animation: radarRipple 1.2s infinite ease-out;
+}
+
+@keyframes radarRipple {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.throughput-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--neon-emerald);
+  box-shadow: 0 0 5px var(--neon-emerald);
+  margin-right: 5px;
+  animation: radarRipple 1.4s infinite ease-out;
+  vertical-align: middle;
+}
+
+/* VIÊN KIM CƯƠNG PHÁT SÁNG C01 & HIỆU ỨNG GANTT RESOLVED (CARD 03) */
+.gt-badge {
+  animation: diamondPulse 1.2s infinite ease-in-out;
+}
+@keyframes diamondPulse {
+  0%, 100% { opacity: 0.75; transform: scale(0.96); filter: drop-shadow(0 0 2px rgba(255, 184, 0, 0.4)); }
+  50% { opacity: 1; transform: scale(1.06); filter: drop-shadow(0 0 7px rgba(255, 184, 0, 0.95)); }
+}
+
+.gantt-flash-resolve {
+  animation: resolveFlash 0.7s ease-out;
+}
+@keyframes resolveFlash {
+  0% { filter: brightness(2.6) drop-shadow(0 0 10px #00FFA3); }
+  100% { filter: brightness(1) drop-shadow(0 0 0 transparent); }
+}
+
+/* HIỆU ỨNG THANH TOÁN LỆNH HEATMAP 24 Ô (CARD 03) */
+.settle-flash {
+  animation: settleFlash 0.7s ease-out;
+}
+@keyframes settleFlash {
+  0% { transform: scale(1.15); filter: brightness(2.2); box-shadow: 0 0 12px #00FFA3; z-index: 2; }
+  100% { transform: scale(1); filter: brightness(1); }
 }
 
 /* ========================================================
@@ -874,101 +1789,411 @@ html, body {
 }
 
 /* ========================================================
-   PHÂN KHU 5: EXECUTION TAPE (TIME & SALES LIVE)
+   MASTER V14 FINAL: [05] EXECUTION TAPE PRO (2 CỘT + 4 KPI HỘP)
    ======================================================== */
-.tape-table-container {
-  height: 200px;
-  position: relative;
+.card-execution-tape-pro {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 280px;
+  max-height: 280px;
+  min-height: 280px;
+  background: rgba(9, 14, 26, 0.92);
+  border: 1px solid rgba(30, 41, 59, 0.55);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
   overflow: hidden;
+  box-sizing: border-box;
+}
+
+.tape-pro-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.tape-pro-header .quantum-card-title {
+  font-size: 9.5px;
+  color: var(--text-primary);
   font-family: var(--font-code);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
-.tape-table-head {
+.tape-fills-badge {
+  font-size: 8px;
+  font-family: var(--font-code);
+  color: var(--neon-emerald);
+  background: rgba(0, 255, 163, 0.08);
+  border: 1px solid rgba(0, 255, 163, 0.35);
+  padding: 2px 6px;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  letter-spacing: 0.3px;
+}
+
+.tape-pro-split-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding: 4px 6px;
-  font-size: 10px;
-  color: var(--text-muted);
-  border-bottom: 1px solid var(--border-grid);
+  grid-template-columns: 1.55fr 1fr;
+  gap: 10px;
+  flex: 1;
+  height: 195px;
+  max-height: 195px;
+  min-height: 195px;
+  margin-bottom: 4px;
+  overflow: hidden;
 }
 
-.tape-scroll-zone {
-  height: 145px;
+/* CỘT TRÁI: BẢNG LỆNH 9 CỘT (TIME & SALES) */
+.tape-pro-left-table {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  padding-right: 8px;
+  overflow: hidden;
+}
+
+.tape-grid-head {
+  display: grid;
+  grid-template-columns: 46px 44px 22px 34px 28px 38px 32px 30px 1fr;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--font-code);
+  font-size: 7.5px;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 3px;
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+.tape-grid-rows {
+  flex: 1;
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
+  gap: 1.5px;
   position: relative;
 }
 
-/* Fade out at top */
-.tape-scroll-zone::before {
-  content: "";
+.tape-grid-row-item {
+  display: grid;
+  grid-template-columns: 46px 44px 22px 34px 28px 38px 32px 30px 1fr;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--font-code);
+  font-size: 8px;
+  height: 16px;
+  border-radius: 2px;
+  padding: 0 2px;
+  transition: background-color 0.2s ease;
+}
+
+.tape-grid-row-item.flash {
+  background: rgba(0, 255, 163, 0.18);
+}
+
+.tape-grid-row-item.buy .t-side {
+  color: var(--neon-emerald);
+  font-weight: 800;
+}
+.tape-grid-row-item.sell .t-side {
+  color: var(--laser-ruby);
+  font-weight: 800;
+}
+
+.t-act-pill {
+  font-size: 7px;
+  font-weight: 700;
+  padding: 1px 3px;
+  border-radius: 2px;
+  text-align: center;
+  line-height: 1;
+}
+.t-act-pill.entry { background: rgba(0, 255, 163, 0.15); color: var(--neon-emerald); }
+.t-act-pill.add   { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+.t-act-pill.hedge { background: rgba(255, 215, 0, 0.15); color: var(--sovereign-gold); }
+.t-act-pill.flip  { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+
+.t-time { color: #64748b; font-size: 7.5px; }
+.t-mkt { color: #cbd5e1; font-weight: 600; font-size: 7.5px; }
+.t-px { color: #e2e8f0; font-weight: 600; }
+.t-size { color: #94a3b8; }
+.t-pup { color: #38bdf8; }
+.t-edge { color: var(--neon-emerald); }
+.t-res { text-align: right; font-weight: 700; }
+.t-res.win { color: var(--neon-emerald); }
+.t-res.loss { color: var(--laser-ruby); }
+
+/* CỘT PHẢI: BOOK - BTC 15M SKEW LADDER */
+.tape-pro-right-book {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.book-skew-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-code);
+  font-size: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 3px;
+  margin-bottom: 3px;
+}
+.bsh-title { color: var(--sovereign-gold); font-weight: 700; }
+.bsh-tag { color: var(--neon-emerald); font-size: 7.5px; font-weight: 700; }
+
+.book-skew-ladder-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5px;
+  flex: 1;
+}
+
+.skew-ladder-row {
+  display: grid;
+  grid-template-columns: 24px 1fr 38px;
+  align-items: center;
+  gap: 6px;
+  height: 13px;
+  font-family: var(--font-code);
+  font-size: 8px;
+}
+.sk-strike { font-weight: 700; }
+.skew-ladder-row.ask .sk-strike { color: var(--laser-ruby); }
+.skew-ladder-row.bid .sk-strike { color: var(--neon-emerald); }
+
+.sk-track {
+  height: 4px;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 2px;
+  overflow: hidden;
+  display: flex;
+}
+.sk-fill.ask {
+  height: 100%;
+  background: var(--laser-ruby);
+  box-shadow: 0 0 4px rgba(255, 51, 102, 0.6);
+  margin-left: auto;
+  transition: width 0.3s ease;
+}
+.sk-fill.bid {
+  height: 100%;
+  background: var(--neon-emerald);
+  box-shadow: 0 0 4px rgba(0, 255, 163, 0.6);
+  transition: width 0.3s ease;
+}
+.sk-vol { text-align: right; color: #cbd5e1; font-weight: 600; font-size: 7.5px; }
+
+.skew-spread-divider {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-code);
+  font-size: 7.5px;
+  color: var(--sovereign-gold);
+  height: 12px;
+  margin: 1px 0;
+}
+.sk-spread-line {
+  flex: 1;
+  height: 1px;
+  border-top: 1px dotted rgba(255, 215, 0, 0.4);
+  margin: 0 6px;
+}
+
+.book-skew-footer {
+  font-family: var(--font-code);
+  font-size: 7px;
+  color: #64748b;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 3px;
+  margin-top: 2px;
+  letter-spacing: 0.2px;
+}
+
+/* CỤM 4 HỘP THỐNG KÊ KPI DƯỚI ĐÁY */
+.tape-kpi-quad-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 4px;
+  height: 38px;
+  max-height: 38px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.tape-kpi-card {
+  border-radius: 3px;
+  padding: 3px 6px;
+  font-family: var(--font-code);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.tape-kpi-card.kpi-emerald {
+  background: rgba(0, 255, 163, 0.08);
+  border: 1px solid rgba(0, 255, 163, 0.45);
+}
+.tape-kpi-card.kpi-silver {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+.tape-kpi-card.kpi-blue {
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.45);
+}
+.tape-kpi-card.kpi-gold {
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.45);
+}
+
+.kpi-lbl {
+  font-size: 7px;
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+.kpi-val {
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+.tape-kpi-card.kpi-emerald .kpi-val { color: var(--neon-emerald); text-shadow: 0 0 6px rgba(0, 255, 163, 0.45); }
+.tape-kpi-card.kpi-silver .kpi-val { color: #f8fafc; }
+.tape-kpi-card.kpi-blue .kpi-val { color: #60a5fa; }
+.tape-kpi-card.kpi-gold .kpi-val { color: var(--sovereign-gold); text-shadow: 0 0 6px rgba(255, 215, 0, 0.45); }
+
+/* ========================================================
+   MASTER V14 FINAL: [06] CAPITAL SANKEY · SMART-MONEY FLOW
+   ======================================================== */
+.card-capital-sankey {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 280px;
+  max-height: 280px;
+  min-height: 280px;
+  background: rgba(9, 14, 26, 0.92);
+  border: 1px solid rgba(30, 41, 59, 0.55);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.sankey-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.sankey-card-header .quantum-card-title {
+  font-size: 9.5px;
+  color: var(--text-primary);
+  font-family: var(--font-code);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sankey-header-badges {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sc-badge {
+  font-size: 8px;
+  font-family: var(--font-code);
+  padding: 1px 6px;
+  border-radius: 2px;
+  letter-spacing: 0.3px;
+  font-weight: 700;
+}
+.sc-badge.gold {
+  color: var(--sovereign-gold);
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.35);
+}
+.sc-badge.emerald {
+  color: var(--neon-emerald);
+  background: rgba(0, 255, 163, 0.08);
+  border: 1px solid rgba(0, 255, 163, 0.35);
+  text-shadow: 0 0 6px rgba(0, 255, 163, 0.45);
+}
+
+.capital-sankey-canvas-wrap {
+  flex: 1;
+  width: 100%;
+  height: 215px;
+  max-height: 215px;
+  min-height: 215px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(6, 11, 20, 0.40);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-sizing: border-box;
+}
+
+#capital-sankey-canvas {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  height: 24px;
-  background: linear-gradient(180deg, var(--bg-void) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.tape-row-item {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding: 3px 6px;
-  font-size: 11px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-  transition: background-color 0.15s ease;
-}
-
-.tape-row-item.buy {
-  color: var(--neon-emerald);
-}
-
-.tape-row-item.sell {
-  color: var(--laser-ruby);
-}
-
-.tape-footer-stats {
-  padding-top: 6px;
-  margin-top: 4px;
-  border-top: 1px solid var(--border-grid);
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  color: var(--text-secondary);
-}
-
-/* ========================================================
-   PHÂN KHU 6: RESOLUTION FUNNEL 3D
-   ======================================================== */
-.funnel-canvas-container {
-  width: 100%;
-  height: 200px;
-  position: relative;
-  overflow: hidden;
-  border-radius: var(--radius-sm);
-}
-
-.funnel-3d-canvas {
   width: 100%;
   height: 100%;
   display: block;
-  background: transparent;
+  image-rendering: -webkit-optimize-contrast;
 }
 
-.funnel-legend-overlay {
-  position: absolute;
-  bottom: 8px;
-  left: 10px;
-  right: 10px;
+.capital-sankey-footer-strip {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   font-family: var(--font-code);
-  font-size: 10px;
+  font-size: 8px;
   color: var(--text-secondary);
-  pointer-events: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 4px;
+  margin-top: 5px;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.cs-footer-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.cs-arrow { color: var(--neon-emerald); font-weight: 800; }
+.cs-txt .emerald { color: var(--neon-emerald); font-weight: 800; }
+.cs-txt .gold { color: var(--sovereign-gold); font-weight: 800; }
+
+.cs-footer-right strong {
+  color: var(--cyber-cyan);
 }
 
 /* ========================================================
@@ -1237,18 +2462,21 @@ html, body {
   align-items: center;
   gap: 6px;
   font-size: 9.5px;
-  margin-bottom: 3.5px;
+  margin-bottom: 12px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .zone-time-row .time-tag {
   width: 28px;
   color: var(--text-muted);
   font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .zone-time-track {
-  width: 70px;
-  height: 4.5px;
+  width: 72px;
+  height: 5px;
   background: rgba(15, 23, 42, 0.9);
   border-radius: 3px;
   overflow: hidden;
@@ -1258,6 +2486,7 @@ html, body {
 .zone-time-fill {
   height: 100%;
   border-radius: 2px;
+  transition: width 0.3s ease;
 }
 
 .bar-c-1  { background: #005577; }
@@ -1273,14 +2502,62 @@ html, body {
 .bar-c-11 { background: #ffd700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.9); }
 
 .edge-val-tag {
-  width: 32px;
+  width: 34px;
   text-align: right;
   font-weight: 700;
   color: var(--neon-emerald);
   font-size: 9px;
+  letter-spacing: 0.5px;
 }
 .edge-val-tag.gold { color: #ffb800; }
 .edge-val-tag.gold-bright { color: #ffd700; text-shadow: 0 0 6px rgba(255, 215, 0, 0.6); }
+
+/* NHÃN CHÂN TRANG KỸ THUẬT V9: TICK MARGIN & TIẾN TRÌNH QUÉT SÓNG */
+.edge-footer-tech-bar {
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(255, 215, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.edge-footer-progress-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 240, 255, 0.25);
+}
+
+.edge-footer-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyber-cyan), var(--sovereign-gold));
+  box-shadow: 0 0 6px rgba(0, 240, 255, 0.6);
+  transition: width 0.4s ease;
+}
+
+.edge-footer-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 8px;
+  color: #e6c280;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.edge-footer-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: var(--cyber-cyan);
+  box-shadow: 0 0 6px var(--cyber-cyan);
+  animation: pulsarBreath 1.2s infinite ease-in-out;
+}
 
 /* ĐƯỜNG GIÓNG VI MÔ (DASHED GUIDE LINES) NỐI HƯỚNG VÀO QUẢ CẦU 3D */
 .dashed-guide-line {
@@ -1299,14 +2576,17 @@ html, body {
   top: 45px;
   right: 18px;
   z-index: 15;
-  width: 245px;
+  width: 252px;
   font-family: var(--font-code);
-  background: rgba(7, 12, 22, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(7, 12, 22, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-grid);
   border-radius: var(--radius-sm);
-  padding: 8px 10px;
+  padding: 10px 10px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: 0.5px;
 }
 
 .radar-top-card {
@@ -1361,6 +2641,14 @@ html, body {
   line-height: 1;
 }
 
+.fills-num-cyan.pulse-tick {
+  animation: cyanFillsFlash 0.4s ease-out;
+}
+@keyframes cyanFillsFlash {
+  0% { color: #ffffff; text-shadow: 0 0 16px #00f0ff, 0 0 24px #00f0ff; transform: scale(1.05); }
+  100% { color: var(--cyber-cyan); text-shadow: 0 0 10px rgba(0, 240, 255, 0.4); transform: scale(1); }
+}
+
 .radar-winrate-wrap {
   margin-top: 2px;
 }
@@ -1409,25 +2697,37 @@ html, body {
 .resolved-feed-list {
   display: flex;
   flex-direction: column;
-  gap: 2.5px;
+  gap: 3.5px;
 }
 
 .resolved-feed-row {
   display: grid;
-  grid-template-columns: 46px 1fr 48px;
+  grid-template-columns: 48px 1fr 50px;
   align-items: center;
-  gap: 6px;
-  font-size: 9px;
-  padding: 1px 0;
+  gap: 7px;
+  font-size: 9.5px;
+  padding: 2px 0;
+  min-height: 22px;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+}
+
+.resolved-feed-row.new-tick {
+  animation: feedSlideIn 0.35s ease-out;
+}
+@keyframes feedSlideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .rf-coin {
   color: var(--text-secondary);
   font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 .rf-bar-track {
-  height: 4px;
+  height: 4.5px;
   background: rgba(15, 23, 42, 0.9);
   border-radius: 2px;
   overflow: hidden;
@@ -1439,6 +2739,7 @@ html, body {
   background: var(--neon-emerald);
   margin-left: 0;
   box-shadow: 0 0 5px rgba(0, 255, 163, 0.5);
+  transition: width 0.4s ease;
 }
 
 .rf-bar-fill.down {
@@ -1446,14 +2747,44 @@ html, body {
   background: var(--laser-ruby);
   margin-left: auto;
   box-shadow: 0 0 5px rgba(255, 51, 102, 0.5);
+  transition: width 0.4s ease;
 }
 
 .rf-pnl {
   font-weight: 700;
   text-align: right;
+  letter-spacing: 0.5px;
 }
 .rf-pnl.up { color: var(--neon-emerald); }
 .rf-pnl.down { color: var(--laser-ruby); }
+
+/* THANH ĐO PHỤ CHÂN BẢNG V9: NET SPREAD & LIQUIDITY COVER */
+.resolved-feed-submeters {
+  margin-top: 7px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 8.5px;
+  color: var(--text-secondary);
+}
+
+.resolved-feed-submeters .submeter-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.resolved-feed-submeters .submeter-lbl {
+  color: var(--text-muted);
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.resolved-feed-submeters .submeter-sep {
+  color: rgba(255, 255, 255, 0.2);
+}
 
 /* 4️⃣ VI CẤU TRÚC DẢI SÓNG ĐÁY: NET DIRECTIONAL VS OPPOSITE-SIDE HEDGE */
 .net-directional-wave-cockpit {

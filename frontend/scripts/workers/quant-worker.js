@@ -7,11 +7,11 @@
  * ========================================================
  */
 
-// Trạng thái ngầm của Worker
-let basePnl = 98915.00;
-let settledTradesCount = 1297;
-let winCount = 1066; // 82.2%
-let totalProfit = 21478.32;
+// Trạng thái ngầm của Worker (Official V13 Blueprint)
+let basePnl = 99317.00;
+let settledTradesCount = 1308;
+let winCount = 1074; // 82.1% (1074 / 1308)
+let totalProfit = 22450.80;
 
 self.onmessage = function (e) {
   const { action, payload } = e.data;
@@ -20,7 +20,7 @@ self.onmessage = function (e) {
     case 'CALCULATE_PNL': {
       // Phép tính PnL ngầm khi có lệnh mới
       const trade = payload;
-      const isWin = trade.side === 'BUY' ? Math.random() > 0.18 : Math.random() > 0.22;
+      const isWin = trade.side === 'BUY' ? Math.random() > 0.179 : Math.random() > 0.20;
       const profitDelta = isWin ? (Math.random() * 38 + 5) : -(Math.random() * 22 + 4);
 
       basePnl += profitDelta;
@@ -40,7 +40,7 @@ self.onmessage = function (e) {
           winRate: parseFloat(winRate),
           settledTrades: settledTradesCount,
           avgProfit: parseFloat(avgProfit),
-          modelEdge: +(5.5 + (Math.random() - 0.5) * 0.2).toFixed(2),
+          modelEdge: +(5.54 + (Math.random() - 0.5) * 0.1).toFixed(2),
           orderFloat: Math.floor(382 + (Math.random() - 0.5) * 20),
           alphaSpread: +(8.543 + (Math.random() - 0.5) * 0.05).toFixed(3)
         }
