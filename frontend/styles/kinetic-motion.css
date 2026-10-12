@@ -1,0 +1,61 @@
+/* ==========================================================================
+   APEXCORE SOVEREIGN QUANTUM TERMINAL — MASTER SYSTEM BLUEPRINT V17
+   CHƯƠNG XIV: KINETIC MOTION & 3D PARALLAX ENGINE (60 FPS)
+   Founder & Chief Architect: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
+   ========================================================================== */
+
+/* Shimmer Light Reflection Sweep Across Glass Slabs */
+@keyframes glassShimmerSweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-active {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 215, 0, 0.08) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: glassShimmerSweep 6s infinite ease-in-out;
+}
+
+/* Staggered Wave Entrance */
+@keyframes fadeInUpKinetic {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.kinetic-fade-in {
+  animation: fadeInUpKinetic 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 60 FPS GPU Performance Accel */
+.floating-glass-slab,
+.glass-slab-card,
+.pillar-glass-slab,
+.mobile-pro-slab {
+  will-change: transform, box-shadow;
+  transform-style: preserve-3d;
+}
+
+/* Dynamic Live Flash for Real-Time Price Updates */
+@keyframes flashPriceGreen {
+  0% { color: #00FFA3; text-shadow: 0 0 12px rgba(0, 255, 163, 0.8); }
+  100% { color: #F8FAFC; text-shadow: none; }
+}
+
+.flash-up {
+  animation: flashPriceGreen 1s ease-out;
+}

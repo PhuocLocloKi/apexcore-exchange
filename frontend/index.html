@@ -3,21 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>APEXCORE PRO — Sàn Giao Dịch Đa Tài Sản Đẳng Cấp Thế Giới</title>
+  <title>APEXCORE PRO — Sàn Giao Dịch Lượng Tử Tối Cao</title>
   <meta name="description" content="APEXCORE PRO EXCHANGE — Nền tảng giao dịch tài sản số, chứng khoán và ngoại hối thế hệ mới do Founder Nguyễn Phước Lộc sáng lập. Tốc độ cao, tối giản, thanh khoản sâu.">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 95'><path d='M24 35C14 26 6 12 12 3C19 12 28 22 36 29L24 35Z' fill='%23fcd535'/><path d='M76 35C86 26 94 12 88 3C81 12 72 22 64 29L76 35Z' fill='%23fcd535'/><path d='M30 28L50 18L70 28L65 48L50 56L35 48L30 28Z' fill='%23181a20' stroke='%23fcd535' stroke-width='2'/></svg>">
+  <!-- 1. Đổi Favicon trên thanh tiêu đề Tab trình duyệt -->
+  <link rel="icon" type="image/png" href="assets/images/apexcore_gold_coin.png">
+  <link rel="apple-touch-icon" href="assets/images/apexcore_gold_coin.png">
+
+  <!-- GOOGLE FONTS CHUẨN ĐIỆN ẢNH AWWWARDS ACTIVE THEORY -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800;900&family=JetBrains+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
   <!-- Core Design Tokens & Styles (V14.0 Modular) -->
   <link rel="stylesheet" href="assets/css/header.css?v=14.0">
   <link rel="stylesheet" href="assets/css/seals.css?v=14.0">
   <link rel="stylesheet" href="css/theme.css?v=20261008_binance_pro">
   <link rel="stylesheet" href="css/layout.css?v=20261008_binance_pro">
+  <!-- APEXCORE QUANTUM TERMINAL CHAPTER XIV KINETIC GLASSMORPHISM -->
+  <link rel="stylesheet" href="styles/quantum-theme.css">
+  <link rel="stylesheet" href="styles/glassmorphism.css">
+  <link rel="stylesheet" href="styles/kinetic-motion.css">
   
   <style id="binance-pro-header-styles">
     /* KHÓA CHẶT KÍCH THƯỚC MỌI SVG - KHÔNG BAO GIỜ BỊ PHÓNG TO */
     svg { max-width: 100%; max-height: 100%; }
     .icon-coin { width: 24px !important; height: 24px !important; min-width: 24px !important; min-height: 24px !important; max-width: 24px !important; max-height: 24px !important; display: inline-block !important; flex-shrink: 0 !important; }
     .icon-social { width: 20px !important; height: 20px !important; min-width: 20px !important; min-height: 20px !important; max-width: 20px !important; max-height: 20px !important; display: inline-block !important; flex-shrink: 0 !important; }
+
+    /* ========================================================
+       APEXCORE SOVEREIGN 3D GOLD COIN LOGO ENGINE (CHƯƠNG VIII & IX)
+       ======================================================== */
+    .navbar-brand {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      cursor: pointer !important;
+      user-select: none !important;
+      text-decoration: none !important;
+      flex-shrink: 0 !important;
+    }
+/* ==========================================================================
+   LOGO ĐỒNG TIỀN VÀNG 3D HOÀNG GIA (CHAO NGHIÊNG 3D KHỐI · KHÔNG BẸP DÍ)
+   Founder & Chief Architect: Nguyễn Phước Lộc
+   ========================================================================== */
+.apex-gold-coin {
+  width: 32px;
+  height: 32px;
+  border-radius: 50% !important;   /* Bo tròn 100%, triệt tiêu vĩnh viễn 4 góc trắng */
+  object-fit: cover;
+  display: inline-block;
+  vertical-align: middle;
+  background: transparent !important;
+  /* Chao nghiêng 3D sang trọng: Giữ nguyên hình khối vàng 24K, KHÔNG bị bẹp mỏng dính như tờ giấy */
+  animation: apexCoin3DTilt 4s ease-in-out infinite alternate !important;
+  transform-style: preserve-3d;
+  /* Bóng đổ đen tự nhiên nhẹ nhàng, không quầng lem nhem */
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.45));
+  cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+/* Hiệu ứng khi rê chuột: hơi phóng to nhẹ, không đổi màu nhòe */
+.apex-gold-coin:hover {
+  transform: scale(1.12) rotate(6deg) !important;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.65));
+}
+/* Động cơ chao nghiêng 3D nguyên khối không lật ngược chữ */
+@keyframes apexCoin3DTilt {
+  0% {
+    transform: perspective(400px) rotateY(-18deg) rotateX(10deg);
+  }
+  50% {
+    transform: perspective(400px) rotateY(0deg) rotateX(-8deg);
+  }
+  100% {
+    transform: perspective(400px) rotateY(18deg) rotateX(10deg);
+  }
+}
+    .navbar-brand .brand-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 19px !important;
+      font-weight: 850 !important;
+      letter-spacing: 1.2px !important;
+      color: #FFFFFF !important;
+      line-height: 1 !important;
+      text-shadow: 0 0 12px rgba(252, 213, 53, 0.35) !important;
+      transition: color 0.25s ease, text-shadow 0.25s ease !important;
+    }
+    .navbar-brand:hover .brand-title {
+      color: #FCD535 !important;
+      text-shadow: 0 0 18px rgba(252, 213, 53, 0.75) !important;
+    }
 
     /* ========================================================
        BINANCE PRO ULTRA-CLEAN BALANCED HEADER (FORCED INLINE 100%)
@@ -378,66 +453,26 @@
     }
   </style>
 
-  <!-- Script Favicon Động: Ánh sáng vàng lấp lánh nhẹ nhàng trên Tab trình duyệt -->
-  <script>
-  (function initDynamicFavicon() {
-    const canvas = document.createElement('canvas');
-    canvas.width = 32;
-    canvas.height = 32;
-    const ctx = canvas.getContext('2d');
-    
-    let faviconLink = document.querySelector("link[rel*='icon']");
-    if (!faviconLink) {
-      faviconLink = document.createElement('link');
-      faviconLink.rel = 'shortcut icon';
-      document.getElementsByTagName('head')[0].appendChild(faviconLink);
-    }
-    const img = new Image();
-    img.src = '/assets/images/logo.jpg';
-    img.onerror = () => { img.src = 'assets/images/logo.jpg'; };
-    img.onload = () => {
-      let frame = 0;
-      function renderFavicon() {
-        ctx.clearRect(0, 0, 32, 32);
-        
-        // Vẽ ảnh logo
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(16, 16, 15, 0, Math.PI * 2);
-        ctx.clip();
-        ctx.drawImage(img, 0, 0, 32, 32);
-        ctx.restore();
-        // Hiệu ứng vành hào quang vàng thở nhịp nhàng
-        const pulse = (Math.sin(frame * 0.05) + 1) / 2; // Dao động 0 -> 1
-        ctx.strokeStyle = `rgba(252, 213, 53, ${0.3 + pulse * 0.65})`;
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.arc(16, 16, 14.5, 0, Math.PI * 2);
-        ctx.stroke();
-        faviconLink.href = canvas.toDataURL('image/png');
-        frame++;
-        requestAnimationFrame(() => {
-          setTimeout(renderFavicon, 120); // 8 FPS mượt mà và nhẹ nhàng cho CPU
-        });
-      }
-      renderFavicon();
-    };
-  })();
-  </script>
-
   <!-- SDK Google Identity Services chính thức -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- THREE.JS R128 ENGINE (CHƯƠNG XV) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
 </head>
 <body>
+  <!-- VỆT CHUỘT HẠT TỪ TÍNH (ACTIVE THEORY MAGNETIC CURSOR) -->
+  <div id="cursor-dot"></div>
+  <div id="cursor-trail"></div>
+
   <div class="app-wrapper">
     <!-- ========================================================
          HEADER NAVBAR (BINANCE PRO MINIMALIST STYLE)
          ======================================================== -->
     <header class="apex-header">
       <div class="header-container">
-        <!-- ================= APEXCORE SOVEREIGN CLEAN BRAND (V17.0 BỎ VIỀN 100%) ================= -->
-        <div class="brand-sovereign-clean" onclick="location.href='index.html'" title="ApexCore Sovereign Exchange">
-          <img src="/assets/images/logo.jpg" alt="ApexCore Logo" class="star-logo-noborder" onerror="this.src='assets/images/logo.jpg'">
+        <!-- ================= LOGO ĐỒNG TIỀN VÀNG 3D APEXCORE CHUẨN XÁC (CHƯƠNG XIII) ================= -->
+        <div class="brand-sovereign-clean" onclick="location.href='index.html'" title="ApexCore Sovereign Exchange" style="display: flex; align-items: center; gap: 10px; cursor: pointer; user-select: none;">
+          <!-- LOGO ĐỒNG TIỀN VÀNG 3D APEXCORE CHUẨN XÁC -->
+          <img src="assets/images/apexcore_gold_coin.png" alt="ApexCore 3D Coin" class="apex-gold-coin">
           <span class="brand-text-clean">APEXCORE</span>
         </div>
 
@@ -1400,10 +1435,70 @@
     window.applyLanguageToHome = applyLanguageToHome;
   </script>
 
-  <!-- NÚT HỖ TRỢ KHÁCH HÀNG TAI NGHE VÀNG NẰM GÓC PHẢI DƯỚI -->
-  <div class="support-float-btn" onclick="alert('🎧 Đội ngũ CSKH ApexCore luôn sẵn sàng hỗ trợ bạn 24/7!')" title="Hỗ trợ trực tuyến 24/7">
-    🎧
-  </div>
+  <!-- THREE.JS HIGH PERFORMANCE 3D ENGINE (OFFICIAL R128) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.write('<script src="scripts/vendor/three.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- ACTIVE THEORY ENGINES: LENIS & GSAP -->
+  <script src="assets/js/lenis.min.js"></script>
+  <script src="assets/js/gsap.min.js"></script>
+  <script>
+    if (typeof Lenis === 'undefined') {
+      document.write('<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"><\/script>');
+    }
+    if (typeof gsap === 'undefined') {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"><\/script>');
+    }
+  </script>
+  <script>
+    // VỆT CHUỘT HẠT TỪ TÍNH (ACTIVE THEORY MAGNETIC CURSOR ENGINE)
+    (function() {
+      const dot = document.getElementById('cursor-dot');
+      const trail = document.getElementById('cursor-trail');
+      if (!dot || !trail) return;
+      let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+      let trailX = mouseX, trailY = mouseY;
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.left = mouseX + 'px';
+        dot.style.top = mouseY + 'px';
+      });
+      function animCursor() {
+        trailX += (mouseX - trailX) * 0.18;
+        trailY += (mouseY - trailY) * 0.18;
+        trail.style.left = trailX + 'px';
+        trail.style.top = trailY + 'px';
+        requestAnimationFrame(animCursor);
+      }
+      animCursor();
+    })();
+
+    // LENIS SMOOTH SCROLL (CHUYỂN ĐỘNG CUỘN TRANG SIÊU MƯỢT AWWWARDS)
+    window.addEventListener('load', () => {
+      if (typeof Lenis !== 'undefined') {
+        try {
+          const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smooth: true
+          });
+          function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+          }
+          requestAnimationFrame(raf);
+          window.ApexLenis = lenis;
+        } catch(err) {
+          console.warn('[ApexCore] Lenis scroll init warning:', err);
+        }
+      }
+    });
+  </script>
 
   <!-- Master Application Script (ES Module) -->
   <script type="module" src="js/app.js"></script>

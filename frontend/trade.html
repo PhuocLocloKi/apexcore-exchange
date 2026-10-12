@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>APEXCORE // QUANTUM SOVEREIGN TERMINAL V13 — FOUNDER NGUYỄN PHƯỚC LỘC</title>
+  <title>APEXCORE QUANTUM TERMINAL — V17 SOVEREIGN</title>
   <meta name="description" content="Trạm định lượng tự hành lượng tử ATS MATRIX // std0 POLYMARKET BOT - Thiết kế độc bản tôn vinh vị thế Founder & Chief Architect Nguyễn Phước Lộc (UID: 1107519625)">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 95'><path d='M50 0L95 25L50 95L5 25Z' fill='%23FFD700'/><path d='M50 15L80 32L50 80L20 32Z' fill='%2300FFA3'/></svg>">
+  <!-- 1. Đổi Favicon trên thanh tiêu đề Tab trình duyệt -->
+  <link rel="icon" type="image/png" href="assets/images/apexcore_gold_coin.png">
+  <link rel="apple-touch-icon" href="assets/images/apexcore_gold_coin.png">
 
   <!-- GOOGLE FONTS: INTER & JETBRAINS MONO -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,6 +37,110 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
       overflow-x: hidden;
     }
+
+    /* ========================================================
+       LOGO ĐỒNG TIỀN VÀNG LƯỢNG TỬ 3D XOAY 60 FPS (CHƯƠNG VIII & IX)
+       ======================================================== */
+/* ==========================================================================
+   LOGO ĐỒNG TIỀN VÀNG 3D HOÀNG GIA (CHAO NGHIÊNG 3D KHỐI · KHÔNG BẸP DÍ)
+   Founder & Chief Architect: Nguyễn Phước Lộc
+   ========================================================================== */
+.apex-gold-coin {
+  width: 32px;
+  height: 32px;
+  border-radius: 50% !important;   /* Bo tròn 100%, triệt tiêu vĩnh viễn 4 góc trắng */
+  object-fit: cover;
+  display: inline-block;
+  vertical-align: middle;
+  background: transparent !important;
+  /* Chao nghiêng 3D sang trọng: Giữ nguyên hình khối vàng 24K, KHÔNG bị bẹp mỏng dính như tờ giấy */
+  animation: apexCoin3DTilt 4s ease-in-out infinite alternate !important;
+  transform-style: preserve-3d;
+  /* Bóng đổ đen tự nhiên nhẹ nhàng, không quầng lem nhem */
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.45));
+  cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+/* Hiệu ứng khi rê chuột: hơi phóng to nhẹ, không đổi màu nhòe */
+.apex-gold-coin:hover {
+  transform: scale(1.12) rotate(6deg) !important;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.65));
+}
+/* Động cơ chao nghiêng 3D nguyên khối không lật ngược chữ */
+@keyframes apexCoin3DTilt {
+  0% {
+    transform: perspective(400px) rotateY(-18deg) rotateX(10deg);
+  }
+  50% {
+    transform: perspective(400px) rotateY(0deg) rotateX(-8deg);
+  }
+  100% {
+    transform: perspective(400px) rotateY(18deg) rotateX(10deg);
+  }
+}
+
+    /* Nav Brand Group */
+    .nav-brand-group {
+      display: flex !important;
+      align-items: center !important;
+      gap: 9px !important;
+      cursor: pointer !important;
+      user-select: none !important;
+      text-decoration: none !important;
+      transition: opacity 0.2s ease !important;
+    }
+    .nav-brand-group:hover {
+      opacity: 0.92;
+    }
+    .nav-title-col {
+      display: flex !important;
+      flex-direction: column !important;
+      line-height: 1.1 !important;
+    }
+    .nav-title-col .brand-name {
+      display: flex !important;
+      align-items: center !important;
+      gap: 5px !important;
+    }
+    .nav-title-col .txt-brand {
+      font-family: var(--font-code, 'JetBrains Mono', monospace) !important;
+      font-size: 11.5px !important;
+      font-weight: 800 !important;
+      letter-spacing: 0.08em !important;
+      color: var(--sovereign-gold, #FFD700) !important;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.45) !important;
+    }
+    .nav-title-col .txt-ver {
+      font-family: var(--font-code, 'JetBrains Mono', monospace) !important;
+      font-size: 9.5px !important;
+      font-weight: 700 !important;
+      color: var(--cyber-cyan, #00F0FF) !important;
+      background: rgba(0, 240, 255, 0.12) !important;
+      padding: 1px 4px !important;
+      border-radius: 3px !important;
+      border: 1px solid rgba(0, 240, 255, 0.25) !important;
+    }
+    .nav-title-col .brand-telemetry {
+      display: flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+      font-size: 9px !important;
+      font-family: var(--font-code, 'JetBrains Mono', monospace) !important;
+      color: var(--cyber-cyan, #00F0FF) !important;
+      margin-top: 1px !important;
+    }
+    .nav-title-col .pulse-dot {
+      width: 5px !important;
+      height: 5px !important;
+      border-radius: 50% !important;
+      background-color: var(--neon-emerald, #00FFA3) !important;
+      box-shadow: 0 0 6px var(--neon-emerald, #00FFA3) !important;
+      animation: pulseDotAnim 1.6s infinite ease-in-out !important;
+    }
+    @keyframes pulseDotAnim {
+      0%, 100% { opacity: 0.4; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
   </style>
 
   <!-- SINGLE SOURCE OF TRUTH TOKENS & STYLES -->
@@ -48,12 +154,11 @@
        TOP BAR: HUD VỆ TINH 1 DÒNG CHUẨN BLOOMBERG (3 CỤM THƯỢNG HẠNG)
        ======================================================== -->
   <header class="quantum-top-hud">
-    <!-- [CỤM 1: BRAND & NÚT HOME SIÊU NHẠY - ẢNH 2] -->
+    <!-- [CỤM 1: BRAND & NÚT HOME SIÊU NHẠY - 3D GOLD COIN LOGO CHƯƠNG XIII] -->
     <div class="hud-cluster-brand">
-      <div class="hud-logo-3d-box" title="Khối Tinh Thể Kim Cương Bất Khả Thi 3D — Founder Nguyễn Phước Lộc">
-        <canvas id="mini-logo-canvas" width="30" height="30"></canvas>
-      </div>
-      <div class="hud-brand-title">
+      <!-- LOGO ĐỒNG TIỀN VÀNG 3D APEXCORE CHUẨN XÁC -->
+      <img src="assets/images/apexcore_gold_coin.png" alt="ApexCore 3D Coin" class="apex-gold-coin" onclick="location.href='index.html'" title="ApexCore Sovereign 3D Gold Coin">
+      <div class="hud-brand-title" onclick="location.href='index.html'" style="cursor: pointer;">
         <span class="system-name">⬖ APEXCORE QUANTUM V17</span>
         <span class="telemetry-tag">
           <span class="pulsar-dot" title="Máy chủ Go Concurrency Engine đang sống"></span>

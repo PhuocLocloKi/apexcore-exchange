@@ -6,7 +6,8 @@
 
 /* 1. KHỐI BRAND LOGO TĨNH MẶC ĐỊNH BỎ VIỀN 100% (CLEAN FLOATING LOGO) */
 .brand-sovereign-clean,
-.brand-clean {
+.brand-clean,
+.navbar-brand {
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
@@ -19,6 +20,60 @@
   padding: 0 !important;
   margin: 0 !important;
   flex-shrink: 0 !important;
+}
+
+/* ==========================================================================
+   LOGO ĐỒNG TIỀN VÀNG 3D HOÀNG GIA (CHAO NGHIÊNG 3D KHỐI · KHÔNG BẸP DÍ)
+   Founder & Chief Architect: Nguyễn Phước Lộc
+   ========================================================================== */
+.apex-gold-coin {
+  width: 32px;
+  height: 32px;
+  border-radius: 50% !important;   /* Bo tròn 100%, triệt tiêu vĩnh viễn 4 góc trắng */
+  object-fit: cover;
+  display: inline-block;
+  vertical-align: middle;
+  background: transparent !important;
+  /* Chao nghiêng 3D sang trọng: Giữ nguyên hình khối vàng 24K, KHÔNG bị bẹp mỏng dính như tờ giấy */
+  animation: apexCoin3DTilt 4s ease-in-out infinite alternate !important;
+  transform-style: preserve-3d;
+  /* Bóng đổ đen tự nhiên nhẹ nhàng, không quầng lem nhem */
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.45));
+  cursor: pointer;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+/* Hiệu ứng khi rê chuột: hơi phóng to nhẹ, không đổi màu nhòe */
+.apex-gold-coin:hover {
+  transform: scale(1.12) rotate(6deg) !important;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.65));
+}
+/* Động cơ chao nghiêng 3D nguyên khối không lật ngược chữ */
+@keyframes apexCoin3DTilt {
+  0% {
+    transform: perspective(400px) rotateY(-18deg) rotateX(10deg);
+  }
+  50% {
+    transform: perspective(400px) rotateY(0deg) rotateX(-8deg);
+  }
+  100% {
+    transform: perspective(400px) rotateY(18deg) rotateX(10deg);
+  }
+}
+
+.navbar-brand .brand-title {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 19px !important;
+  font-weight: 850 !important;
+  letter-spacing: 1.2px !important;
+  color: #FFFFFF !important;
+  line-height: 1 !important;
+  text-shadow: 0 0 12px rgba(252, 213, 53, 0.35) !important;
+  transition: color 0.25s ease, text-shadow 0.25s ease !important;
+}
+
+.navbar-brand:hover .brand-title {
+  color: #FCD535 !important;
+  text-shadow: 0 0 18px rgba(252, 213, 53, 0.75) !important;
 }
 
 .star-logo-noborder,

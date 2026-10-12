@@ -1,29 +1,64 @@
-/* ========================================================
-   APEXCORE PRO — HOME PAGE (js/pages/home.js)
-   CHUẨN BINANCE V7.0 — FULL-WIDTH, 2 CỘT SONG SONG KHÔNG VỠ
-   KHÓA CHẶT KÍCH THƯỚC LOGO BITCOIN & MỌI SVG (24x24 / 20x20)
-   Founder & CEO: NGUYỄN PHƯỚC LỘC (nguyenphuocloc010306@gmail.com)
-   ======================================================== */
+/* ==========================================================================
+   APEXCORE SOVEREIGN QUANTUM TERMINAL — MASTER SYSTEM BLUEPRINT V17
+   CHƯƠNG XXIV: SIÊU TRẠM MENU NĂNG LƯỢNG LƯỢNG TỬ ĐA TẦNG (js/pages/home.js)
+   Founder & Chief Architect: NGUYỄN PHƯỚC LỘC (UID: 1107519625)
+   Email: nguyenphuoclocSE200425@gmail.com / nguyenphuocloc010306@gmail.com
+   ========================================================================== */
+
+import { kineticScroll } from '../../src/engines/kinetic-scroll.js';
+import { OrbitalVortexController } from '../../src/engines/orbital-vortex/vortex-controller.js';
+import { QuantumReactorEngine } from '../../src/engines/quantum-reactor/quantum-reactor-engine.js';
 
 export class HomePage {
   constructor(router) {
     this.router = router;
-    this.userCount = 332845668;
+    this.userCount = 332845671;
     this.userTimer = null;
     this.priceTimer = null;
     this.activeTab = 'popular';
+    this.mouseMoveHandler = null;
+    this.vortexController = null;
+    this.reactorEngine = null;
+    this.orbitActive = false;
+    this.orbitRaf = null;
   }
 
   mount(container) {
     container.innerHTML = this.renderHTML();
     this.initEvents();
     this.startLiveTickers();
+    this.initParallaxTilt();
+    kineticScroll.init();
+
+    // Khởi tạo Siêu Trạm Menu Năng Lượng Lượng Tử Đa Tầng (Chương XXIV)
+    try {
+      this.reactorEngine = new QuantumReactorEngine('coreReactorCanvas');
+      this.reactorEngine.init();
+      window.ApexReactor = this.reactorEngine;
+    } catch (err) {
+      console.warn('[HomePage] QuantumReactorEngine init warning:', err);
+    }
+
     if (window.currentLang && typeof window.applyLanguageToHome === 'function') {
       window.applyLanguageToHome();
     }
   }
 
   unmount() {
+    if (this.reactorEngine) {
+      this.reactorEngine.destroy();
+      this.reactorEngine = null;
+    }
+    this.orbitActive = false;
+    if (this.orbitRaf) {
+      cancelAnimationFrame(this.orbitRaf);
+      this.orbitRaf = null;
+    }
+    if (this.vortexController) {
+      this.vortexController.destroy();
+      this.vortexController = null;
+    }
+    kineticScroll.destroy();
     if (this.userTimer) {
       clearInterval(this.userTimer);
       this.userTimer = null;
@@ -32,249 +67,255 @@ export class HomePage {
       clearInterval(this.priceTimer);
       this.priceTimer = null;
     }
+    if (this.mouseMoveHandler) {
+      window.removeEventListener('mousemove', this.mouseMoveHandler);
+      this.mouseMoveHandler = null;
+    }
   }
 
   renderHTML() {
     return `
-      <!-- 2. BỐ CỤC HERO CHUẨN 2 CỘT -->
-      <main class="hero-layout">
-        
-        <!-- CỘT TRÁI: DỮ LIỆU NGƯỜI DÙNG & ĐĂNG KÝ NHANH -->
-        <div class="hero-left">
-          <div class="hero-counter" id="userCounter">${this.userCount.toLocaleString('en-US')}</div>
-          <div class="hero-title" id="l-trust">USERS TRUST US</div>
-          <div class="hero-desc" id="l-founder">
-            Sàn Giao Dịch Đa Tài Sản Hàng Đầu • Sáng Lập Bởi <strong>NGUYỄN PHƯỚC LỘC</strong>
+      <!-- ==========================================================================
+           [SECTION 01: SOVEREIGN INCEPTION & QUANTUM REACTOR TERMINAL] (CHƯƠNG XXIV)
+           ========================================================================== -->
+      <section class="apex-kinetic-hero" style="padding-top: 10px;">
+        <div class="hero-top-intro" style="max-width: 1240px; margin: 0 auto 16px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px;">
+          <!-- Thông điệp chủ quyền -->
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="hero-metric-badge">
+              <span class="pulse-emerald"></span>
+              <span class="metric-num" id="userCounter">${this.userCount.toLocaleString('en-US')}</span>
+              <span class="metric-label">USERS TRUST US</span>
+            </div>
+            <h1 class="hero-title" style="font-size: 30px; margin: 2px 0;">Sàn Giao Dịch Đa Tài Sản Lượng Tử Tối Cao</h1>
+            <p class="hero-founder-sub" style="margin: 0;">
+              Sáng Lập Bởi <strong class="gold-gradient-txt">NGUYỄN PHƯỚC LỘC</strong> (UID: 1107519625)
+            </p>
           </div>
 
-          <!-- CỤM ẤN TÍN BẢO CHỨNG QUỐC GIA NẰM NGANG ĐỘC QUYỀN (MỤC 3 CHUẨN V14.0) -->
-          <div class="sovereign-seal-row" style="justify-content: flex-start; margin: 20px 0 24px;">
-            <!-- Thẻ 1: Tài sản Bảo chứng -->
-            <div class="seal-badge-card">
-              <div class="seal-icon-box">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FCD535" stroke-width="2">
-                  <path d="M12 2L3 7v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V7l-9-5z"/>
-                  <path d="M9 12l2 2 4-4"/>
-                </svg>
+          <!-- Đăng ký siêu tốc capsule -->
+          <div style="display: flex; flex-direction: column; gap: 10px; align-items: flex-end;">
+            <div class="hero-reg-capsule" style="margin: 0;">
+              <input type="text" id="quickInp" placeholder="Email / Số điện thoại" class="reg-input" autocomplete="username"/>
+              <button class="reg-btn-gold" id="btnQuickSubmit" onclick="window.submitQuick ? window.submitQuick() : window.loginWithGoogleOAuth()">ĐĂNG KÝ VÀNG</button>
+            </div>
+            <div class="quick-social-row" style="margin: 0;">
+              <div class="social-chip" title="Đăng nhập Google" onclick="window.loginWithGoogleOAuth ? window.loginWithGoogleOAuth() : window.loginWithGoogle()">
+                <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
               </div>
-              <div class="seal-text-group">
-                <div class="seal-title-row">
-                  <span class="seal-rank">No.1</span>
-                  <span class="seal-name">Customer Assets</span>
-                </div>
-                <div class="seal-sub">Bảo Chứng An Toàn Cấp Quốc Gia • 100% Reserve SAFU</div>
+              <div class="social-chip" title="Đăng nhập Apple" onclick="window.loginWithAppleOAuth ? window.loginWithAppleOAuth() : window.loginWithApple()">
+                <svg width="16" height="16" viewBox="0 0 170 170" fill="#FFFFFF"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.31-7.79-11.75-13.88-25.18-18.28-40.3-4.4-15.11-6.6-28.77-6.6-40.97 0-14.59 3.44-26.68 10.33-36.27 6.89-9.59 15.69-14.49 26.4-14.71 4.58 0 9.8 1.25 15.66 3.76 5.86 2.5 9.77 3.82 11.73 3.94 1.74 0 5.86-1.4 12.37-4.22 6.51-2.81 12.01-4.04 16.51-3.69 12.86 1.09 23.01 6.27 30.45 15.54-11.33 6.86-16.89 16.32-16.68 28.38.22 9.59 3.87 17.65 10.95 24.18 7.08 6.53 15.42 10.23 25.04 11.09-2.39 7.4-5.39 15.1-9 23.12zM119.22 33.15c0-7.62 2.76-14.88 8.28-21.78 5.52-6.9 12.28-11.02 20.28-12.37.22 1.09.33 2.18.33 3.27 0 7.4-2.87 14.71-8.61 21.93-5.74 7.22-12.65 11.44-20.73 12.65-.22-1.2-.45-2.43-.45-3.7z"/></svg>
               </div>
+              <span class="social-chip-txt">Đăng nhập 1-Click</span>
             </div>
-            <!-- Thẻ 2: Khối lượng giao dịch & Founder -->
-            <div class="seal-badge-card">
-              <div class="seal-icon-box">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FCD535" stroke-width="2">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                </svg>
-              </div>
-              <div class="seal-text-group">
-                <div class="seal-title-row">
-                  <span class="seal-rank">No.1</span>
-                  <span class="seal-name">Trading Volume</span>
-                </div>
-                <div class="seal-sub">Thanh Khoản Toàn Cầu • Founder Nguyễn Phước Lộc (UID 1107519625)</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- THANH ĐĂNG KÝ NHANH -->
-          <div class="quick-input-group">
-            <input type="text" id="quickInp" placeholder="Email / Số điện thoại" autocomplete="username">
-            <button class="btn-quick-go" id="l-quickbtn" onclick="window.submitQuick ? window.submitQuick() : window.loginWithGoogleOAuth()">Đăng Ký</button>
-          </div>
-
-          <!-- NÚT TRUY CẬP BUỒNG LÁI SANG TRỌNG ĐẲNG CẤP (ĐÃ BỎ ICON TIA SÉT - ẢNH 3) -->
-          <div style="margin: 14px 0 18px;">
-            <button onclick="location.href='trade.html'" class="btn-cockpit-gold" style="background: linear-gradient(135deg, #FCD535, #E5A800); color: #000; font-weight: 900; font-size: 14px; letter-spacing: 0.8px; padding: 12px 28px; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 4px 20px rgba(252, 213, 53, 0.35); transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;">
-              <span>TRUY CẬP BUỒNG LÁI GIAO DỊCH PRO</span>
-              <span class="cockpit-arrow" style="font-size: 16px; display: inline-block; transition: transform 0.2s ease;">→</span>
-            </button>
-          </div>
-
-          <!-- 3 NÚT GOOGLE, APPLE, QR (KHÓA KÍCH THƯỚC CHUẨN 20x20) -->
-          <div class="quick-social-icons">
-            <!-- Nút Google -->
-            <div class="social-btn-box" title="Đăng nhập Google" onclick="window.loginWithGoogleOAuth ? window.loginWithGoogleOAuth() : window.loginWithGoogle()">
-              <svg class="icon-social" width="20" height="20" viewBox="0 0 24 24" style="width:20px;height:20px;max-width:20px;max-height:20px;min-width:20px;min-height:20px;">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-              </svg>
-            </div>
-            <!-- Nút Apple -->
-            <div class="social-btn-box" title="Đăng nhập Apple" onclick="window.loginWithAppleOAuth ? window.loginWithAppleOAuth() : window.loginWithApple()">
-              <svg class="icon-social" width="20" height="20" viewBox="0 0 170 170" fill="currentColor" style="width:20px;height:20px;max-width:20px;max-height:20px;min-width:20px;min-height:20px;">
-                <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.31-7.79-11.75-13.88-25.18-18.28-40.3-4.4-15.11-6.6-28.77-6.6-40.97 0-14.59 3.44-26.68 10.33-36.27 6.89-9.59 15.69-14.49 26.4-14.71 4.58 0 9.8 1.25 15.66 3.76 5.86 2.5 9.77 3.82 11.73 3.94 1.74 0 5.86-1.4 12.37-4.22 6.51-2.81 12.01-4.04 16.51-3.69 12.86 1.09 23.01 6.27 30.45 15.54-11.33 6.86-16.89 16.32-16.68 28.38.22 9.59 3.87 17.65 10.95 24.18 7.08 6.53 15.42 10.23 25.04 11.09-2.39 7.4-5.39 15.1-9 23.12zM119.22 33.15c0-7.62 2.76-14.88 8.28-21.78 5.52-6.9 12.28-11.02 20.28-12.37.22 1.09.33 2.18.33 3.27 0 7.4-2.87 14.71-8.61 21.93-5.74 7.22-12.65 11.44-20.73 12.65-.22-1.2-.45-2.43-.45-3.7z"/>
-              </svg>
-            </div>
-            <!-- Nút QR -->
-            <div class="social-btn-box" title="Quét mã QR" onclick="alert('Quét mã QR để tải App ApexCore trên điện thoại!')">
-              <span style="font-size: 18px;">📱</span>
-            </div>
-            <span style="font-size: 13px; color: var(--text-secondary);" id="l-quicktxt">Đăng nhập siêu tốc 1-Click</span>
           </div>
         </div>
 
-        <!-- CỘT PHẢI: 2 THẺ XẾP TẦNG -->
-        <div class="hero-right">
-          <!-- THẺ 1: BẢNG GIÁ POPULAR / STOCKS -->
-          <div class="card-panel">
-            <div class="tab-head-row">
-              <div class="tab-head-left">
-                <span class="tab-item-link active" id="tab-btn-popular" onclick="window.switchHomeTab('popular')">Popular</span>
-                <span class="tab-item-link" id="tab-btn-new" onclick="window.switchHomeTab('new')">New Listing</span>
-                <span class="tab-item-link" id="tab-btn-stocks" onclick="window.switchHomeTab('stocks')">Stocks</span>
-                <span class="tab-item-link" id="tab-btn-commodities" onclick="window.switchHomeTab('commodities')">tCommodities</span>
-              </div>
-              <a href="#/markets" style="font-size: 12px; color: var(--text-secondary); text-decoration:none; cursor: pointer;" id="l-viewall">Xem tất cả ></a>
+        <!-- ========================================================================= -->
+        <!-- 🚀 APEXCORE SOVEREIGN CYBER-QUANTUM REACTOR MENU TERMINAL V17             -->
+        <!-- 👑 CHIEF ARCHITECT: NGUYỄN PHƯỚC LỘC (UID: 1107519625)                     -->
+        <!-- ========================================================================= -->
+        <div class="quantum-station-viewport" id="quantumStation">
+          <!-- 1. CÁNH MENU TRÁI (LEFT HUD WING) -->
+          <aside class="station-wing wing-left">
+            <div class="wing-header">
+              <span class="wing-tag">NODE L-01</span>
+              <h4>CENTRAL EXCHANGES</h4>
             </div>
-
-            <div id="home-market-rows">
-              <!-- BTC -->
-              <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
-                <div class="coin-left-info">
-                  <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
-                    <circle cx="16" cy="16" r="16" fill="#F7931A"/>
-                    <path fill="#FFF" d="M23.189 14.02c.314-2.096-1.283-3.223-3.465-3.975l.708-2.84-1.728-.43-.69 2.765c-.454-.114-.92-.22-1.385-.326l.695-2.783-1.728-.431-.708 2.839c-.376-.086-.746-.17-1.104-.26l.002-.009-2.384-.595-.46 1.846s1.283.294 1.256.312c.7.175.826.638.805 1.006l-.806 3.235c.048.012.11.03.18.057l-.183-.045-1.13 4.532c-.086.212-.303.531-.793.41.018.025-1.256-.313-1.256-.313l-.858 1.978 2.25.561c.418.105.828.215 1.231.318l-.715 2.872 1.727.43.708-2.84c.472.127.93.245 1.378.357l-.706 2.828 1.728.43.715-2.866c2.948.558 5.164.333 6.097-2.333.752-2.146-.037-3.385-1.588-4.192 1.13-.26 1.98-1.003 2.207-2.538zm-3.95 5.537c-.535 2.146-4.148.986-5.318.695l.95-3.805c1.17.292 4.925.872 4.368 3.11zm.535-5.567c-.488 1.954-3.495.962-4.47.719l.86-3.45c.976.243 4.118.697 3.61 2.731z"/>
-                  </svg>
-                  <div><span class="coin-symbol">BTC</span> <span class="coin-desc">Bitcoin</span></div>
+            <div class="menu-badge-list">
+              <div class="hud-badge-item badge-binance" onclick="window.location.href='trade.html?ex=binance'">
+                <div class="badge-halo"><span class="badge-icon">❖</span></div>
+                <div class="badge-info">
+                  <span class="badge-title">BINANCE</span>
+                  <span class="badge-metric text-gold">$98,420 · +4.2%</span>
                 </div>
-                <div class="coin-price-num" id="pBtc">$86,887.00</div>
-                <div class="coin-change-pill c-green">+2.84%</div>
               </div>
-
-              <!-- ETH -->
-              <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=ETH/USDT'">
-                <div class="coin-left-info">
-                  <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
-                    <circle cx="16" cy="16" r="16" fill="#627EEA"/>
-                    <path fill="#FFF" fill-opacity=".6" d="M16.498 4v8.87l7.497 3.35z"/>
-                    <path fill="#FFF" d="M16.498 4L9 16.22l7.498-3.35z"/>
-                    <path fill="#FFF" fill-opacity=".6" d="M16.498 21.968v6.027L24 17.616z"/>
-                    <path fill="#FFF" d="M16.498 27.995v-6.028L9 17.616z"/>
-                    <path fill="#FFF" fill-opacity=".2" d="M16.498 20.573l7.497-4.353-7.497-3.348z"/>
-                    <path fill="#FFF" fill-opacity=".6" d="M9 16.22l7.498 4.353v-7.701z"/>
-                  </svg>
-                  <div><span class="coin-symbol">ETH</span> <span class="coin-desc">Ethereum</span></div>
+              <div class="hud-badge-item badge-okx" onclick="window.location.href='trade.html?ex=okx'">
+                <div class="badge-halo"><span class="badge-icon">⬛</span></div>
+                <div class="badge-info">
+                  <span class="badge-title">OKX PROTOCOL</span>
+                  <span class="badge-metric text-silver">$3,410 · +3.8%</span>
                 </div>
-                <div class="coin-price-num" id="pEth">$2,985.40</div>
-                <div class="coin-change-pill c-green">+3.12%</div>
               </div>
-
-              <!-- BNB -->
-              <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BNB/USDT'">
-                <div class="coin-left-info">
-                  <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
-                    <circle cx="16" cy="16" r="16" fill="#F3BA2F"/>
-                    <path fill="#FFF" d="M12.116 14.404L16 10.52l3.886 3.886 2.26-2.26L16 6l-6.144 6.144 2.26 2.26zM6 16l2.26-2.26L10.52 16l-2.26 2.26L6 16zm6.116 1.596L16 21.48l3.886-3.884 2.26 2.259L16 26l-6.144-6.144 2.26-2.26zM21.48 16l2.26-2.26L26 16l-2.26 2.26-2.26-2.26zm-3.22 0l-2.26-2.26-2.26 2.26 2.26 2.26 2.26-2.26z"/>
-                  </svg>
-                  <div><span class="coin-symbol">BNB</span> <span class="coin-desc">BNB</span></div>
+              <div class="hud-badge-item badge-coinbase" onclick="window.location.href='trade.html?ex=coinbase'">
+                <div class="badge-halo"><span class="badge-icon">🔵</span></div>
+                <div class="badge-info">
+                  <span class="badge-title">COINBASE PRIME</span>
+                  <span class="badge-metric text-blue">$224.5 · +2.4%</span>
                 </div>
-                <div class="coin-price-num" id="pBnb">$615.20</div>
-                <div class="coin-change-pill c-green">+1.45%</div>
               </div>
-
-              <!-- SOL -->
-              <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=SOL/USDT'">
-                <div class="coin-left-info">
-                  <span style="font-size: 20px;">🟣</span>
-                  <div><span class="coin-symbol">SOL</span> <span class="coin-desc">Solana</span></div>
+              <div class="hud-badge-item badge-hyper" onclick="window.location.href='trade.html?ex=hyperliquid'">
+                <div class="badge-halo"><span class="badge-icon">💠</span></div>
+                <div class="badge-info">
+                  <span class="badge-title">HYPERLIQUID L1</span>
+                  <span class="badge-metric text-teal">$44.15 · +12.4%</span>
                 </div>
-                <div class="coin-price-num">$188.65</div>
-                <div class="coin-change-pill c-green">+5.60%</div>
-              </div>
-
-              <!-- NVIDIA -->
-              <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
-                <div class="coin-left-info">
-                  <span style="font-size: 20px;">⚡</span>
-                  <div><span class="coin-symbol">NVDAB</span> <span class="coin-desc">NVIDIA (bStocks)</span></div>
-                </div>
-                <div class="coin-price-num">$239.84</div>
-                <div class="coin-change-pill c-green">+0.17%</div>
               </div>
             </div>
+            <div class="wing-footer">
+              <div class="mini-hud-chip" onclick="window.location.href='trade.html'"><span class="chip-dot"></span> SỔ LỆNH LƯỢNG TỬ</div>
+              <div class="mini-hud-chip" onclick="window.location.href='trade.html'"><span class="chip-dot"></span> ĐỘ TRỄ 0.1MS</div>
+            </div>
+          </aside>
+
+          <!-- 2. TRỤ LÕI KÍNH LƯỢNG TỬ TRUNG TÂM (THREE.JS 3D CORE) -->
+          <main class="station-center-core" onclick="window.location.href='trade.html'" title="Nhấp để vào Buồng Lái Giao Dịch">
+            <div class="core-hologram-overlay">
+              <div class="core-header-telemetry">
+                <span class="tele-badge">⚡ CORE REACTOR ONLINE</span>
+                <h3>APEXCORE SOVEREIGN MATRIX</h3>
+                <p class="tele-sub">VOLUME 24H: <strong>$128,490,200,000</strong> · SPREAD: <strong>0.001%</strong></p>
+              </div>
+            </div>
+            <canvas id="coreReactorCanvas"></canvas>
+          </main>
+
+          <!-- 3. CÁNH MENU PHẢI (RIGHT HUD WING) -->
+          <aside class="station-wing wing-right">
+            <div class="wing-header">
+              <span class="wing-tag">NODE R-02</span>
+              <h4>DERIVATIVES & AI</h4>
+            </div>
+            <div class="menu-badge-list">
+              <div class="hud-badge-item badge-bybit" onclick="window.location.href='trade.html?ex=bybit'">
+                <div class="badge-halo"><span class="badge-icon">🟧</span></div>
+                <div class="badge-info">
+                  <span class="badge-title">BYBIT DERIVATIVES</span>
+                  <span class="badge-metric text-orange">$712.1 · +6.1%</span>
+                </div>
+              </div>
+              <div class="hud-badge-item badge-kucoin" onclick="window.location.href='trade.html?ex=kucoin'">
+                <div class="badge-halo"><span class="badge-icon">🟢</span></div>
+                <div class="badge-info">
+                  <span class="badge-title">KUCOIN HUB</span>
+                  <span class="badge-metric text-cyan">$18.90 · +5.7%</span>
+                </div>
+              </div>
+              <div class="hud-badge-item badge-kraken" onclick="window.location.href='trade.html?ex=kraken'">
+                <div class="badge-halo"><span class="badge-icon">🟣</span></div>
+                <div class="badge-info">
+                  <span class="badge-title">KRAKEN DARKPOOL</span>
+                  <span class="badge-metric text-purple">$98,410 · +4.1%</span>
+                </div>
+              </div>
+              <div class="hud-badge-item badge-gate" onclick="window.location.href='trade.html?ex=gate'">
+                <div class="badge-halo"><span class="badge-icon">🔷</span></div>
+                <div class="badge-info">
+                  <span class="badge-title">GATE.IO ALPHA</span>
+                  <span class="badge-metric text-sky">$8.45 · +1.9%</span>
+                </div>
+              </div>
+            </div>
+            <div class="wing-footer">
+              <div class="mini-hud-chip" onclick="window.location.href='trade.html'"><span class="chip-dot"></span> ĐÒN BẨY X125</div>
+              <div class="mini-hud-chip" onclick="window.location.href='trade.html'"><span class="chip-dot"></span> AI QUANTUM BOT</div>
+            </div>
+          </aside>
+
+          <!-- 4. BỆ NĂNG LƯỢNG ĐÁY & MENU ĐIỀU HƯỚNG NHANH -->
+          <footer class="station-pedestal-nav">
+            <div class="plasma-arc-glow"></div>
+            <div class="pedestal-buttons">
+              <button class="pedestal-btn p-btn-active" onclick="window.location.href='index.html'">
+                🏛️ CỔNG CHÀO SÀN
+              </button>
+              <button class="pedestal-btn p-btn-primary" onclick="window.location.href='trade.html'">
+                🚀 BUỒNG LÁI GIAO DỊCH
+              </button>
+              <button class="pedestal-btn p-btn-admin" onclick="window.location.href='apex-master-admin.html'">
+                👑 ADMIN GODMODE
+              </button>
+              <button class="pedestal-btn" onclick="alert('⚡ Đang kết nối ApexCore Sovereign Web3 Wallet...')">
+                💳 KẾT NỐI VÍ
+              </button>
+            </div>
+          </footer>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           [SECTION 02: BỐN TRỤ CỘT SOVEREIGN & MOBILE PRO] (ẢNH 3 TÁI SINH 3D)
+           ========================================================================== -->
+      <section class="apex-pillars-section">
+        <div class="section-title-wrap">
+          <h2 class="section-title">Bốn Trụ Cột Tối Thượng Của Sàn ApexCore</h2>
+          <p class="section-sub">Kiến tạo và bảo chứng bởi Founder Nguyễn Phước Lộc (UID: 1107519625)</p>
+        </div>
+
+        <!-- Lưới 4 Phiến Kính 3D Bay Lượn Khi Cuộn Chuột -->
+        <div class="four-pillars-grid">
+          <!-- Trụ Cột 1: Khớp Lệnh Siêu Tốc -->
+          <div class="pillar-glass-slab">
+            <div class="gold-wave-trim"></div>
+            <div class="pillar-ico">⚡</div>
+            <h3 class="pillar-heading">Khớp Lệnh Siêu Tốc</h3>
+            <p class="pillar-desc">Độ trễ dưới 12 microsecond, mang lại trải nghiệm mượt mà không độ trễ nghẽn lệnh.</p>
           </div>
 
-          <!-- THẺ 2: TIN TỨC SỰ KIỆN -->
-          <div class="card-panel">
-            <div class="tab-head-row">
-              <span style="font-weight: 800;" id="l-newshead">Tin Tức Thị Trường</span>
-              <a href="#/square" style="font-size: 12px; color: var(--text-secondary); text-decoration:none; cursor: pointer;" id="l-newsall">Xem tất cả ></a>
-            </div>
-            <div class="news-article-line" onclick="window.location.hash='#/square'">● AI | OpenAI tìm kiếm khoản đầu tư 30 tỷ USD với mức định giá 1,4 nghìn tỷ USD</div>
-            <div class="news-article-line" onclick="window.location.hash='#/square'">● AI | Anthropic mở rộng quyền truy cập các mô hình mới nhất cho bảo mật tài chính</div>
-            <div class="news-article-line" onclick="window.location.hash='#/square'">● ĐỊA CHÍNH TRỊ | Cục Dự trữ Liên bang duy trì lộ trình ổn định thanh khoản toàn cầu</div>
-            <div class="news-article-line" onclick="window.location.hash='#/square'">● GOLDMAN SACHS | Dự báo thị trường tài sản số tiếp tục tăng trưởng mạnh mẽ</div>
+          <!-- Trụ Cột 2: Bảo Mật SAFU -->
+          <div class="pillar-glass-slab">
+            <div class="gold-wave-trim"></div>
+            <div class="pillar-ico">🛡️</div>
+            <h3 class="pillar-heading">Bảo Mật Cấp Ngân Hàng</h3>
+            <p class="pillar-desc">Quỹ dự trữ bảo vệ tài sản SAFU độc lập cùng kiến trúc mã hóa đa lớp bảo vệ 100% tiền gửi.</p>
+          </div>
+
+          <!-- Trụ Cột 3: Thanh Khoản Sâu -->
+          <div class="pillar-glass-slab">
+            <div class="gold-wave-trim"></div>
+            <div class="pillar-ico">📊</div>
+            <h3 class="pillar-heading">Thanh Khoản Sâu</h3>
+            <p class="pillar-desc">Kết nối thanh khoản đa sàn hàng đầu thế giới với hơn 150+ cặp Crypto, Cổ phiếu Mỹ và Vàng.</p>
+          </div>
+
+          <!-- Trụ Cột 4: Ưu Đãi Founder -->
+          <div class="pillar-glass-slab">
+            <div class="gold-wave-trim"></div>
+            <div class="pillar-ico">🎁</div>
+            <h3 class="pillar-heading">Ưu Đãi Đặc Quyền</h3>
+            <p class="pillar-desc">Hoàn phí giao dịch & quyền lợi thành viên VIP ApexCore độc quyền cho cộng đồng.</p>
           </div>
         </div>
-      </main>
 
-      <!-- 3. VÌ SAO CHỌN SÀN -->
-      <section class="why-block">
-        <h2 class="why-title-main" id="l-whyhead">Vì Sao Các Nhà Giao Dịch Chọn ApexCore</h2>
-        <div class="why-cards-row">
-          <div class="why-single-card">
-            <div class="why-ico">⚡</div>
-            <div class="why-h" id="l-f1h">Khớp Lệnh Siêu Tốc</div>
-            <div class="why-p" id="l-f1p">Động cơ khớp lệnh đạt độ trễ dưới 12 microsecond, mang đến trải nghiệm mượt mà không độ trễ nghẽn lệnh.</div>
+        <!-- Phiến Kính Lớn: Giao Dịch Mọi Lúc Mọi Nơi (Mobile Apex Pro) -->
+        <div class="mobile-pro-slab">
+          <div class="mobile-phone-mockup">
+            <div class="mp-tag">APEXCORE MOBILE PRO</div>
+            <div class="mp-balance">$7,281.43</div>
+            <div class="mp-pnl">Today's PnL: +$1,231 (+0.25%)</div>
+            <div class="mp-tickers">
+              <span>BNB $883.47</span>
+              <span>BTC $85,461</span>
+              <span>ETH $2,618</span>
+            </div>
           </div>
-          <div class="why-single-card">
-            <div class="why-ico">🛡️</div>
-            <div class="why-h" id="l-f2h">Bảo Mật Cấp Ngân Hàng</div>
-            <div class="why-p" id="l-f2p">Quỹ dự trữ bảo vệ tài sản SAFU độc lập cùng kiến trúc mã hóa đa lớp bảo vệ 100% tiền gửi.</div>
-          </div>
-          <div class="why-single-card">
-            <div class="why-ico">📊</div>
-            <div class="why-h" id="l-f3h">Thanh Khoản Sâu</div>
-            <div class="why-p" id="l-f3p">Kết nối thanh khoản đa sàn hàng đầu thế giới với hơn 150+ cặp giao dịch Crypto, Cổ phiếu Mỹ và Vàng.</div>
-          </div>
-          <div class="why-single-card">
-            <div class="why-ico">🎁</div>
-            <div class="why-h" id="l-f4h">Ưu Đãi Đặc Quyền</div>
-            <div class="why-p" id="l-f4p">Chương trình hoàn phí giao dịch và phần thưởng chào mừng dành riêng cho thành viên của ApexCore.</div>
+
+          <div class="mobile-dl-col">
+            <h3>Giao dịch mọi lúc. Mọi nơi.</h3>
+            <p>Quét mã QR để tải ứng dụng sàn giao dịch ApexCore trên thiết bị của bạn.</p>
+
+            <div class="qr-trigger-box" onclick="alert('Quét QR để cài App ApexCore trên iOS & Android')">
+              <span class="qr-ico">📲</span>
+              <div class="qr-txt-group">
+                <strong>QUÉT QR TẢI APP IOS & ANDROID</strong>
+                <span>Hỗ trợ FaceID & Sinh trắc học</span>
+              </div>
+            </div>
+
+            <div class="os-platforms-row">
+              <span class="os-pill" onclick="alert('Bản cài đặt MacOS đang sẵn sàng')">🍎 MacOS</span>
+              <span class="os-pill" onclick="alert('Bản cài đặt Windows đang sẵn sàng')">🪟 Windows</span>
+              <span class="os-pill" onclick="alert('Bản cài đặt Linux đang sẵn sàng')">🐧 Linux</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- 4. KHỐI TẢI APP -->
-      <section class="download-block">
-        <div class="phone-box">
-          <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 8px;">APEXCORE MOBILE PRO</div>
-          <div style="font-size: 28px; font-weight: 900; color: var(--color-yellow, #fcd535);">$7,281.43</div>
-          <div style="font-size: 12px; color: var(--green, #0ecb81); margin-bottom: 16px;">Today's PNL: +$1,231 (+0.25%)</div>
-          <div style="display: flex; justify-content: space-around; font-size: 12px; color: var(--text-secondary);">
-            <span>BNB $883.47</span><span>BTC $85,461</span><span>ETH $2,618</span>
-          </div>
-        </div>
-        <div>
-          <h2 style="font-size: 38px; font-weight: 900; margin-bottom: 12px;" id="l-dlhead">Giao dịch mọi lúc. Mọi nơi.</h2>
-          <p style="color: var(--text-secondary);" id="l-dlsub">Quét mã QR để tải ứng dụng sàn giao dịch ApexCore trên thiết bị của bạn.</p>
-          
-          <div class="qr-badge-box">
-            <span style="font-size: 48px;">📲</span>
-            <div>
-              <div style="font-size: 13px; color: var(--text-secondary);">Scan to Download App</div>
-              <div style="font-size: 16px; font-weight: 800; color: var(--text-primary);">iOS and Android</div>
-            </div>
-          </div>
-          <div class="os-row">
-            <span class="os-link" onclick="alert('Đang chuẩn bị bản cài đặt ApexCore cho MacOS!')">🍎 MacOS</span>
-            <span class="os-link" onclick="alert('Đang chuẩn bị bản cài đặt ApexCore cho Windows!')">🪟 Windows</span>
-            <span class="os-link" onclick="alert('Đang chuẩn bị bản cài đặt ApexCore cho Linux!')">🐧 Linux</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- FOOTER -->
-      <footer class="home-page-footer">
-        <p>© 2026 ApexCore Exchange. Bản quyền thuộc về Founder <strong>Nguyễn Phước Lộc</strong> (nguyenphuocloc010306@gmail.com).</p>
+      <!-- ==========================================================================
+           [SECTION 03: FOOTER SOVEREIGN QUANTUM]
+           ========================================================================== -->
+      <footer class="apex-kinetic-footer">
+        <p>© 2026 ApexCore Exchange. Bản quyền thuộc về Founder <strong>Nguyễn Phước Lộc</strong> (nguyenphuocloc010306@gmail.com · UID: 1107519625).</p>
       </footer>
     `;
   }
@@ -291,6 +332,97 @@ export class HomePage {
       });
       this.renderTabContent(tabName);
     };
+
+    window.setVortexMode = (mode) => {
+      if (this.vortexController) {
+        this.vortexController.switchMode(mode);
+        const btnCanvas = document.getElementById('btnVortexCanvas3d');
+        const btnCss = document.getElementById('btnVortexCss3d');
+        if (btnCanvas && btnCss) {
+          if (mode === 'canvas3d') {
+            btnCanvas.style.background = 'rgba(0, 240, 255, 0.2)';
+            btnCanvas.style.color = '#00F0FF';
+            btnCanvas.style.borderColor = '#00F0FF';
+            btnCss.style.background = 'transparent';
+            btnCss.style.color = '#94A3B8';
+            btnCss.style.borderColor = 'transparent';
+          } else {
+            btnCss.style.background = 'rgba(255, 215, 0, 0.2)';
+            btnCss.style.color = '#FFD700';
+            btnCss.style.borderColor = '#FFD700';
+            btnCanvas.style.background = 'transparent';
+            btnCanvas.style.color = '#94A3B8';
+            btnCanvas.style.borderColor = 'transparent';
+          }
+        }
+      }
+    };
+
+    // 8K EXCHANGE EXPLORER INTERACTION (CHƯƠNG XXXI)
+    window.handleCardParallax = (e, card) => {
+      if (!card || !e) return;
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      const rotX = (y / rect.height) * -20;
+      const rotY = (x / rect.width) * 20;
+      card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.04, 1.04, 1.04)`;
+    };
+
+    window.resetCardParallax = (card) => {
+      if (!card) return;
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    };
+
+    window.filterExchanges = (category) => {
+      const tabs = document.querySelectorAll('.filter-tab');
+      tabs.forEach(t => t.classList.remove('active'));
+      if (window.event && window.event.target) {
+        window.event.target.classList.add('active');
+      }
+      const cards = document.querySelectorAll('.ex-card');
+      cards.forEach(c => {
+        const cats = c.getAttribute('data-cat') || '';
+        if (category === 'all' || cats.includes(category)) {
+          c.style.display = 'flex';
+          c.style.opacity = '1';
+        } else {
+          c.style.display = 'none';
+          c.style.opacity = '0';
+        }
+      });
+    };
+
+    window.openQuickPeek = (e, name, price, spread, slug) => {
+      if (e) e.stopPropagation();
+      const modal = document.getElementById('quickPeekModal');
+      const title = document.getElementById('peekTitle');
+      const priceEl = document.getElementById('peekPrice');
+      const spreadEl = document.getElementById('peekSpread');
+      const launchBtn = document.getElementById('peekLaunchBtn');
+
+      if (title) title.innerText = `${name.toUpperCase()} SỔ LỆNH VI MÔ`;
+      if (priceEl) priceEl.innerText = price;
+      if (spreadEl) spreadEl.innerText = spread;
+      if (launchBtn) {
+        launchBtn.onclick = () => window.location.href = `trade.html?ex=${slug || 'binance'}`;
+      }
+      if (modal) modal.style.display = 'flex';
+    };
+
+    window.closeQuickPeek = (e) => {
+      const modal = document.getElementById('quickPeekModal');
+      if (modal) modal.style.display = 'none';
+    };
+
+    window.closeQuickPeekDirect = () => {
+      const modal = document.getElementById('quickPeekModal');
+      if (modal) modal.style.display = 'none';
+    };
+  }
+
+  initParallaxTilt() {
+    // Parallax tilt được quản lý trực tiếp mượt mà bởi BorderlessVortexEngine
   }
 
   renderTabContent(tab) {
@@ -299,110 +431,74 @@ export class HomePage {
 
     if (tab === 'popular') {
       container.innerHTML = `
-        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
-          <div class="coin-left-info">
-            <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
-              <circle cx="16" cy="16" r="16" fill="#F7931A"/>
-              <path fill="#FFF" d="M23.189 14.02c.314-2.096-1.283-3.223-3.465-3.975l.708-2.84-1.728-.43-.69 2.765c-.454-.114-.92-.22-1.385-.326l.695-2.783-1.728-.431-.708 2.839c-.376-.086-.746-.17-1.104-.26l.002-.009-2.384-.595-.46 1.846s1.283.294 1.256.312c.7.175.826.638.805 1.006l-.806 3.235c.048.012.11.03.18.057l-.183-.045-1.13 4.532c-.086.212-.303.531-.793.41.018.025-1.256-.313-1.256-.313l-.858 1.978 2.25.561c.418.105.828.215 1.231.318l-.715 2.872 1.727.43.708-2.84c.472.127.93.245 1.378.357l-.706 2.828 1.728.43.715-2.866c2.948.558 5.164.333 6.097-2.333.752-2.146-.037-3.385-1.588-4.192 1.13-.26 1.98-1.003 2.207-2.538zm-3.95 5.537c-.535 2.146-4.148.986-5.318.695l.95-3.805c1.17.292 4.925.872 4.368 3.11zm.535-5.567c-.488 1.954-3.495.962-4.47.719l.86-3.45c.976.243 4.118.697 3.61 2.731z"/>
-            </svg>
-            <div><span class="coin-symbol">BTC</span> <span class="coin-desc">Bitcoin</span></div>
-          </div>
-          <div class="coin-price-num" id="pBtc">$86,887.00</div>
-          <div class="coin-change-pill c-green">+2.84%</div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
+          <span class="coin-cell"><span class="c-ico">₿</span> BTC Bitcoin</span>
+          <span class="px-val" id="pBtc">$85,447.74</span>
+          <span class="chg-val plus">▲ +2.84%</span>
         </div>
-        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=ETH/USDT'">
-          <div class="coin-left-info">
-            <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
-              <circle cx="16" cy="16" r="16" fill="#627EEA"/>
-              <path fill="#FFF" fill-opacity=".6" d="M16.498 4v8.87l7.497 3.35z"/>
-              <path fill="#FFF" d="M16.498 4L9 16.22l7.498-3.35z"/>
-              <path fill="#FFF" fill-opacity=".6" d="M16.498 21.968v6.027L24 17.616z"/>
-              <path fill="#FFF" d="M16.498 27.995v-6.028L9 17.616z"/>
-              <path fill="#FFF" fill-opacity=".2" d="M16.498 20.573l7.497-4.353-7.497-3.348z"/>
-              <path fill="#FFF" fill-opacity=".6" d="M9 16.22l7.498 4.353v-7.701z"/>
-            </svg>
-            <div><span class="coin-symbol">ETH</span> <span class="coin-desc">Ethereum</span></div>
-          </div>
-          <div class="coin-price-num" id="pEth">$2,985.40</div>
-          <div class="coin-change-pill c-green">+3.12%</div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=ETH/USDT'">
+          <span class="coin-cell"><span class="c-ico">Ξ</span> ETH Ethereum</span>
+          <span class="px-val" id="pEth">$2,622.54</span>
+          <span class="chg-val plus">▲ +3.12%</span>
         </div>
-        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BNB/USDT'">
-          <div class="coin-left-info">
-            <svg class="icon-coin" width="24" height="24" viewBox="0 0 32 32" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
-              <circle cx="16" cy="16" r="16" fill="#F3BA2F"/>
-              <path fill="#FFF" d="M12.116 14.404L16 10.52l3.886 3.886 2.26-2.26L16 6l-6.144 6.144 2.26 2.26zM6 16l2.26-2.26L10.52 16l-2.26 2.26L6 16zm6.116 1.596L16 21.48l3.886-3.884 2.26 2.259L16 26l-6.144-6.144 2.26-2.26zM21.48 16l2.26-2.26L26 16l-2.26 2.26-2.26-2.26zm-3.22 0l-2.26-2.26-2.26 2.26 2.26 2.26 2.26-2.26z"/>
-            </svg>
-            <div><span class="coin-symbol">BNB</span> <span class="coin-desc">BNB</span></div>
-          </div>
-          <div class="coin-price-num" id="pBnb">$615.20</div>
-          <div class="coin-change-pill c-green">+1.45%</div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=BNB/USDT'">
+          <span class="coin-cell"><span class="c-ico">❖</span> BNB BNB</span>
+          <span class="px-val" id="pBnb">$767.44</span>
+          <span class="chg-val plus">▲ +1.45%</span>
+        </div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=SOL/USDT'">
+          <span class="coin-cell"><span class="c-ico">◎</span> SOL Solana</span>
+          <span class="px-val" id="pSol">$188.65</span>
+          <span class="chg-val plus">▲ +5.60%</span>
+        </div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
+          <span class="coin-cell"><span class="c-ico">⚡</span> NVDAB NVIDIA</span>
+          <span class="px-val" id="pNvdab">$239.84</span>
+          <span class="chg-val plus">▲ +0.17%</span>
         </div>
       `;
     } else if (tab === 'stocks') {
       container.innerHTML = `
-        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=SOL/USDT'">
-          <div class="coin-left-info">
-            <span style="font-size: 20px;">⚡</span>
-            <div><span class="coin-symbol">NVDAB</span> <span class="coin-desc">NVIDIA (bStocks)</span></div>
-          </div>
-          <div class="coin-price-num">$239.84</div>
-          <div class="coin-change-pill c-green">+0.17%</div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=SOL/USDT'">
+          <span class="coin-cell"><span class="c-ico">⚡</span> NVDAB NVIDIA (bStocks)</span>
+          <span class="px-val">$239.84</span>
+          <span class="chg-val plus">▲ +0.17%</span>
         </div>
-        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=ETH/USDT'">
-          <div class="coin-left-info">
-            <svg class="icon-coin" width="24" height="24" viewBox="0 0 170 170" fill="currentColor" style="width:24px;height:24px;max-width:24px;max-height:24px;min-width:24px;min-height:24px;">
-              <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.7-3.04-7.66-7.74-11.89-14.1-6.73-10.14-12.02-21.65-15.88-34.52-3.86-12.87-5.8-24.97-5.8-36.31 0-15.03 3.73-27.53 11.2-37.52 7.46-9.98 16.9-15.08 28.3-15.3 4.8.12 10.23 1.34 16.29 3.67 6.06 2.33 10.05 3.63 11.97 3.9 2.45-.48 6.64-1.94 12.56-4.39 5.92-2.44 11.05-3.53 15.39-3.26 13.68.79 24.59 5.86 32.72 15.2-11.96 7.27-17.8 17.2-17.52 29.8.27 9.87 4.09 18.23 11.45 25.07 7.37 6.84 16.14 10.58 26.31 11.23-2.17 6.3-4.8 12.44-7.89 18.42m-33.3-107.01c0 7.82-2.9 15.17-8.69 22.06-6.84 8.04-15.22 12.63-24.6 11.85-.27-1.19-.41-2.38-.41-3.57 0-7.59 3.03-15.25 9.09-22.97 3.03-3.86 6.78-7.06 11.25-9.6 4.47-2.54 8.78-4.04 12.93-4.51.3 2.29.43 4.54.43 6.74z"/>
-            </svg>
-            <div><span class="coin-symbol">AAPLB</span> <span class="coin-desc">Apple Inc (bStocks)</span></div>
-          </div>
-          <div class="coin-price-num">$231.50</div>
-          <div class="coin-change-pill c-green">+0.42%</div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=ETH/USDT'">
+          <span class="coin-cell"><span class="c-ico">🍎</span> AAPLB Apple Inc</span>
+          <span class="px-val">$231.50</span>
+          <span class="chg-val plus">▲ +0.42%</span>
         </div>
-        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
-          <div class="coin-left-info">
-            <span style="font-size: 20px;">🏢</span>
-            <div><span class="coin-symbol">FPT_VND</span> <span class="coin-desc">FPT Corporation</span></div>
-          </div>
-          <div class="coin-price-num">132,500đ</div>
-          <div class="coin-change-pill c-green">+2.71%</div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
+          <span class="coin-cell"><span class="c-ico">🏢</span> FPT_VND FPT Corp</span>
+          <span class="px-val">132,500đ</span>
+          <span class="chg-val plus">▲ +2.71%</span>
         </div>
       `;
     } else if (tab === 'commodities') {
       container.innerHTML = `
-        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
-          <div class="coin-left-info">
-            <span style="font-size: 20px;">🥇</span>
-            <div><span class="coin-symbol">XAU_USD</span> <span class="coin-desc">Vàng Giao Ngay (Gold)</span></div>
-          </div>
-          <div class="coin-price-num">$2,654.80</div>
-          <div class="coin-change-pill c-green">+0.64%</div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=BTC/USDT'">
+          <span class="coin-cell"><span class="c-ico">🥇</span> XAU_USD Vàng Giao Ngay</span>
+          <span class="px-val">$2,654.80</span>
+          <span class="chg-val plus">▲ +0.64%</span>
         </div>
-        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=ETH/USDT'">
-          <div class="coin-left-info">
-            <span style="font-size: 20px;">🥈</span>
-            <div><span class="coin-symbol">XAG_USD</span> <span class="coin-desc">Bạc Giao Ngay (Silver)</span></div>
-          </div>
-          <div class="coin-price-num">$31.85</div>
-          <div class="coin-change-pill c-green">+1.15%</div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=ETH/USDT'">
+          <span class="coin-cell"><span class="c-ico">🥈</span> XAG_USD Bạc Giao Ngay</span>
+          <span class="px-val">$31.85</span>
+          <span class="chg-val plus">▲ +1.15%</span>
         </div>
       `;
     } else {
       container.innerHTML = `
-        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=SOL/USDT'">
-          <div class="coin-left-info">
-            <span style="font-size: 20px;">✨</span>
-            <div><span class="coin-symbol">SUI</span> <span class="coin-desc">Sui Network</span></div>
-          </div>
-          <div class="coin-price-num">$1.84</div>
-          <div class="coin-change-pill c-green">+12.4%</div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=SOL/USDT'">
+          <span class="coin-cell"><span class="c-ico">✨</span> SUI Sui Network</span>
+          <span class="px-val">$1.84</span>
+          <span class="chg-val plus">▲ +12.4%</span>
         </div>
-        <div class="market-coin-row" onclick="window.location.href='trade.html?symbol=BNB/USDT'">
-          <div class="coin-left-info">
-            <span style="font-size: 20px;">🌟</span>
-            <div><span class="coin-symbol">APT</span> <span class="coin-desc">Aptos</span></div>
-          </div>
-          <div class="coin-price-num">$8.45</div>
-          <div class="coin-change-pill c-green">+5.8%</div>
+        <div class="price-row" onclick="window.location.href='trade.html?symbol=BNB/USDT'">
+          <span class="coin-cell"><span class="c-ico">🌟</span> APT Aptos</span>
+          <span class="px-val">$8.45</span>
+          <span class="chg-val plus">▲ +5.8%</span>
         </div>
       `;
     }
@@ -420,20 +516,26 @@ export class HomePage {
     this.priceTimer = setInterval(() => {
       const btcEl = document.getElementById('pBtc');
       if (btcEl) {
-        const btc = 85450.90 + (Math.random() - 0.49) * 15;
+        const btc = 85447.74 + (Math.random() - 0.49) * 15;
         btcEl.textContent = '$' + btc.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       }
 
       const ethEl = document.getElementById('pEth');
       if (ethEl) {
-        const eth = 2619.95 + (Math.random() - 0.49) * 8;
+        const eth = 2622.54 + (Math.random() - 0.49) * 8;
         ethEl.textContent = '$' + eth.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       }
 
       const bnbEl = document.getElementById('pBnb');
       if (bnbEl) {
-        const bnb = 768.38 + (Math.random() - 0.49) * 2;
+        const bnb = 767.44 + (Math.random() - 0.49) * 2;
         bnbEl.textContent = '$' + bnb.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
+      const solEl = document.getElementById('pSol');
+      if (solEl) {
+        const sol = 188.65 + (Math.random() - 0.49) * 1.5;
+        solEl.textContent = '$' + sol.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       }
     }, 1600);
   }
